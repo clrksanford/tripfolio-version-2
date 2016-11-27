@@ -24,16 +24,13 @@ class Profile extends Component {
     }
 
     render() {
-      let image = this.props.user.providerData ? this.props.user.providerData[0].photoURL : 'http://placehold.it/100x100'
+      {/* If there is a logged in user, get their profile picture */}
+      let profilePicture = this.props.user.providerData ? this.props.user.providerData[0].photoURL : 'http://placehold.it/100x100'
+
       return(
         <div>
-            <Header firebase={this.props.firebase} />
-            <div id="pic-div">
-              <div id="prof-pic">
-                <img src={image} alt="Your profile avatar" id="profPic" />
-              </div>
-            </div>
-            <main id="main">
+            <Header firebase={this.props.firebase} profilePicture={profilePicture} />
+            {/*<main id="main">
               <div id="newTripContainer">
                 <NewTripModal firebase={this.props.firebase} user={this.props.user}/>
               </div>
@@ -55,7 +52,7 @@ class Profile extends Component {
                   })}
                 </ul>
               </div>
-          </main>
+          </main>*/}
         </div>
         );
     }

@@ -60,16 +60,7 @@ class App extends Component {
 
     firebase.database().ref(`/tripbook/${uid}`).push({
       destination: destination,
-      places: [
-        {
-          name: 'Puerta del Sol',
-          image: 'http://fakeurl.com'
-        },
-        {
-          name: 'Museo del Prado',
-          image: 'http://fakeurl.com'
-        }
-      ]
+      places: []
     })
   }
 

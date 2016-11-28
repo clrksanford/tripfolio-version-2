@@ -1,6 +1,6 @@
 // Modules
 import React, {Component} from 'react';
-import { Link } from 'react-router';
+import { hashHistory, Link } from 'react-router';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
@@ -9,7 +9,7 @@ import NewTripModal from './NewTripModal';
 import Header from './Header';
 
 // Actions
-import { setUser } from '../actions';
+import { setCurrentlySelectedTrip } from '../actions';
 
 // Styles and images
 import "../styles/profile.css";
@@ -34,7 +34,7 @@ class Profile extends Component {
       return(
         <div>
             <Header firebase={this.props.firebase} profilePicture={profilePicture} />
-            {/*<main id="main">
+            <main id="main">
               <div id="newTripContainer">
                 <NewTripModal firebase={this.props.firebase} user={this.props.user}/>
               </div>
@@ -48,15 +48,19 @@ class Profile extends Component {
                     return (
                       <li key={tripId} data-tripId={tripId}>
                         My Trip To {destination}
-                        <Link to={`/completed/${this.props.user.uid}/${tripId}/${trip.destination}`}>
-                          View
-                        </Link>
+                        {/* <Link to={`/completed/${this.props.user.uid}/${tripId}/${trip.destination}`}> */}
+                          <a href="#" onClick={(e) => {
+                            e.preventDefault();
+                            this.props.setTripId(tripId);
+                            hashHistory.push(`completed/${this.props.user.uid}/${tripId}/${destination}`);
+                          }}>View</a>
+                        {/* </Link> */}
                       </li>
                     )
                   })}
                 </ul>
               </div>
-          </main>*/}
+          </main>
         </div>
         );
     }
@@ -70,7 +74,7 @@ var mapStateToProps = (state, ownProps) => {
 
 var mapDispatchToProps = (dispatch) => {
   return {
-    onClick: (user) => dispatch(setUser(user))
+    setTripId: (tripId) => dispatch(setCurrentlySelectedTrip(tripId))
   }
 }
 

@@ -4,7 +4,6 @@ import { hashHistory } from 'react-router';
 import _ from 'lodash';
 
 // Components
-import Header from './Header';
 
 // Styles and images
 

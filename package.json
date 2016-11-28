@@ -4,7 +4,8 @@
   "private": true,
   "homepage": "http://clrksanford.github.io/tripfolio",
   "devDependencies": {
-    "react-scripts": "0.7.0"
+    "react-scripts": "0.7.0",
+    "redux-logger": "^2.7.4"
   },
   "dependencies": {
     "axios": "^0.15.2",

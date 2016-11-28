@@ -3,8 +3,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Router, Route, hashHistory, IndexRoute} from 'react-router';
 import firebase from './utils/firebase';
-import { createStore } from 'redux'
-import { Provider } from 'react-redux'
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import createLogger from 'redux-logger';
 
 // Components
 import App from './App';
@@ -18,7 +19,9 @@ import Destinations from './components/Destinations';
 // Reducers and actions
 import reducer from './reducers'
 
-const store = createStore(reducer)
+const logger = createLogger();
+const initialState = {};
+const store = createStore(reducer, initialState, applyMiddleware(logger));
 
 ReactDOM.render(
   <Provider store={store}>

@@ -1,11 +1,15 @@
 // Modules
 import React, {Component} from 'react';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
 import _ from 'lodash';
 
 // Components
 import NewTripModal from './NewTripModal';
 import Header from './Header';
+
+// Actions
+import { setUser } from '../actions';
 
 // Styles and images
 import "../styles/profile.css";
@@ -57,5 +61,19 @@ class Profile extends Component {
         );
     }
 }
+
+var mapStateToProps = (state, ownProps) => {
+  return {
+    reduxUser: state.user
+  }
+};
+
+var mapDispatchToProps = (dispatch) => {
+  return {
+    onClick: (user) => dispatch(setUser(user))
+  }
+}
+
+Profile = connect(mapStateToProps, mapDispatchToProps)(Profile);
 
 export default Profile;

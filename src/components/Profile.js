@@ -66,18 +66,12 @@ class Profile extends Component {
     }
 }
 
-var mapStateToProps = (state, ownProps) => {
-  return {
-    reduxUser: state.user
-  }
-};
-
 var mapDispatchToProps = (dispatch) => {
   return {
     setTripId: (tripId) => dispatch(setCurrentlySelectedTrip(tripId))
   }
 }
 
-Profile = connect(mapStateToProps, mapDispatchToProps)(Profile);
+Profile = connect(null, mapDispatchToProps)(Profile);
 
 export default Profile;

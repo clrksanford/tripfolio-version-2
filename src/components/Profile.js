@@ -9,7 +9,7 @@ import NewTripModal from './NewTripModal';
 import Header from './Header';
 
 // Actions
-import { setCurrentlySelectedTrip } from '../actions';
+import { setCurrentTripId, setCurrentTripOwner, setCurrentTripDestination } from '../actions';
 
 // Styles and images
 import "../styles/profile.css";
@@ -52,6 +52,8 @@ class Profile extends Component {
                           <a href="#" onClick={(e) => {
                             e.preventDefault();
                             this.props.setTripId(tripId);
+                            this.props.setTripOwner(this.props.user.uid);
+                            this.props.setTripDestination(destination);
                             hashHistory.push(`completed/${this.props.user.uid}/${tripId}/${destination}`);
                           }}>View</a>
                         {/* </Link> */}
@@ -68,7 +70,9 @@ class Profile extends Component {
 
 var mapDispatchToProps = (dispatch) => {
   return {
-    setTripId: (tripId) => dispatch(setCurrentlySelectedTrip(tripId))
+    setTripId: (tripId) => dispatch(setCurrentTripId(tripId)),
+    setTripOwner: (ownerId) => dispatch(setCurrentTripOwner(ownerId)),
+    setTripDestination: (destination) => dispatch(setCurrentTripDestination(destination))
   }
 }
 

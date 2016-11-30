@@ -1,6 +1,7 @@
 // Modules
 import React, {Component} from 'react';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
 import _ from 'lodash';
 
 // Components
@@ -50,13 +51,13 @@ class CompletedTripPage extends Component {
   }
 
   _renderMyTrip() {
-    let owner = this.props.params.uid;
-    let tripId = this.props.params.tripId;
-    let destination = this.props.params.destination;
+    let owner = this.props.ownerId;
+    let tripId = this.props.tripId;
+    let destination = this.props.destination;
 
     return (
       <div id="newTrips" >
-        <h2>My Trip To {this.props.params.destination}</h2>
+        <h2>My Trip To {destination}</h2>
           {/* STRETCH: switch to make your trip public or private */}
         <ol className="breadcrumb">
           <li><Link id="breadcrumb-nav" className="active" to={`/planner/${owner}/${tripId}/${destination}`}>Edit</Link></li>
@@ -68,7 +69,7 @@ class CompletedTripPage extends Component {
 
   _renderOtherUsersTrip() {
     let username = this.state.username;
-    let destination = this.props.params.destination;
+    let destination = this.props.destination;
 
     return (
       <div className="pageHeader">
@@ -82,8 +83,11 @@ class CompletedTripPage extends Component {
 
   componentDidMount() {
     let firebase = this.props.firebase;
-    let owner = this.props.params.uid;
-    let tripId = this.props.params.tripId;
+    let owner = this.props.ownerId;
+    let tripId = this.props.tripId;
+
+    console.log(owner);
+    console.log(tripId);
 
     firebase.database().ref(`/tripbook/${owner}/${tripId}`).once('value').then(snapshot => {
       let tiles = snapshot.val().places;
@@ -170,5 +174,15 @@ class CompletedTripPage extends Component {
     );
   }
 }
+
+var mapStateToProps = ({tripId, ownerId, destination}) => {
+  return {
+    tripId,
+    ownerId,
+    destination
+  }
+}
+
+CompletedTripPage = connect(mapStateToProps, null)(CompletedTripPage);
 
 export default CompletedTripPage;

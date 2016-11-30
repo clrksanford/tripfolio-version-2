@@ -8,12 +8,17 @@ export const setFirebase = (firebase) => ({
   firebase
 });
 
-export const setCurrentlySelectedTrip = (tripId) => ({
+export const setCurrentTripId = (tripId) => ({
   type: 'SET_TRIP_ID',
   tripId
-})
+});
 
-export const setOwnerOfCurrentTrip = (owner) => ({
-  type: 'SET_OWNER',
-  owner
-})
+export const setCurrentTripOwner = (ownerId) => ({
+  type: 'SET_TRIP_OWNER',
+  ownerId
+});
+
+export const setCurrentTripDestination = (destination) => ({
+  type: 'SET_TRIP_DESTINATION',
+  destination
+});

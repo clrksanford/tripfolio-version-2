@@ -5,6 +5,7 @@ import _ from 'lodash';
 
 // Actions
 import { setUser } from './actions';
+import getUserTrips from './actions/getUserTrips';
 
 // Styles and images
 import './App.css';
@@ -33,7 +34,7 @@ class App extends Component {
         this.props.setUser(user);
 
         // Load logged in users trips to display on profile page
-        this._loadUsersTrips(user);
+        this.props.setUserTrips(user);
 
       // Otherwise, if no user is signed in.
       } else {
@@ -93,7 +94,8 @@ class App extends Component {
 
 var mapDispatchToProps = (dispatch) => {
   return {
-    setUser: (user) => dispatch(setUser(user))
+    setUser: (user) => dispatch(setUser(user)),
+    setUserTrips: (user) => dispatch(getUserTrips(user))
   }
 }
 

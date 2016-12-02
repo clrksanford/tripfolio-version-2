@@ -3,6 +3,11 @@ export const setUser = (user) => ({
   user
 });
 
+export const setUserTrips = (userTrips) => ({
+  type: 'SET_USER_TRIPS',
+  userTrips
+})
+
 export const setFirebase = (firebase) => ({
   type: 'SET_FIREBASE',
   firebase

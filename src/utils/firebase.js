@@ -1,12 +1,11 @@
 import firebase from 'firebase';
 
-
 const config = {
-    apiKey: "AIzaSyBa8kI372HuXYRicj8LASKSgQ8OUG6Wo-o",
-    authDomain: "mytrip-8d303.firebaseapp.com",
-    databaseURL: "https://mytrip-8d303.firebaseio.com",
-    storageBucket: "",
-    messagingSenderId: "304060476466"
+  apiKey: "AIzaSyCLEnLFoEBbg3uqlyYIjNdryzQZD5j4hoQ",
+  authDomain: "tripfolio-67b0b.firebaseapp.com",
+  databaseURL: "https://tripfolio-67b0b.firebaseio.com",
+  storageBucket: "tripfolio-67b0b.appspot.com",
+  messagingSenderId: "602877533405"
   };
 
 firebase.initializeApp(config);

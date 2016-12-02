@@ -1,9 +1,10 @@
 // Modules
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import _ from 'lodash';
 
-// Components
-
+// Actions
+import { setUser } from './actions';
 
 // Styles and images
 import './App.css';
@@ -29,7 +30,7 @@ class App extends Component {
       // If user is signed in...
       if (user) {
         // Save user's info to state
-        this.setState({ user })
+        this.props.setUser(user);
 
         // Load logged in users trips to display on profile page
         this._loadUsersTrips(user);
@@ -89,5 +90,13 @@ class App extends Component {
     );
   }
 }
+
+var mapDispatchToProps = (dispatch) => {
+  return {
+    setUser: (user) => dispatch(setUser(user))
+  }
+}
+
+App = connect(null, mapDispatchToProps)(App);
 
 export default App;

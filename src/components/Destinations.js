@@ -51,20 +51,13 @@ class Destinations extends Component {
   }
 
   render() {
-    let image = this.props.user.providerData ? this.props.user.providerData[0].photoURL : 'http://placehold.it/100x100'
     return(
       <main id="main">
         <div id="completed-nav">
           <Header firebase={this.props.firebase} />
         </div>
-        <div id="logo-div">
-          <Link to="/profile"><img id="logo" src={logo} alt="Website logo showing yellow folder with Tripfolio in blue font"/></Link>
-        </div>
-        <div id="prof-pic">
-          <img src={image} alt="Your profile avatar" id="profPic" />
-        </div>
         <h2>Search Users' Trips</h2>
-        <SearchBar _handleSubmit={this._handleSubmit} />
+        <SearchBar />
       <br/>
       <br/>
         <div>

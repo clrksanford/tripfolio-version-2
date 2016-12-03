@@ -20,6 +20,8 @@ const setInfoToState = (state = {}, action) => {
       return { ...state, owner: action.owner };
     case 'SET_USER_TRIPS':
       return { ...state, userTrips: action.userTrips };
+    case 'SET_TRIPS_BY_DESTINATION':
+      return { ...state, trips: action.trips };
     default:
       return state;
   }

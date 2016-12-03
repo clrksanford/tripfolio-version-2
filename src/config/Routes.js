@@ -24,7 +24,7 @@ export default () => (
         <Route path='/planner/:uid/:tripId/:destination' component={TripPlanningPage}/>
         <Route path='/newTrip' component={NewTripModal}/>
         <Route path='/destinations' component={Destinations}/>
-        <Route path='/completed/:uid/:tripId/:destination' component={CompletedTripPage}/>
+        <Route path='/completed/:user/:destination' component={CompletedTripPage}/>
       </Route>
     </Router>
   </Provider>

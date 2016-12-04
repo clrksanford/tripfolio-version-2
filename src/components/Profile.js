@@ -72,14 +72,6 @@ var mapStateToProps = ({ userTrips }) => {
   }
 }
 
-var mapDispatchToProps = (dispatch) => {
-  return {
-    setTripId: (tripId) => dispatch(setCurrentTripId(tripId)),
-    setTripOwner: (ownerId) => dispatch(setCurrentTripOwner(ownerId)),
-    setTripDestination: (destination) => dispatch(setCurrentTripDestination(destination))
-  }
-}
-
-Profile = connect(mapStateToProps, mapDispatchToProps)(Profile);
+Profile = connect(mapStateToProps, null)(Profile);
 
 export default Profile;

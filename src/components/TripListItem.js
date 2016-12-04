@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
 import { hashHistory } from 'react-router';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 import getSelectedTrip from '../actions/getSelectedTrip';
 
 class TripListItem extends Component {
+  componentDidUpdate() {
+    if(!_.isEmpty(this.props.selectedTrip)) {
+      let { creatorUsername, destination } = this.props.selectedTrip;
+      hashHistory.push(`completed/${creatorUsername}/${destination}`);
+    }
+  }
+
   render() {
-    let { creatorId, creatorUsername, destination, pageName, tripId, user } = this.props;
+    let { creatorId, creatorUsername, destination, tripId, user } = this.props;
     let displayName;
 
     if (creatorId === user.uid) {
@@ -21,7 +29,6 @@ class TripListItem extends Component {
           e.preventDefault();
 
           this.props.setSelectedTrip(tripId);
-          hashHistory.push(`${pageName}/${creatorUsername}/${destination}`);
         }}>
           {displayName} trip to {destination}
         </a>
@@ -30,8 +37,9 @@ class TripListItem extends Component {
   }
 }
 
-var mapStateToProps = ({ user }) => {
+var mapStateToProps = ({ selectedTrip, user }) => {
   return {
+    selectedTrip,
     user
   }
 }

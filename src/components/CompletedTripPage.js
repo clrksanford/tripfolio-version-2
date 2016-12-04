@@ -175,11 +175,9 @@ class CompletedTripPage extends Component {
   }
 }
 
-var mapStateToProps = ({tripId, ownerId, destination}) => {
+var mapStateToProps = ({ selectedTrip }) => {
   return {
-    tripId,
-    ownerId,
-    destination
+    selectedTrip
   }
 }
 

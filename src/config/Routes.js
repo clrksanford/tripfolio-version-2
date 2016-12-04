@@ -21,7 +21,7 @@ export default () => (
       <Route path='/' component={App} firebase={firebase}>
         <IndexRoute component={Home} firebase={firebase}/>
         <Route path='/profile' component={Profile}/>
-        <Route path='/planner/:uid/:tripId/:destination' component={TripPlanningPage}/>
+        <Route path='/planner/:destination' component={TripPlanningPage}/>
         <Route path='/newTrip' component={NewTripModal}/>
         <Route path='/destinations' component={Destinations}/>
         <Route path='/completed/:user/:destination' component={CompletedTripPage}/>

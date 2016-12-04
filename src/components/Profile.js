@@ -45,15 +45,15 @@ class Profile extends Component {
               <div id="myTripList">
                 <ul>
                   {_.map(this.props.userTrips, (trip) => {
-                    let tripId = trip._id;
-                    let user = trip.creatorUsername;
-                    let destination = _.startCase(trip.destination);
+                    let { _id, creatorId, creatorUsername, destination } = trip;
+                    destination = _.startCase(destination);
 
                     return (
-                      <TripListItem key={tripId}
-                        tripId={tripId}
+                      <TripListItem key={_id}
+                        tripId={_id}
                         pageName='completed'
-                        user={user}
+                        creatorId={creatorId}
+                        creatorUsername={creatorUsername}
                         destination={destination}
                       />
                     );

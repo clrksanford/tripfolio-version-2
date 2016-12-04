@@ -6,7 +6,14 @@ import getSelectedTrip from '../actions/getSelectedTrip';
 
 class TripListItem extends Component {
   render() {
-    let { tripId, pageName, user, destination } = this.props;
+    let { creatorId, creatorUsername, destination, pageName, tripId, user } = this.props;
+    let displayName;
+
+    if (creatorId === user.uid) {
+      displayName = 'My';
+    } else {
+      displayName = `${creatorUsername}'s`;
+    }
 
     return(
       <li>
@@ -14,12 +21,18 @@ class TripListItem extends Component {
           e.preventDefault();
 
           this.props.setSelectedTrip(tripId);
-          hashHistory.push(`${pageName}/${user}/${destination}`);
+          hashHistory.push(`${pageName}/${creatorUsername}/${destination}`);
         }}>
-          {user}'s trip to {destination}
+          {displayName} trip to {destination}
         </a>
       </li>
     )
+  }
+}
+
+var mapStateToProps = ({ user }) => {
+  return {
+    user
   }
 }
 
@@ -29,6 +42,6 @@ var mapDispatchToProps = (dispatch) => {
   }
 }
 
-TripListItem = connect(null, mapDispatchToProps)(TripListItem);
+TripListItem = connect(mapStateToProps, mapDispatchToProps)(TripListItem);
 
 export default TripListItem;

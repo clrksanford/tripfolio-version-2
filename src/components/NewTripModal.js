@@ -33,24 +33,17 @@ class NewTripModal extends Component {
     })
       .then((response) => {
         console.log(response);
-        
-        hashHistory.push(`/planner/${creatorUsername}/${destination}`);
+        let newTrip = response.data;
+
+        hashHistory.push(`/planner/${destination}`);
       })
       .catch((err) => console.error(err))
-
-
-    //
-    // // Pass the data up the chain to parent state
-    // this.props._handleSubmit(destination);
   }
 
   render() {
     return(
       <div>
-        <form onSubmit={(e) => {
-          e.preventDefault();
-          this.props._handleSubmit(this.refs.destination.value).bind(this);
-        }}>
+        <form onSubmit={this._handleSubmit}>
           <h2>Where Do You Want To Go?</h2>
           <br/>
           <input type="text" ref="destination" id="newTripSubmit" placeholder="Enter City Here"/>

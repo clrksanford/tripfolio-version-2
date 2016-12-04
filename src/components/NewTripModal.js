@@ -1,7 +1,9 @@
 // Modules
 import React, { Component } from 'react';
 import { hashHistory } from 'react-router';
+import { connect } from 'react-redux';
 import _ from 'lodash';
+import axios from 'axios';
 
 // Components
 
@@ -18,21 +20,25 @@ class NewTripModal extends Component {
     e.preventDefault();
 
     // Grab user info
-    let destination = _.startCase(this.refs.destination.value);
+    let destination = this.refs.destination.value;
+    let creatorId = this.props.user.uid;
+    let creatorUsername = this.props.user.providerData[0].displayName;
 
-    let uid = this.props.user.uid;
-    let username = this.props.user.providerData[0].displayName;
-
-    var newPostKey = this.props.firebase.database().ref().child(uid).push().key;
-    this.props.firebase.database().ref(`/tripbook/${uid}/${newPostKey}`).update({
+    axios.post(`https://lit-garden-98394.herokuapp.com/trips`, {
+      creatorId,
+      creatorUsername,
       destination,
-      uid,
-      username,
+      pointsOfInterest: [],
       public: false
-    });
+    })
+      .then((response) => {
+        console.log(response);
+        
+        hashHistory.push(`/planner/${creatorUsername}/${destination}`);
+      })
+      .catch((err) => console.error(err))
 
 
-    hashHistory.push(`/planner/${uid}/${newPostKey}/${destination}`);
     //
     // // Pass the data up the chain to parent state
     // this.props._handleSubmit(destination);
@@ -54,5 +60,13 @@ class NewTripModal extends Component {
     );
   }
 }
+
+var mapStateToProps = ({ user }) => {
+  return {
+    user
+  }
+}
+
+NewTripModal = connect(mapStateToProps, null)(NewTripModal);
 
 export default NewTripModal;

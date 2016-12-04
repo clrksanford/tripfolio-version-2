@@ -11,12 +11,6 @@ import getSelectedTrip from '../actions/getSelectedTrip';
 // Styles and images
 
 class NewTripModal extends Component {
-  constructor(props) {
-    super(props);
-
-    this._handleSubmit = this._handleSubmit.bind(this);
-  }
-
   _handleSubmit(e) {
     e.preventDefault();
 
@@ -52,7 +46,7 @@ class NewTripModal extends Component {
   render() {
     return(
       <div>
-        <form onSubmit={this._handleSubmit}>
+        <form onSubmit={this._handleSubmit.bind(this)}>
           <h2>Where Do You Want To Go?</h2>
           <br/>
           <input type="text" ref="destination" id="newTripSubmit" placeholder="Enter City Here"/>

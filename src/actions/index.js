@@ -8,25 +8,20 @@ export const setUserTrips = (userTrips) => ({
   userTrips
 })
 
-export const setFirebase = (firebase) => ({
-  type: 'SET_FIREBASE',
-  firebase
+export const setSelectedTrip = (selectedTrip) => ({
+  type: 'SET_SELECTED_TRIP',
+  selectedTrip
 });
 
-export const setCurrentTripId = (tripId) => ({
-  type: 'SET_TRIP_ID',
-  tripId
-});
-
-export const setCurrentTripOwner = (ownerId) => ({
-  type: 'SET_TRIP_OWNER',
-  ownerId
-});
-
-export const setCurrentTripDestination = (destination) => ({
-  type: 'SET_TRIP_DESTINATION',
-  destination
-});
+// export const setCurrentTripOwner = (ownerId) => ({
+//   type: 'SET_TRIP_OWNER',
+//   ownerId
+// });
+//
+// export const setCurrentTripDestination = (destination) => ({
+//   type: 'SET_TRIP_DESTINATION',
+//   destination
+// });
 
 export const setTripsByDestination = (trips) => ({
   type: 'SET_TRIPS_BY_DESTINATION',

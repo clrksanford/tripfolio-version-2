@@ -32,9 +32,15 @@ class NewTripModal extends Component {
       public: false
     })
       .then((response) => {
-        console.log(response);
+        // Get the new trip and set it to state, so user can begin editing on the next page
         let newTrip = response.data;
 
+        // Clean up destination for display in URL
+        if(destination.indexOf(' ') !== -1) {
+          destination = destination.replace(/ /g, '_');
+        }
+
+        // Route user to planner page, where the newly created trip will be loaded from state
         hashHistory.push(`/planner/${destination}`);
       })
       .catch((err) => console.error(err))

@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import axios from 'axios';
 
-// Components
+// Actions
+import getSelectedTrip from '../actions/getSelectedTrip';
 
 // Styles and images
 
@@ -34,6 +35,8 @@ class NewTripModal extends Component {
       .then((response) => {
         // Get the new trip and set it to state, so user can begin editing on the next page
         let newTrip = response.data;
+
+        this.props.setSelectedTrip(newTrip._id);
 
         // Clean up destination for display in URL
         if(destination.indexOf(' ') !== -1) {
@@ -66,6 +69,12 @@ var mapStateToProps = ({ user }) => {
   }
 }
 
-NewTripModal = connect(mapStateToProps, null)(NewTripModal);
+var mapDispatchToProps = (dispatch) => {
+  return {
+    setSelectedTrip: (tripId) => dispatch(getSelectedTrip(tripId))
+  }
+}
+
+NewTripModal = connect(mapStateToProps, mapDispatchToProps)(NewTripModal);
 
 export default NewTripModal;

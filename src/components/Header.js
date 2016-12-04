@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { hashHistory, Link } from 'react-router';
 
 // Components
 import LogoutButton from './LogoutButton'
@@ -21,9 +21,8 @@ const Header = (props) => (
           <LogoutButton firebase={props.firebase} />
         </li>
         <li>
-          <Link to='/profile'>
-            <img src={props.profilePicture} alt='Your profile avatar' />
-          </Link>
+            <img src={props.profilePicture} alt='Your profile avatar'
+              onClick={() => hashHistory.push('/profile')}/>
         </li>
       </ul>
     </nav>

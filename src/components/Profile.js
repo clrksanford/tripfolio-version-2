@@ -25,13 +25,16 @@ class Profile extends Component {
     }
 
     render() {
+      console.log(this.props.user);
       // {/* If there is a logged in user, get their profile picture */}
-      let profilePicture = this.props.user.providerData ? this.props.user.providerData[0].photoURL : 'http://placehold.it/100x100'
+      let profilePicture = this.props.user ? this.props.user.providerData[0].photoURL : 'http://placehold.it/100x100'
 
       return(
         <div>
-            <Header firebase={this.props.firebase} profilePicture={profilePicture} />
-            <main id="main">
+            <Header firebase={this.props.firebase}
+              profilePicture={profilePicture}
+            />
+            <main>
               <div id="newTripContainer">
                 <NewTripModal firebase={this.props.firebase} user={this.props.user}/>
               </div>
@@ -62,8 +65,9 @@ class Profile extends Component {
     }
 }
 
-var mapStateToProps = ({ userTrips }) => {
+var mapStateToProps = ({ user, userTrips }) => {
   return {
+    user,
     userTrips
   }
 }

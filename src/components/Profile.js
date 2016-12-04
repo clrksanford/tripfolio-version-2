@@ -9,9 +9,6 @@ import Header from './Header';
 import NewTripModal from './NewTripModal';
 import TripListItem from './TripListItem';
 
-// Actions
-import { setCurrentTripId, setCurrentTripOwner, setCurrentTripDestination } from '../actions';
-
 // Styles and images
 import "../styles/profile.css";
 

@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 
 // Components
 import Header from './Header';
+import TripListItem from './TripListItem';
 
 // Redux Actions
 import getTripsByDestination from '../actions/getTripsByDestination';
@@ -33,16 +34,18 @@ class Destinations extends Component {
         </form>
         <div>
           <ul id="searchResults">
-            {_.map(this.props.trips, (trip, index) => {
+            {_.map(this.props.trips, (trip) => {
+              let tripId = trip._id;
               let user = trip.creatorUsername;
               let destination = _.startCase(trip.destination);
 
               return (
-                <li key={index}>
-                  <Link to={`completed/${user}/${destination}`}>
-                    {user}'s trip to {destination}
-                  </Link>
-                </li>
+                <TripListItem key={tripId}
+                  tripId={tripId}
+                  pageName='completed'
+                  user={user}
+                  destination={destination}
+                />
               );
             })}
           </ul>

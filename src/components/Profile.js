@@ -1,6 +1,5 @@
 // Modules
 import React, {Component} from 'react';
-import { hashHistory, Link } from 'react-router';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
@@ -26,7 +25,7 @@ class Profile extends Component {
     }
 
     render() {
-      {/* If there is a logged in user, get their profile picture */}
+      // {/* If there is a logged in user, get their profile picture */}
       let profilePicture = this.props.user.providerData ? this.props.user.providerData[0].photoURL : 'http://placehold.it/100x100'
 
       return(

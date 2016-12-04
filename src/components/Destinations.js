@@ -1,7 +1,6 @@
 // Modules
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
 // Components
@@ -11,8 +10,6 @@ import TripListItem from './TripListItem';
 // Redux Actions
 import getTripsByDestination from '../actions/getTripsByDestination';
 
-//Styles and images
-import logo from "../../public/images/logo-2.png";
 
 class Destinations extends Component {
   render() {

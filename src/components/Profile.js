@@ -5,8 +5,9 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 // Components
-import NewTripModal from './NewTripModal';
 import Header from './Header';
+import NewTripModal from './NewTripModal';
+import TripListItem from './TripListItem';
 
 // Actions
 import { setCurrentTripId, setCurrentTripOwner, setCurrentTripDestination } from '../actions';
@@ -43,22 +44,19 @@ class Profile extends Component {
               </div>
               <div id="myTripList">
                 <ul>
-                  {_.map(this.props.trips, (trip, tripId) => {
-                    let destination = trip.destination;
+                  {_.map(this.props.userTrips, (trip) => {
+                    let tripId = trip._id;
+                    let user = trip.creatorUsername;
+                    let destination = _.startCase(trip.destination);
+
                     return (
-                      <li key={tripId} data-tripId={tripId}>
-                        My Trip To {destination}
-                        {/* <Link to={`/completed/${this.props.user.uid}/${tripId}/${trip.destination}`}> */}
-                          <a href="#" onClick={(e) => {
-                            e.preventDefault();
-                            this.props.setTripId(tripId);
-                            this.props.setTripOwner(this.props.user.uid);
-                            this.props.setTripDestination(destination);
-                            hashHistory.push(`completed/${this.props.user.uid}/${tripId}/${destination}`);
-                          }}>View</a>
-                        {/* </Link> */}
-                      </li>
-                    )
+                      <TripListItem key={tripId}
+                        tripId={tripId}
+                        pageName='completed'
+                        user={user}
+                        destination={destination}
+                      />
+                    );
                   })}
                 </ul>
               </div>
@@ -66,6 +64,12 @@ class Profile extends Component {
         </div>
         );
     }
+}
+
+var mapStateToProps = ({ userTrips }) => {
+  return {
+    userTrips
+  }
 }
 
 var mapDispatchToProps = (dispatch) => {
@@ -76,6 +80,6 @@ var mapDispatchToProps = (dispatch) => {
   }
 }
 
-Profile = connect(null, mapDispatchToProps)(Profile);
+Profile = connect(mapStateToProps, mapDispatchToProps)(Profile);
 
 export default Profile;

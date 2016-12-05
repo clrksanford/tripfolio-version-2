@@ -1,13 +1,14 @@
 // Modules
 import React, {Component} from 'react';
-import { Link } from 'react-router';
+import { hashHistory, Link } from 'react-router';
 import { connect } from 'react-redux';
+import axios from 'axios';
 import _ from 'lodash';
 
 // Components
 // import UsersTile from './UsersTile';
 import Header from './Header';
-import AlertModal from './alertModal';
+import AlertModal from './AlertModal';
 
 // Styles and images
 import '../styles/completedtrip.css';
@@ -21,11 +22,12 @@ class CompletedTripPage extends Component {
     }
 
     this._checkUser = this._checkUser.bind(this);
+    this._closeModal = this._closeModal.bind(this);
+    this._deleteTrip = this._deleteTrip.bind(this);
     this._renderMyTrip = this._renderMyTrip.bind(this);
     this._renderOtherUsersTrip = this._renderOtherUsersTrip.bind(this);
     // this._renderTiles = this._renderTiles.bind(this);
     this._showModal = this._showModal.bind(this);
-    this._closeModal = this._closeModal.bind(this);
   }
 
   _checkUser() {
@@ -40,6 +42,20 @@ class CompletedTripPage extends Component {
         return this._renderOtherUsersTrip();
       }
     }
+  }
+
+  _closeModal() {
+    this.setState({alertModalClass: 'hidden'});
+  }
+
+  _deleteTrip() {
+    let tripId = this.props.selectedTrip._id;
+
+    axios.delete(`https://lit-garden-98394.herokuapp.com/trips/${tripId}`)
+      .then((response) => {
+        hashHistory.push('/profile');
+      })
+      .catch(err => console.error(err))
   }
 
   _renderMyTrip() {
@@ -91,10 +107,6 @@ class CompletedTripPage extends Component {
     this.setState({alertModalClass:''});
   }
 
-  _closeModal() {
-    this.setState({alertModalClass: 'hidden'});
-  }
-
   render() {
     return(
         <main id="main">
@@ -134,7 +146,13 @@ class CompletedTripPage extends Component {
                 </div>
               </div>
             </div> */}
-            <AlertModal className={this.state.alertModalClass} tripId={this.props.params.tripId} uid={this.props.params.uid} firebase={this.props.firebase} _closeModal={this._closeModal} newTripTitle="Delete Post" modalMessage="You are about to delete this trip forever!" />
+            <AlertModal className={this.state.alertModalClass}
+              _closeModal={this._closeModal}
+              modalFunction={this._deleteTrip}
+              newTripTitle="Delete Post"
+              modalMessage="You are about to delete this trip forever!"
+              modalButton="Delete"
+            />
         </main>
     );
   }

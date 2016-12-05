@@ -9,7 +9,33 @@ class TileEditor extends Component {
       formFields: [
         <input type='text' placeholder='Title' ref='title'/>,
         <textarea placeholder='Write some notes'></textarea>
-      ]
+      ],
+      newFormLinks: {
+        openingHours: {
+          text: 'Opening Hours',
+          currentlyActive: true
+        },
+        address: {
+          text: 'Address',
+          currentlyActive: true
+        },
+        entrance: {
+          text: 'Entrance Fee',
+          currentlyActive: true
+        },
+        transit: {
+          text: 'Transit/Parking',
+          currentlyActive: true
+        },
+        contact: {
+          text: 'Contact Info',
+          currentlyActive: true
+        },
+        links: {
+          text: 'Helpful Links',
+          currentlyActive: true
+        }
+      }
     }
 
     this._addField = this._addField.bind(this);
@@ -49,48 +75,23 @@ class TileEditor extends Component {
             </div>
             <div className='column'>
               <h3>Add more fields</h3>
-              <a href='#'
-                onClick={(e) => {
-                  e.preventDefault();
-                  this._addField('openingHours');
-                }}>
-                  Opening Hours
-              </a>
-              <a href='#'
-                onClick={(e) => {
-                  e.preventDefault();
-                  this._addField('address');
-                }}>
-                  Address
-              </a>
-              <a href='#'
-                onClick={(e) => {
-                  e.preventDefault();
-                  this._addField('entrance');
-                }}>
-                  Entrance Fee
-              </a>
-              <a href='#'
-                onClick={(e) => {
-                  e.preventDefault();
-                  this._addField('transit');
-                }}>
-                  Transit/Parking
-              </a>
-              <a href='#'
-                onClick={(e) => {
-                  e.preventDefault();
-                  this._addField('contact');
-                }}>
-                  Contact Info
-              </a>
-              <a href='#'
-                onClick={(e) => {
-                  e.preventDefault();
-                  this._addField('links');
-                }}>
-                  Helpful Link(s)
-              </a>
+              {_.map(this.state.newFormLinks, (link, linkName) => {
+                if(link.currentlyActive) {
+                  return (
+                    <a href='#' key={linkName} onClick={(e) => {
+                      e.preventDefault();
+
+                      // Add the corresponding input field
+                      this._addField(linkName);
+
+                      // Set currentlyActive to false so that this link is no longer visible
+                      this.state.newFormLinks[linkName].currentlyActive = false;
+                    }}>
+                      {link.text}
+                    </a>
+                  )
+                }
+              })}
             </div>
           </div>
         </div>

@@ -1,14 +1,20 @@
 // Modules
 import createLogger from 'redux-logger'
-import { createStore, applyMiddleware } from 'redux';
+import { compose, createStore, applyMiddleware } from 'redux';
+import { autoRehydrate, persistStore } from 'redux-persist';
 import ReduxThunk from 'redux-thunk';
 
 // Reducers and actions
-import reducer from '../reducers'
+import reducers from '../reducers'
 
 // Configure redux middleware
 const logger = createLogger();
-const initialState = {};
-const store = createStore(reducer, initialState, applyMiddleware(logger, ReduxThunk));
+
+let store = compose(
+  applyMiddleware(logger, ReduxThunk),
+  autoRehydrate()
+)(createStore)(reducers);
+
+persistStore(store);
 
 export default store;

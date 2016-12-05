@@ -1,5 +1,7 @@
 const setInfoToState = (state = {}, action) => {
   switch (action.type) {
+    case 'persist/REHYDRATE':
+      return { ...state, selectedTrip: action.payload.selectedTrip };
     case 'SET_USER':
       return { ...state, user: action.user };
     case 'SET_USER_TRIPS':

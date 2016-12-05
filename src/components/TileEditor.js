@@ -6,10 +6,20 @@ class TileEditor extends Component {
     super(props);
 
     this.state = {
-      formFields: [
-        <input type='text' placeholder='Title' ref='title'/>,
-        <textarea placeholder='Write some notes'></textarea>
-      ],
+      formFields: {
+        title: {
+          innerJSX: <input type='text' placeholder='Title' ref='title'/>,
+          currentlyActive: true
+        },
+        notes: {
+          innerJSX: <textarea placeholder='Write some notes'></textarea>,
+          currentlyActive: true
+        },
+        openingHours: {
+          innerJSX: <input type='text' placeholder='Hours of operation'/>,
+          currentlyActive: false
+        }
+      },
       newFormLinks: {
         openingHours: {
           text: 'Opening Hours',
@@ -38,26 +48,38 @@ class TileEditor extends Component {
       }
     }
 
-    this._addField = this._addField.bind(this);
+    this._hideField = this._hideField.bind(this);
+    this._showField = this._showField.bind(this);
   }
 
-  _addField(fieldName) {
-    let newField;
+  _hideField(fieldName) {
+    // Make a copy of the state
+    let newState = this.state;
 
-    switch(fieldName) {
-      case 'openingHours':
-        newField = <input type='text' placeholder='Hours of operation'/>;
-        break;
-      default:
-        return '';
-    }
+    // Set the selected form to active
+    newState.formFields[fieldName].currentlyActive = false;
 
-    let newState = this.state.formFields;
-    newState.push(newField);
+    // Set the selected link to inactive
+    newState.newFormLinks[fieldName].currentlyActive = true;
 
-    this.setState({
-      formFields: newState
-    });
+    console.log(newState);
+
+    // Assign the newState to state
+    this.setState(newState);
+  }
+
+  _showField(fieldName) {
+    // Make a copy of the state
+    let newState = this.state;
+
+    // Set the selected form to active
+    newState.formFields[fieldName].currentlyActive = true;
+
+    // Set the selected link to inactive
+    newState.newFormLinks[fieldName].currentlyActive = false;
+
+    // Assign the newState to state
+    this.setState(newState);
   }
 
   render() {
@@ -68,8 +90,17 @@ class TileEditor extends Component {
           <div className='row'>
             <div className='column'>
               <form>
-                {_.map(this.state.formFields, (field, index) => {
-                  return <div key={index}>{field}</div>;
+                {_.map(this.state.formFields, (field, fieldName) => {
+                  if(field.currentlyActive) {
+                    return (
+                      <div key={fieldName}>
+                        {field.innerJSX}
+                        <span onClick={() => this._hideField(fieldName)}>
+                          X
+                        </span>
+                      </div>
+                    );
+                  }
                 })}
               </form>
             </div>
@@ -80,12 +111,7 @@ class TileEditor extends Component {
                   return (
                     <a href='#' key={linkName} onClick={(e) => {
                       e.preventDefault();
-
-                      // Add the corresponding input field
-                      this._addField(linkName);
-
-                      // Set currentlyActive to false so that this link is no longer visible
-                      this.state.newFormLinks[linkName].currentlyActive = false;
+                      this._showField(linkName);
                     }}>
                       {link.text}
                     </a>

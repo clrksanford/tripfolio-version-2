@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import _ from 'lodash';
 
 import TileEditorModal from './TileEditorModal';
@@ -62,6 +63,12 @@ class TileEditor extends Component {
     this._hideField = this._hideField.bind(this);
     this._showField = this._showField.bind(this);
     this._showFieldModal = this._showFieldModal.bind(this);
+  }
+
+  componentDidMount() {
+    axios.get(`https://lit-garden-98394.herokuapp.com/travel-tiles/${this.props.params.tileId}`)
+      .then(response => console.log('tile editor did mount', response))
+      .catch(err => console.log(err))
   }
 
   _closeModal() {

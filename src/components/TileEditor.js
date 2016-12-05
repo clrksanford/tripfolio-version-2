@@ -109,22 +109,23 @@ class TileEditor extends Component {
 
   _showFieldModal(fieldName) {
     let activeForm;
+    let { tileId } = this.props.params;
 
     switch(fieldName) {
       case 'address':
-        activeForm = <Address />;
+        activeForm = <Address tileId={tileId} />;
         break;
       case 'entrance':
-        activeForm = <Entrance />;
+        activeForm = <Entrance tileId={tileId} />;
         break;
       case 'openingHours':
-        activeForm = <OpeningHours />;
+        activeForm = <OpeningHours tileId={tileId} />;
         break;
       case 'tileLinks':
-        activeForm = <TileLinks />;
+        activeForm = <TileLinks tileId={tileId} />;
         break;
       case 'transit':
-        activeForm = <Transit />;
+        activeForm = <Transit tileId={tileId}/>;
         break;
       default:
         activeForm = '';

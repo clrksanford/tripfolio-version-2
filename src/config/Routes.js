@@ -12,6 +12,7 @@ import NewTripModal from '../components/NewTripModal';
 import CompletedTripPage from '../components/CompletedTripPage';
 import Destinations from '../components/Destinations';
 import TileEditor from '../components/TileEditor';
+import TileEditorSandbox from '../components/TileEditorSandbox';
 
 // Redux
 import store from './ReduxStore';
@@ -27,6 +28,7 @@ export default () => (
         <Route path='/destinations' component={Destinations}/>
         <Route path='/completed/:user/:destination/:tripId' component={CompletedTripPage}/>
         <Route path='/tile-editor' component={TileEditor}/>
+        <Route path='/tile-editor-sandbox' component={TileEditorSandbox}/>
       </Route>
     </Router>
   </Provider>

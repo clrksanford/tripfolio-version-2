@@ -66,14 +66,15 @@ class CompletedTripPage extends Component {
   }
 
   _renderMyTrip() {
-    let destination = _.startCase(this.props.selectedTrip.destination);
+    let { _id, destination } = this.props.selectedTrip;
+    destination = _.startCase(destination);
 
     return (
       <div id="newTrips" >
         <h2>My Trip To {destination}</h2>
           {/* STRETCH: switch to make your trip public or private */}
         <ol className="breadcrumb">
-          <li><Link id="breadcrumb-nav" className="active" to={`/planner/${destination}`}>Edit</Link></li>
+          <li><Link id="breadcrumb-nav" className="active" to={`/trip-builder/${destination}/${_id}`}>Edit</Link></li>
           <li><a id="breadcrumb-nav" className="active" href="#" onClick={this._showModal}>Delete</a></li>
         </ol>
       </div>

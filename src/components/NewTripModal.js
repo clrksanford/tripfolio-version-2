@@ -38,7 +38,7 @@ class NewTripModal extends Component {
         }
 
         // Route user to planner page, where the newly created trip will be loaded from state
-        hashHistory.push(`/planner/${destination}`);
+        hashHistory.push(`/trip-builder/${destination}/${newTrip._id}`);
       })
       .catch((err) => console.error(err))
   }

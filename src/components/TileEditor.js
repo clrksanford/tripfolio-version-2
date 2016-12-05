@@ -56,11 +56,41 @@ class TileEditor extends Component {
                 }}>
                   Opening Hours
               </a>
-              <a href='#'>Address</a>
-              <a href='#'>Entrance Fee</a>
-              <a href='#'>Transit/Parking</a>
-              <a href='#'>Contact Info</a>
-              <a href='#'>Helpful Link(s)</a>
+              <a href='#'
+                onClick={(e) => {
+                  e.preventDefault();
+                  this._addField('address');
+                }}>
+                  Address
+              </a>
+              <a href='#'
+                onClick={(e) => {
+                  e.preventDefault();
+                  this._addField('entrance');
+                }}>
+                  Entrance Fee
+              </a>
+              <a href='#'
+                onClick={(e) => {
+                  e.preventDefault();
+                  this._addField('transit');
+                }}>
+                  Transit/Parking
+              </a>
+              <a href='#'
+                onClick={(e) => {
+                  e.preventDefault();
+                  this._addField('contact');
+                }}>
+                  Contact Info
+              </a>
+              <a href='#'
+                onClick={(e) => {
+                  e.preventDefault();
+                  this._addField('links');
+                }}>
+                  Helpful Link(s)
+              </a>
             </div>
           </div>
         </div>

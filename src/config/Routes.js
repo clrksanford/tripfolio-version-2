@@ -27,7 +27,7 @@ export default () => (
         <Route path='/newTrip' component={NewTripModal}/>
         <Route path='/destinations' component={Destinations}/>
         <Route path='/completed/:user/:destination/:tripId' component={CompletedTripPage}/>
-        <Route path='/tile-editor' component={TileEditor}/>
+        <Route path='/tile-editor/:tileId' component={TileEditor}/>
         <Route path='/tile-editor-sandbox' component={TileEditorSandbox}/>
       </Route>
     </Router>

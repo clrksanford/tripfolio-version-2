@@ -1,28 +1,28 @@
 import React, { Component } from 'react';
-import { hashHistory } from 'react-router';
+import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import getSelectedTrip from '../actions/getSelectedTrip';
 
 class TripListItem extends Component {
-  componentDidUpdate() {
-    if(!_.isEmpty(this.props.selectedTrip)) {
-      let { _id, creatorUsername, destination } = this.props.selectedTrip;
-
-      // Clean up destination for display in URL
-      if(destination.indexOf(' ') !== -1) {
-        destination = destination.replace(/ /g, '_');
-      }
-
-      // Route user to completed trip page
-      hashHistory.push(`completed/${creatorUsername}/${destination}/${_id}`);
-    }
-  }
+  // componentDidUpdate() {
+  //   if(!_.isEmpty(this.props.selectedTrip)) {
+  //     let { _id, creatorUsername, destination } = this.props.selectedTrip;
+  //
+  //     // Clean up destination for display in URL
+  //     if(destination.indexOf(' ') !== -1) {
+  //       destination = destination.replace(/ /g, '_');
+  //     }
+  //
+  //     // Route user to completed trip page
+  //     hashHistory.push(`completed/${creatorUsername}/${destination}/${_id}`);
+  //   }
+  // }
 
   render() {
     let { creatorId, creatorUsername, destination, tripId, user } = this.props;
-    let displayName;
+    let displayName, urlDestination;
 
     if (creatorId === user.uid) {
       displayName = 'My';
@@ -30,15 +30,16 @@ class TripListItem extends Component {
       displayName = `${creatorUsername}'s`;
     }
 
+    // Clean up destination for URL display
+    if(destination.indexOf(' ') !== -1) {
+      urlDestination = destination.replace(/ /g, '-');
+    }
+
     return(
       <li>
-        <a href='#' onClick={(e) => {
-          e.preventDefault();
-
-          this.props.setSelectedTrip(tripId);
-        }}>
+        <Link to={`completed/${creatorUsername}/${urlDestination}/${tripId}`}>
           {displayName} trip to {destination}
-        </a>
+        </Link>
       </li>
     )
   }

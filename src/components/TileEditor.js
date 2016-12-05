@@ -16,6 +16,7 @@ class TileEditor extends Component {
 
     this.state = {
       activeForm: '',
+      activeTile: {},
       modalClass: 'hidden',
       formFields: {
         title: {
@@ -67,7 +68,13 @@ class TileEditor extends Component {
 
   componentDidMount() {
     axios.get(`https://lit-garden-98394.herokuapp.com/travel-tiles/${this.props.params.tileId}`)
-      .then(response => console.log('tile editor did mount', response))
+      .then((response) => {
+        let activeTile = response.data;
+
+        this.setState({
+          activeTile
+        })
+      })
       .catch(err => console.log(err))
   }
 
@@ -138,27 +145,21 @@ class TileEditor extends Component {
   }
 
   render() {
+    if(this.state.activeTile) {
+      var { street1, city, country, zip } = this.state.activeTile.address || '';
+    }
     return(
       <main>
         <h2>Create a Custom Tile</h2>
         <div className='pageContent'>
           <div className='row'>
             <div className='column'>
-              <h3>I am just a placeholder for now</h3>
-              {/* <form>
-                {_.map(this.state.formFields, (field, fieldName) => {
-                  if(field.currentlyActive) {
-                    return (
-                      <div key={fieldName}>
-                        {field.innerJSX}
-                        <span onClick={() => this._hideField(fieldName)}>
-                          X
-                        </span>
-                      </div>
-                    );
-                  }
-                })}
-              </form> */}
+              <h3>My Info for {this.state.activeTile.name || ''}</h3>
+              <p>
+                {street1}
+                {city}, {country}
+                {zip}
+              </p>
             </div>
             <div className='column'>
               <h3>Add more fields</h3>

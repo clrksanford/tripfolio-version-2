@@ -1,9 +1,11 @@
 // Modules
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import _ from 'lodash';
 
-// Components
-
+// Actions
+import { setUser } from './actions';
+import getUserTrips from './actions/getUserTrips';
 
 // Styles and images
 import './App.css';
@@ -29,10 +31,10 @@ class App extends Component {
       // If user is signed in...
       if (user) {
         // Save user's info to state
-        this.setState({ user })
+        this.props.setUser(user);
 
         // Load logged in users trips to display on profile page
-        this._loadUsersTrips(user);
+        this.props.setUserTrips(user);
 
       // Otherwise, if no user is signed in.
       } else {
@@ -60,16 +62,7 @@ class App extends Component {
 
     firebase.database().ref(`/tripbook/${uid}`).push({
       destination: destination,
-      places: [
-        {
-          name: 'Puerta del Sol',
-          image: 'http://fakeurl.com'
-        },
-        {
-          name: 'Museo del Prado',
-          image: 'http://fakeurl.com'
-        }
-      ]
+      places: []
     })
   }
 
@@ -98,5 +91,14 @@ class App extends Component {
     );
   }
 }
+
+var mapDispatchToProps = (dispatch) => {
+  return {
+    setUser: (user) => dispatch(setUser(user)),
+    setUserTrips: (user) => dispatch(getUserTrips(user))
+  }
+}
+
+App = connect(null, mapDispatchToProps)(App);
 
 export default App;

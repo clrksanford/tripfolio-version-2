@@ -1,11 +1,12 @@
 // Modules
 import React, {Component} from 'react';
-import { Link } from 'react-router';
+import { connect } from 'react-redux';
 import _ from 'lodash';
 
 // Components
-import NewTripModal from './NewTripModal';
 import Header from './Header';
+import NewTripModal from './NewTripModal';
+import TripListItem from './TripListItem';
 
 // Styles and images
 import "../styles/profile.css";
@@ -24,16 +25,16 @@ class Profile extends Component {
     }
 
     render() {
-      let image = this.props.user.providerData ? this.props.user.providerData[0].photoURL : 'http://placehold.it/100x100'
+      console.log(this.props.user);
+      // {/* If there is a logged in user, get their profile picture */}
+      let profilePicture = this.props.user ? this.props.user.providerData[0].photoURL : 'http://placehold.it/100x100'
+
       return(
         <div>
-            <Header firebase={this.props.firebase} />
-            <div id="pic-div">
-              <div id="prof-pic">
-                <img src={image} alt="Your profile avatar" id="profPic" />
-              </div>
-            </div>
-            <main id="main">
+            <Header firebase={this.props.firebase}
+              profilePicture={profilePicture}
+            />
+            <main>
               <div id="newTripContainer">
                 <NewTripModal firebase={this.props.firebase} user={this.props.user}/>
               </div>
@@ -42,16 +43,19 @@ class Profile extends Component {
               </div>
               <div id="myTripList">
                 <ul>
-                  {_.map(this.props.trips, (trip, tripId) => {
-                    let destination = trip.destination;
+                  {_.map(this.props.userTrips, (trip) => {
+                    let { _id, creatorId, creatorUsername, destination } = trip;
+                    destination = _.startCase(destination);
+
                     return (
-                      <li key={tripId} data-tripId={tripId}>
-                        My Trip To {destination}
-                        <Link to={`/completed/${this.props.user.uid}/${tripId}/${trip.destination}`}>
-                          View
-                        </Link>
-                      </li>
-                    )
+                      <TripListItem key={_id}
+                        tripId={_id}
+                        pageName='completed'
+                        creatorId={creatorId}
+                        creatorUsername={creatorUsername}
+                        destination={destination}
+                      />
+                    );
                   })}
                 </ul>
               </div>
@@ -60,5 +64,14 @@ class Profile extends Component {
         );
     }
 }
+
+var mapStateToProps = ({ user, userTrips }) => {
+  return {
+    user,
+    userTrips
+  }
+}
+
+Profile = connect(mapStateToProps, null)(Profile);
 
 export default Profile;

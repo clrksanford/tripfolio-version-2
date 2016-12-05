@@ -1,81 +1,48 @@
 // Modules
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import _ from 'lodash';
-import {Link} from 'react-router';
+import { connect } from 'react-redux';
 
 // Components
-import SearchBar from './SearchBar';
 import Header from './Header';
+import TripListItem from './TripListItem';
 
-//Styles and images
-import logo from "../../public/images/logo-2.png";
+// Redux Actions
+import getTripsByDestination from '../actions/getTripsByDestination';
+
 
 class Destinations extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      results: []
-    }
-
-    this._handleSubmit = this._handleSubmit.bind(this);
-  }
-
-  _handleSubmit(query) {
-    let ref= this.props.firebase.database().ref('/tripbook');
-
-    ref.on('value', snapshot => {
-      let list = snapshot.val();
-      var array = [];
-      var arrayOfObjs = [];
-
-      _.map(list, (tripsByUser, uid) => {
-        array.push(tripsByUser);
-      })
-
-      array.forEach(tripObj => {
-        for(var key in tripObj) {
-          let trip = tripObj[key];
-          trip.tripId = key;
-
-          arrayOfObjs.push(trip);
-        }
-      });
-
-      let results = arrayOfObjs.filter(tripObj => {
-        return tripObj.destination === query;
-      });
-
-      this.setState({ results });
-    });
-  }
-
   render() {
-    let image = this.props.user.providerData ? this.props.user.providerData[0].photoURL : 'http://placehold.it/100x100'
     return(
       <main id="main">
         <div id="completed-nav">
           <Header firebase={this.props.firebase} />
         </div>
-        <div id="logo-div">
-          <Link to="/profile"><img id="logo" src={logo} alt="Website logo showing yellow folder with Tripfolio in blue font"/></Link>
-        </div>
-        <div id="prof-pic">
-          <img src={image} alt="Your profile avatar" id="profPic" />
-        </div>
         <h2>Search Users' Trips</h2>
-        <SearchBar _handleSubmit={this._handleSubmit} />
-      <br/>
-      <br/>
+        <form onSubmit={(e) => {
+          e.preventDefault();
+          let query = this.refs.search.value;
+
+          this.props.setTripsByDestination(query);
+          this.refs.search.value = '';
+        }}>
+          <input id="newTripSubmit" type="text" ref="search" placeholder="Enter City Here"/>
+          <input className="largeButton" type="submit" value="Go!" />
+        </form>
         <div>
           <ul id="searchResults">
-            {_.map(this.state.results, (result, index) => {
+            {_.map(this.props.trips, (trip) => {
+              let { _id, creatorId, creatorUsername, destination } = trip;
+              destination = _.startCase(destination);
+
               return (
-                <li key={index}>
-                  <Link to={`completed/${result.uid}/${result.tripId}/${result.destination}`}>
-                    {result.username}'s trip to {result.destination}
-                  </Link>
-                </li>
+                <TripListItem key={_id}
+                  tripId={_id}
+                  pageName='completed'
+                  creatorId={creatorId}
+                  creatorUsername={creatorUsername}
+                  destination={destination}
+                />
               );
             })}
           </ul>
@@ -84,5 +51,19 @@ class Destinations extends Component {
     );
   }
 }
+
+var mapDispatchToProps = (dispatch) => {
+  return {
+    setTripsByDestination: (cityName) => dispatch(getTripsByDestination(cityName))
+  }
+}
+
+var mapStateToProps = ({ trips }) => {
+  return {
+    trips
+  }
+}
+
+Destinations = connect(mapStateToProps, mapDispatchToProps)(Destinations);
 
 export default Destinations;

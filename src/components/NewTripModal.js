@@ -1,58 +1,52 @@
 // Modules
 import React, { Component } from 'react';
 import { hashHistory } from 'react-router';
+import { connect } from 'react-redux';
 import _ from 'lodash';
+import axios from 'axios';
 
-// Components
-import Header from './Header';
+// Actions
+import getSelectedTrip from '../actions/getSelectedTrip';
 
 // Styles and images
 
 class NewTripModal extends Component {
-  constructor(props) {
-    super(props);
-
-    this._handleSubmit = this._handleSubmit.bind(this);
-  }
-
   _handleSubmit(e) {
     e.preventDefault();
 
     // Grab user info
-    let destination = _.startCase(this.refs.destination.value);
+    let destination = this.refs.destination.value;
+    let creatorId = this.props.user.uid;
+    let creatorUsername = this.props.user.providerData[0].displayName;
 
-    let uid = this.props.user.uid;
-    let username = this.props.user.providerData[0].displayName;
-
-    var newPostKey = this.props.firebase.database().ref().child(uid).push().key;
-    this.props.firebase.database().ref(`/tripbook/${uid}/${newPostKey}`).update({
+    axios.post(`https://lit-garden-98394.herokuapp.com/trips`, {
+      creatorId,
+      creatorUsername,
       destination,
-      uid,
-      username,
+      pointsOfInterest: [],
       public: false
-    });
+    })
+      .then((response) => {
+        // Get the new trip and set it to state, so user can begin editing on the next page
+        let newTrip = response.data;
 
+        this.props.setSelectedTrip(newTrip._id);
 
-    hashHistory.push(`/planner/${uid}/${newPostKey}/${destination}`);
-    //
-    // // Pass the data up the chain to parent state
-    // this.props._handleSubmit(destination);
+        // Clean up destination for display in URL
+        if(destination.indexOf(' ') !== -1) {
+          destination = destination.replace(/ /g, '_');
+        }
+
+        // Route user to planner page, where the newly created trip will be loaded from state
+        hashHistory.push(`/planner/${destination}`);
+      })
+      .catch((err) => console.error(err))
   }
 
   render() {
-    let image = this.props.user.providerData ? this.props.user.providerData[0].photoURL : 'http://placehold.it/100x100'
     return(
       <div>
-        <div id="completed-nav">
-          <Header firebase={this.props.firebase} />
-        </div>
-        <div id="pic-div">
-          <div id="prof-pic">
-            <img src={image} alt="Your profile avatar" id="profPic" />
-          </div>
-        </div>
-        {/* <Link to="/profile" id="profile-button" className="btn btn-default">My profile</Link> */}
-        <form onSubmit={this._handleSubmit}>
+        <form onSubmit={this._handleSubmit.bind(this)}>
           <h2>Where Do You Want To Go?</h2>
           <br/>
           <input type="text" ref="destination" id="newTripSubmit" placeholder="Enter City Here"/>
@@ -62,5 +56,19 @@ class NewTripModal extends Component {
     );
   }
 }
+
+var mapStateToProps = ({ user }) => {
+  return {
+    user
+  }
+}
+
+var mapDispatchToProps = (dispatch) => {
+  return {
+    setSelectedTrip: (tripId) => dispatch(getSelectedTrip(tripId))
+  }
+}
+
+NewTripModal = connect(mapStateToProps, mapDispatchToProps)(NewTripModal);
 
 export default NewTripModal;

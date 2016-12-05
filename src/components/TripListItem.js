@@ -13,15 +13,10 @@ class TripListItem extends Component {
       // And if that trip is the same as the one this component is linking to
       this.props.selectedTrip._id === this.props.tripId
     ) {
-      let { _id, creatorUsername, destination } = this.props.selectedTrip;
-
-      // Clean up destination for display in URL
-      if(destination.indexOf(' ') !== -1) {
-        destination = destination.replace(/ /g, '_');
-      }
+      let { _id, creatorUsername, destForURL, destination } = this.props.selectedTrip;
 
       // Route user to completed trip page
-      hashHistory.push(`completed/${creatorUsername}/${destination}/${_id}`);
+      hashHistory.push(`completed/${creatorUsername}/${destForURL}/${_id}`);
     }
   }
 

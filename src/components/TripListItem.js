@@ -8,7 +8,7 @@ import getSelectedTrip from '../actions/getSelectedTrip';
 class TripListItem extends Component {
   componentDidUpdate() {
     if(!_.isEmpty(this.props.selectedTrip)) {
-      let { creatorUsername, destination } = this.props.selectedTrip;
+      let { _id, creatorUsername, destination } = this.props.selectedTrip;
 
       // Clean up destination for display in URL
       if(destination.indexOf(' ') !== -1) {
@@ -16,7 +16,7 @@ class TripListItem extends Component {
       }
 
       // Route user to completed trip page
-      hashHistory.push(`completed/${creatorUsername}/${destination}`);
+      hashHistory.push(`completed/${creatorUsername}/${destination}/${_id}`);
     }
   }
 

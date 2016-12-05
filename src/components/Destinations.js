@@ -35,15 +35,18 @@ class Destinations extends Component {
               let { _id, creatorId, creatorUsername, destination } = trip;
               destination = _.startCase(destination);
 
-              return (
-                <TripListItem key={_id}
-                  tripId={_id}
-                  pageName='completed'
-                  creatorId={creatorId}
-                  creatorUsername={creatorUsername}
-                  destination={destination}
-                />
-              );
+              // Do not display current user's own trips
+              if(this.props.user.uid !== creatorId) {
+                return (
+                  <TripListItem key={_id}
+                    tripId={_id}
+                    pageName='completed'
+                    creatorId={creatorId}
+                    creatorUsername={creatorUsername}
+                    destination={destination}
+                  />
+                );
+              }
             })}
           </ul>
         </div>
@@ -58,9 +61,10 @@ var mapDispatchToProps = (dispatch) => {
   }
 }
 
-var mapStateToProps = ({ trips }) => {
+var mapStateToProps = ({ trips, user }) => {
   return {
-    trips
+    trips,
+    user
   }
 }
 

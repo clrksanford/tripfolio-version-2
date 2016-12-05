@@ -10,6 +10,9 @@ import _ from 'lodash';
 import Header from './Header';
 import AlertModal from './AlertModal';
 
+// Redux actions
+import getSelectedTrip from '../actions/getSelectedTrip';
+
 // Styles and images
 import '../styles/completedtrip.css';
 
@@ -28,6 +31,10 @@ class CompletedTripPage extends Component {
     this._renderOtherUsersTrip = this._renderOtherUsersTrip.bind(this);
     // this._renderTiles = this._renderTiles.bind(this);
     this._showModal = this._showModal.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.setSelectedTrip(this.props.params.tripId);
   }
 
   _checkUser() {
@@ -165,6 +172,12 @@ var mapStateToProps = ({ selectedTrip, user }) => {
   }
 }
 
-CompletedTripPage = connect(mapStateToProps, null)(CompletedTripPage);
+var mapDispatchToProps = (dispatch) => {
+  return {
+    setSelectedTrip: (tripId) => dispatch(getSelectedTrip(tripId))
+  }
+}
+
+CompletedTripPage = connect(mapStateToProps, mapDispatchToProps)(CompletedTripPage);
 
 export default CompletedTripPage;

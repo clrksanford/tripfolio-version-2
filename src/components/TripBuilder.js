@@ -13,7 +13,7 @@ import Header from './Header';
 // Styles and images
 import "../styles/tripbuilder.css";
 
-class TravelPlanningPage extends Component {
+class TripBuiler extends Component {
   constructor(props) {
     super(props);
 
@@ -205,4 +205,4 @@ class TravelPlanningPage extends Component {
   }
 }
 
-export default TravelPlanningPage;
+export default TripBuiler;

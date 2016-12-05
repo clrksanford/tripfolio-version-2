@@ -20,11 +20,10 @@ class TileEditor extends Component {
 
     switch(fieldName) {
       case 'openingHours':
-        newField = (
-          <input type='text' placeholder='Hours of operation'/>
-        );
+        newField = <input type='text' placeholder='Hours of operation'/>;
+        break;
       default:
-        newField = '';
+        return '';
     }
 
     let newState = this.state.formFields;
@@ -53,19 +52,7 @@ class TileEditor extends Component {
               <a href='#'
                 onClick={(e) => {
                   e.preventDefault();
-                  let newField = (
-                    <input type='text' placeholder='Hours of operation'/>
-                  )
-
-                  let newState = this.state.formFields;
-                  newState.push(newField);
-
-                  this.setState({
-                    formFields: newState
-                  });
-
-                  console.log(this.state);
-                  console.log('new', newState);
+                  this._addField('openingHours');
                 }}>
                   Opening Hours
               </a>

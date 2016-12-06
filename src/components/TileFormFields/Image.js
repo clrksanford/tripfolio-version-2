@@ -25,7 +25,10 @@ class Image extends Component {
 
   render() {
     return(
-      <form>
+      <form onSubmit={(e) => {
+        e.preventDefault();
+        this._handleSubmit();
+      }}>
         <input type='text' placeholder='Enter image URL' ref='imageURL' />
         <input type='submit' value='Upload' />
       </form>

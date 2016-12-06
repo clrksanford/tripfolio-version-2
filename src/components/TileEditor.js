@@ -5,6 +5,7 @@ import _ from 'lodash';
 import TileEditorModal from './TileEditorModal';
 import Address from './TileFormFields/Address';
 import Entrance from './TileFormFields/Entrance';
+import Image from './TileFormFields/Image';
 import OpeningHours from './TileFormFields/OpeningHours';
 import TileLinks from './TileFormFields/TileLinks';
 import Transit from './TileFormFields/Transit';
@@ -43,6 +44,10 @@ class TileEditor extends Component {
         },
         entrance: {
           text: 'Entrance Fee',
+          currentlyActive: true
+        },
+        image: {
+          text: 'Add an Image',
           currentlyActive: true
         },
         transit: {
@@ -124,6 +129,9 @@ class TileEditor extends Component {
         break;
       case 'entrance':
         activeForm = <Entrance tileId={tileId} />;
+        break;
+      case 'image':
+        activeForm = <Image tileId={tileId} />;
         break;
       case 'openingHours':
         activeForm = <OpeningHours tileId={tileId} />;

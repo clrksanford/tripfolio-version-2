@@ -76,8 +76,19 @@ class TileEditor extends Component {
       .then((response) => {
         let activeTile = response.data;
 
+        // Set the active tile to state
         this.setState({
           activeTile
+        })
+
+        // Deactive newFormLinks for fields already populated
+        _.map(this.state.newFormLinks, (link, linkName) => {
+          if(!_.isEmpty(this.state.activeTile[linkName])) {
+            let newFormLinks = this.state.newFormLinks;
+            newFormLinks[linkName].currentlyActive = false;
+
+            this.setState({ newFormLinks });
+          }
         })
       })
       .catch(err => console.log(err))
@@ -154,7 +165,8 @@ class TileEditor extends Component {
 
   render() {
     if(this.state.activeTile) {
-      var { street1, city, country, zip } = this.state.activeTile.address || '';
+      var { street1, city, country, zip } = this.state.activeTile.address || ''
+        , { image } = this.state.activeTile;
     }
     return(
       <main>
@@ -163,6 +175,7 @@ class TileEditor extends Component {
           <div className='row'>
             <div className='column'>
               <h3>My Info for {this.state.activeTile.name || ''}</h3>
+              <img src={image} alt='Beautiful view of wherever you want to be!' />
               <p>
                 {street1}
                 {city}, {country}

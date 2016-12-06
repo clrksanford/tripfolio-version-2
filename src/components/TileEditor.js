@@ -357,22 +357,22 @@ class TileEditor extends Component {
 
     switch(fieldName) {
       case 'address':
-        activeForm = <Address tileId={tileId} />;
+        activeForm = <Address tileId={tileId} onSubmit={this.handleSubmit} />;
         break;
       case 'entrance':
-        activeForm = <Entrance tileId={tileId} />;
+        activeForm = <Entrance tileId={tileId} onSubmit={this.handleSubmit} />;
         break;
       case 'image':
-        activeForm = <Image tileId={tileId} />;
+        activeForm = <Image tileId={tileId} onSubmit={this.handleSubmit} />;
         break;
       case 'openingHours':
-        activeForm = <OpeningHours tileId={tileId} />;
+        activeForm = <OpeningHours tileId={tileId} onSubmit={this.handleSubmit} />;
         break;
       case 'links':
-        activeForm = <TileLinkAdder tileId={tileId} />;
+        activeForm = <TileLinkAdder tileId={tileId} onSubmit={this.handleSubmit} />;
         break;
       case 'transit':
-        activeForm = <Transit tileId={tileId}/>;
+        activeForm = <Transit tileId={tileId} onSubmit={this.handleSubmit} />;
         break;
       default:
         activeForm = '';

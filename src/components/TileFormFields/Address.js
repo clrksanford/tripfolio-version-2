@@ -1,61 +1,63 @@
 import React, { Component } from 'react';
+import { Field, reduxForm } from 'redux-form';
 import axios from 'axios';
 
 class Address extends Component {
-  _handleSubmit() {
-    let tileId = this.props.tileId;
-
-    // Get user input
-    let street1 = this.refs.street1.value;
-    let street2 = this.refs.street2.value;
-    let city = this.refs.city.value;
-    let country = this.refs.country.value;
-    let zip = this.refs.zip.value;
-
-    // Compose options to send to DB
-    let address = {
-      street1,
-      street2,
-      city,
-      country,
-      zip
-    }
-
-    axios.put(`https://lit-garden-98394.herokuapp.com/travel-tiles/${tileId}`, {
-      address
-    })
-      .then((response) => {
-        console.log(response);
-
-        // Close modal
-      })
-      .catch(err => console.log(err))
-  }
+  // _handleSubmit() {
+  //   let tileId = this.props.tileId;
+  //
+  //   // Get user input
+  //   let street1 = this.refs.street1.value;
+  //   let street2 = this.refs.street2.value;
+  //   let city = this.refs.city.value;
+  //   let country = this.refs.country.value;
+  //   let zip = this.refs.zip.value;
+  //
+  //   // Compose options to send to DB
+  //   let address = {
+  //     street1,
+  //     street2,
+  //     city,
+  //     country,
+  //     zip
+  //   }
+  //
+  //   axios.put(`https://lit-garden-98394.herokuapp.com/travel-tiles/${tileId}`, {
+  //     address
+  //   })
+  //     .then((response) => {
+  //       console.log(response);
+  //
+  //       // Close modal
+  //     })
+  //     .catch(err => console.log(err))
+  // }
 
   render() {
     return(
-      <form onSubmit={(e) => {
-        e.preventDefault();
-        this._handleSubmit();
-      }}>
-        <input type='text' ref='street1'
+      <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
+        <Field name='street1' component='input' type='text'
           placeholder='Street address line 1'/>
-        <input type='text' ref='street2'
+        <Field name='street2' component='input' type='text'
           placeholder='Street address line 2'/>
-        <input type='text' ref='city'
+        <Field name='city' component='input' type='text'
           placeholder='City'/>
-        <input type='text' ref='country'
+        <Field name='country' component='input' type='text'
           placeholder='Country'/>
-        <input type='text' ref='zip'
+        <Field name='zip' component='input' type='text'
           placeholder='Zip'/>
         <a href='#'>
           {/* Adds additional fields with option to save phone number */}
           Add Phone
         </a>
-        <input type='submit' value='Save'/>
+        <button type='submit'>Save</button>
       </form>
     );
   }
 }
+
+Address = reduxForm({
+  form: 'address'
+})(Address);
 
 export default Address;

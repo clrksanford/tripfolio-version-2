@@ -7,7 +7,7 @@ import Address from './TileFormFields/Address';
 import Entrance from './TileFormFields/Entrance';
 import Image from './TileFormFields/Image';
 import OpeningHours from './TileFormFields/OpeningHours';
-import TileLinks from './TileFormFields/TileLinks';
+import TileLinkAdder from './TileFormFields/TileLinkAdder';
 import Transit from './TileFormFields/Transit';
 
 
@@ -147,8 +147,8 @@ class TileEditor extends Component {
       case 'openingHours':
         activeForm = <OpeningHours tileId={tileId} />;
         break;
-      case 'tileLinks':
-        activeForm = <TileLinks tileId={tileId} />;
+      case 'links':
+        activeForm = <TileLinkAdder tileId={tileId} />;
         break;
       case 'transit':
         activeForm = <Transit tileId={tileId}/>;

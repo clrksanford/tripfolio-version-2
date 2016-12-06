@@ -15,11 +15,21 @@ class Day extends Component {
     }
 
     this._addInterval = this._addInterval.bind(this);
+    this._removeInterval = this._removeInterval.bind(this);
   }
 
   _addInterval() {
     let { intervalArray } = this.state;
     intervalArray.push(<Interval />);
+
+    this.setState({
+      intervalArray
+    });
+  }
+
+  _removeInterval() {
+    let { intervalArray } = this.state;
+    intervalArray.pop();
 
     this.setState({
       intervalArray
@@ -44,7 +54,7 @@ class Day extends Component {
       <div className='dayContainer'>
         <input type='text' placeholder='Day(s)' />
         {_.map(this.state.intervalArray, (interval, index) => {
-          return <Interval key={index} />
+          return <Interval key={index} _removeInterval={this._removeInterval} />
         })}
         {addInterval}
         <input type='checkbox'/> <label>Mark closed</label>

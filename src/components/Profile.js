@@ -64,10 +64,10 @@ class Profile extends Component {
     }
 }
 
-var mapStateToProps = ({ user, userTrips }) => {
+var mapStateToProps = ({ custom }) => {
   return {
-    user,
-    userTrips
+    user: custom.user,
+    userTrips: custom.userTrips
   }
 }
 

@@ -44,10 +44,10 @@ class TripListItem extends Component {
   }
 }
 
-var mapStateToProps = ({ selectedTrip, user }) => {
+var mapStateToProps = ({ custom }) => {
   return {
-    selectedTrip,
-    user
+    selectedTrip: custom.selectedTrip,
+    user: custom.user
   }
 }
 

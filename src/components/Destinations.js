@@ -61,10 +61,10 @@ var mapDispatchToProps = (dispatch) => {
   }
 }
 
-var mapStateToProps = ({ trips, user }) => {
+var mapStateToProps = ({ custom }) => {
   return {
-    trips,
-    user
+    trips: custom.trips,
+    user: custom.user
   }
 }
 

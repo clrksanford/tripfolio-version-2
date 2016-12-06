@@ -231,9 +231,9 @@ class TripBuilder extends Component {
   }
 }
 
-var mapStateToProps = ({ user }) => {
+var mapStateToProps = ({ custom }) => {
   return {
-    user
+    user: custom.user
   }
 }
 

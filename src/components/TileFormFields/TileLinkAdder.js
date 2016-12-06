@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import _ from 'lodash';
 
-import TileLink from './TileLink';
-
 class TileLinkAdder extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      linkArray: [ <TileLink /> ],
+      linkArray: [ 'link' ],
       linkMax: 10
     }
 
@@ -20,7 +18,7 @@ class TileLinkAdder extends Component {
 
   _addLinks() {
     let { linkArray } = this.state;
-    linkArray.push(<TileLink />);
+    linkArray.push('link');
 
     this.setState({
       linkArray

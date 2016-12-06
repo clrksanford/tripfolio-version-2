@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Field, reduxForm } from 'redux-form'
 import _ from 'lodash';
 
 import TileLink from './TileLink';
@@ -45,24 +46,52 @@ class TileLinkAdder extends Component {
 
   render() {
     return(
-      <div className='tileLinkAdderContainer'>
-        {_.map(this.state.linkArray, (link, index) => {
+      <form id='tileLinkAdderContainer' onSubmit={this.props._handleSubmit}>
+        {/* {_.map(this.state.linkArray, (link, index) => {
           return (
             <TileLink key={index}
               _handleChange = {this._handleChange}
              />
           )
-        })}
+        })} */}
+
+        <div id='link1Container'>
+          <label htmlFor='link1Name'>Link Name</label>
+          <Field name='link1Name' component='input' type='text' />
+
+          <label htmlFor='link1URL'>URL</label>
+          <Field name='link1URL' component='input' type='text' />
+        </div>
+        <div id='link2Container'>
+          <label htmlFor='link2Name'>Link Name</label>
+          <Field name='link2Name' component='input' type='text' />
+
+          <label htmlFor='link2URL'>URL</label>
+          <Field name='link2URL' component='input' type='text' />
+        </div>
+        <div id='link3Container'>
+          <label htmlFor='link3Name'>Link Name</label>
+          <Field name='link3Name' component='input' type='text' />
+
+          <label htmlFor='link3URL'>URL</label>
+          <Field name='link3URL' component='input' type='text' />
+        </div>
+
+        <button type='submit'>Save</button>
 
         <a href='#' onClick={(e) => {
           e.preventDefault();
-          this._addLinks();
+          // this._addLinks();
         }}>
           Add Link
         </a>
-      </div>
+      </form>
     );
   }
 }
+
+TileLinkAdder = reduxForm({
+  form: 'tileLinks'
+})(TileLinkAdder);
 
 export default TileLinkAdder;

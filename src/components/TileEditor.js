@@ -66,6 +66,7 @@ class TileEditor extends Component {
     }
 
     this._closeModal = this._closeModal.bind(this);
+    this._handleSubmit = this._handleSubmit.bind(this);
     this._hideField = this._hideField.bind(this);
     this._showField = this._showField.bind(this);
     this._showFieldModal = this._showFieldModal.bind(this);
@@ -98,6 +99,10 @@ class TileEditor extends Component {
     this.setState({
       modalClass: 'hidden'
     })
+  }
+
+  _handleSubmit(values) {
+    console.log(values);
   }
 
   _hideField(fieldName) {
@@ -184,6 +189,7 @@ class TileEditor extends Component {
             </div>
             <div className='column'>
               <h3>Add more fields</h3>
+              <TileLinkAdder _handleSubmit={this._handleSubmit} />
               {_.map(this.state.newFormLinks, (link, linkName) => {
                 if(link.currentlyActive) {
                   return (

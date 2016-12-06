@@ -46,7 +46,7 @@ class TileLinkAdder extends Component {
 
   render() {
     return(
-      <form id='tileLinkAdderContainer' onSubmit={this.props._handleSubmit}>
+      <form id='tileLinkAdderContainer' onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
         {/* {_.map(this.state.linkArray, (link, index) => {
           return (
             <TileLink key={index}

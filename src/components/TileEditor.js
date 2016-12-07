@@ -344,7 +344,7 @@ class TileEditor extends Component {
       case 'openingHours':
         activeForm = <OpeningHours tileId={tileId} onSubmit={this.handleSubmit} />;
         break;
-      case 'links':
+      case 'helpfulLinks':
         activeForm = <TileLinkAdder tileId={tileId} onSubmit={this.handleSubmit} />;
         break;
       case 'transit':

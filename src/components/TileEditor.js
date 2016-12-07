@@ -304,15 +304,39 @@ class TileEditor extends Component {
       }
     }
 
-    axios.put(`https://lit-garden-98394.herokuapp.com/travel-tiles/${tileId}`, {
-      address,
-      entrance,
-      helpfulLinks,
-      image,
-      notes,
-      openingHours,
-      transit
-    })
+    function checkEmptyProp(objectProp) {
+      let newObj = _.omitBy(objectProp, _.isNil);
+      let result = false;
+
+      if(_.isEmpty(newObj)) {
+        result = true;
+      }
+
+      return result;
+    }
+
+    address = _.omitBy(address, checkEmptyProp);
+    entrance = _.omitBy(entrance, checkEmptyProp);
+    helpfulLinks = _.omitBy(helpfulLinks, checkEmptyProp);
+    image = _.omitBy(image, checkEmptyProp);
+    notes = _.omitBy(notes, checkEmptyProp);
+    openingHours = _.omitBy(openingHours, checkEmptyProp);
+    transit = _.omitBy(transit, checkEmptyProp);
+
+    let options = { address, entrance, helpfulLinks, image, notes, openingHours, transit };
+
+    options = _.omitBy(options, _.isEmpty || _.isNil);
+
+    // console.log(options);
+    // console.log('address', address);
+    // console.log('entrance', entrance);
+    // console.log('helpfulLinks', helpfulLinks);
+    // console.log('image', image);
+    // console.log('notes', notes);
+    // console.log('openingHours', openingHours);
+    // console.log('transit', transit);
+
+    axios.put(`https://lit-garden-98394.herokuapp.com/travel-tiles/${tileId}`, options)
       .then((response) => {
         console.log(response);
 

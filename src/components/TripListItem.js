@@ -6,22 +6,21 @@ import _ from 'lodash';
 import getSelectedTrip from '../actions/getSelectedTrip';
 
 class TripListItem extends Component {
-  componentDidUpdate() {
-    if( // If async dispatch has returned a trip
-      !_.isEmpty(this.props.selectedTrip) &&
-
-      // And if that trip is the same as the one this component is linking to
-      this.props.selectedTrip._id === this.props.tripId
-    ) {
-      let { _id, creatorUsername, destForURL, destination } = this.props.selectedTrip;
-
-      // Route user to completed trip page
-      hashHistory.push(`completed/${creatorUsername}/${destForURL}/${_id}`);
-    }
-  }
-
+  // componentDidUpdate() {
+  //   if( // If async dispatch has returned a trip
+  //     !_.isEmpty(this.props.selectedTrip) &&
+  //
+  //     // And if that trip is the same as the one this component is linking to
+  //     this.props.selectedTrip._id === this.props.tripId
+  //   ) {
+  //     let { _id, creatorUsername, destForURL, destination } = this.props.selectedTrip;
+  //
+  //     // Route user to completed trip page
+  //     hashHistory.push(`completed/${creatorUsername}/${destForURL}/${_id}`);
+  //   }
+  // }
   render() {
-    let { creatorId, creatorUsername, destination, tripId, user } = this.props;
+    let { creatorId, creatorUsername, destForURL, destination, tripId, user } = this.props;
     let displayName;
 
     if (creatorId === user.uid) {
@@ -36,6 +35,7 @@ class TripListItem extends Component {
           e.preventDefault();
 
           this.props.setSelectedTrip(tripId);
+          hashHistory.push(`completed/${creatorUsername}/${destForURL}/${tripId}`);
         }}>
           {displayName} trip to {destination}
         </a>

@@ -22,7 +22,7 @@ class TripBuilder extends Component {
       activeTrip: {},
       results: [],
       modalClass: 'hidden',
-      destination: this.props.params.destination
+      userTiles: []
     }
     this._axiosCall = this._axiosCall.bind(this);
     this._closeModal = this._closeModal.bind(this);
@@ -47,6 +47,8 @@ class TripBuilder extends Component {
 
         this.setState({ activeTrip });
       })
+
+    this._loadUsersTiles();
   }
 
   _createCustomTile(attractionName) {
@@ -106,19 +108,15 @@ class TripBuilder extends Component {
 
 
   _loadUsersTiles() {
-    let firebase = this.props.firebase;
-    let uid = this.props.params.uid;
-    let tripId = this.props.params.tripId;
+    let { tripId } = this.props.params;
 
-    firebase.database().ref(`/tripbook/${uid}/${tripId}`).on('value', (snapshot) => {
-      let tiles;
+    axios.get(`https://lit-garden-98394.herokuapp.com/find-tile-by-trip/${tripId}`)
+      .then(response => {
+        let userTiles = response.data;
 
-      if(snapshot.val()) {
-        tiles = snapshot.val().places;
-      }
-
-      this.setState({ tiles });
-    });
+        this.setState({ userTiles });
+      })
+      .catch(err => console.log(err))
   }
 
   _showModal(index) {
@@ -132,7 +130,7 @@ class TripBuilder extends Component {
   }
 
   _showSavedModal(index) {
-    let selectedTile = this.state.tiles[index].tile;
+    let selectedTile = this.state.userTiles[index];
 
     this.setState({
       modalClass: '',
@@ -225,19 +223,45 @@ class TripBuilder extends Component {
             <h3>My Saved Tiles</h3>
           </div>
           <div id="myTilesContainer">
-            {_.map(this.state.tiles, (tile, index) => {
+            {/*
+              OLD  MAP FOR YELP TILES
+
+              {_.map(this.state.userTiles, (tile, index) => {
               let image = tile.tile["image_url"];
               let name = tile.tile.name;
               let snippet_text = tile.tile.snippet_text;
               // let url = tile.tile.url;
 
               return <UsersTile index={index} key={index} image={image} name={name} snippet_text={snippet_text} _deleteTile={this._deleteTile} _showModal={this._showSavedModal} spanClass='' />
-            })}
+            })} */}
+            {_.map(this.state.userTiles, (tile, index) => {
+              let { _id, image, name } = tile;
+
+              return <UsersTile index={index}
+                key={index}
+                image={image}
+                name={name}
+                _deleteTile={this._deleteTile}
+                _showModal={() => this._showSavedModal(index)}
+                spanClass=''/>
+            })
+
+            }
           </div>
         </div>
         <SuggestionBox results={this.state.results} _showModal={this._showModal} />
 
-        <TravelTileModal className={this.state.modalClass} _closeModal={this._closeModal} selectedTile={this.state.selectedTile} selectedTileIndex={this.state.selectedTileIndex} firebase={this.props.firebase} _handleClick={this.props._handleClick} user={this.props.user} destination={this.state.destination} tripId={this.props.params.tripId} _removeYelpListing={this._removeYelpListing} category={this.state.term}/>
+        <TravelTileModal className={this.state.modalClass}
+          _closeModal={this._closeModal}
+          selectedTile={this.state.selectedTile}
+          selectedTileIndex={this.state.selectedTileIndex}
+          firebase={this.props.firebase}
+          _handleClick={this.props._handleClick}
+          user={this.props.user}
+          destination={this.state.destination}
+          tripId={this.props.params.tripId}
+          _removeYelpListing={this._removeYelpListing}
+          category={this.state.term}/>
       </main>
     );
   }

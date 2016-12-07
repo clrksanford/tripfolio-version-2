@@ -20,13 +20,15 @@ class TripListItem extends Component {
   //   }
   // }
   render() {
-    let { creatorId, creatorUsername, destForURL, destination, tripId, user } = this.props;
-    let displayName;
+    let { creatorId, creatorUsername, destForURL, destination, pageName, tripId, user } = this.props;
+    let displayName, URLname;
 
     if (creatorId === user.uid) {
       displayName = 'My';
+      URLname = 'myTrip'
     } else {
       displayName = `${creatorUsername}'s`;
+      URLname = creatorUsername;
     }
 
     return(
@@ -35,7 +37,7 @@ class TripListItem extends Component {
           e.preventDefault();
 
           this.props.setSelectedTrip(tripId);
-          hashHistory.push(`completed/${creatorUsername}/${destForURL}/${tripId}`);
+          hashHistory.push(`completed/${URLname}/${destForURL}/${tripId}`);
         }}>
           {displayName} trip to {destination}
         </a>

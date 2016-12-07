@@ -18,6 +18,13 @@ class Profile extends Component {
       this._deleteTrip = this._deleteTrip.bind(this);
     }
 
+    componentDidMount() {
+      console.log('component mounted', this.props.user, this.props.userTrips);
+    }
+    componentDidUpdate() {
+      console.log('component updated', this.props.user, this.props.userTrips);
+    }
+
     _deleteTrip(tripId) {
       let uid = this.props.user.uid;
 
@@ -43,15 +50,15 @@ class Profile extends Component {
               <div id="myTripList">
                 <ul>
                   {_.map(this.props.userTrips, (trip) => {
-                    let { _id, creatorId, creatorUsername, destination } = trip;
+                    let { _id, creatorId, creatorUsername, destForURL, destination } = trip;
                     destination = _.startCase(destination);
 
                     return (
                       <TripListItem key={_id}
                         tripId={_id}
-                        pageName='completed'
                         creatorId={creatorId}
                         creatorUsername={creatorUsername}
+                        destForURL={destForURL}
                         destination={destination}
                       />
                     );

@@ -25,7 +25,6 @@ class Profile extends Component {
     }
 
     render() {
-      console.log(this.props.user);
       // {/* If there is a logged in user, get their profile picture */}
       let profilePicture = this.props.user ? this.props.user.providerData[0].photoURL : 'http://placehold.it/100x100'
 
@@ -65,10 +64,10 @@ class Profile extends Component {
     }
 }
 
-var mapStateToProps = ({ user, userTrips }) => {
+var mapStateToProps = ({ custom }) => {
   return {
-    user,
-    userTrips
+    user: custom.user,
+    userTrips: custom.userTrips
   }
 }
 

@@ -7,16 +7,16 @@ import getSelectedTrip from '../actions/getSelectedTrip';
 
 class TripListItem extends Component {
   componentDidUpdate() {
-    if(!_.isEmpty(this.props.selectedTrip)) {
-      let { creatorUsername, destination } = this.props.selectedTrip;
+    if( // If async dispatch has returned a trip
+      !_.isEmpty(this.props.selectedTrip) &&
 
-      // Clean up destination for display in URL
-      if(destination.indexOf(' ') !== -1) {
-        destination = destination.replace(/ /g, '_');
-      }
+      // And if that trip is the same as the one this component is linking to
+      this.props.selectedTrip._id === this.props.tripId
+    ) {
+      let { _id, creatorUsername, destForURL, destination } = this.props.selectedTrip;
 
       // Route user to completed trip page
-      hashHistory.push(`completed/${creatorUsername}/${destination}`);
+      hashHistory.push(`completed/${creatorUsername}/${destForURL}/${_id}`);
     }
   }
 
@@ -44,10 +44,10 @@ class TripListItem extends Component {
   }
 }
 
-var mapStateToProps = ({ selectedTrip, user }) => {
+var mapStateToProps = ({ custom }) => {
   return {
-    selectedTrip,
-    user
+    selectedTrip: custom.selectedTrip,
+    user: custom.user
   }
 }
 

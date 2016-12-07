@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import _ from 'lodash';
 import { Link, hashHistory } from 'react-router';
+import { connect } from 'react-redux';
 
 // Components
 import SuggestionBox from './SuggestionBox';
@@ -13,7 +14,7 @@ import Header from './Header';
 // Styles and images
 import "../styles/tripbuilder.css";
 
-class TravelPlanningPage extends Component {
+class TripBuilder extends Component {
   constructor(props) {
     super(props);
 
@@ -24,6 +25,7 @@ class TravelPlanningPage extends Component {
     }
     this._axiosCall = this._axiosCall.bind(this);
     this._closeModal = this._closeModal.bind(this);
+    this._createCustomTile = this._createCustomTile.bind(this);
     this._setActiveTab = this._setActiveTab.bind(this);
     this._showModal = this._showModal.bind(this);
     this._loadUsersTiles = this._loadUsersTiles.bind(this);
@@ -31,6 +33,29 @@ class TravelPlanningPage extends Component {
     this._deleteTile = this._deleteTile.bind(this);
     this._showSavedModal = this._showSavedModal.bind(this);
     this._routeToProfile = this._routeToProfile.bind(this);
+  }
+
+  _createCustomTile(attractionName) {
+    let creatorId = this.props.user.uid;
+    let tripId = this.props.params.tripId;
+
+    axios.post('https://lit-garden-98394.herokuapp.com/travel-tiles', {
+      _correspondingTrip: tripId,
+      creatorId,
+      name: attractionName
+    })
+      .then((response) => {
+        console.log(response);
+
+        let tile = response.data;
+
+        hashHistory.push(`/tile-editor/${tile._id}`);
+      })
+      .catch((err) => {
+        if(err.response) {
+          console.log(err.response);
+        }
+      })
   }
 
   _axiosCall(e) {
@@ -143,16 +168,10 @@ class TravelPlanningPage extends Component {
   }
 
   render() {
-    let image = this.props.user.providerData ? this.props.user.providerData[0].photoURL : 'http://placehold.it/100x100'
     return(
       <main id="main">
         <div id="completed-nav">
           <Header firebase={this.props.firebase} />
-        </div>
-        <div id="pic-div">
-          <div id="prof-pic">
-            <img src={image} alt="Your profile avatar" id="profPic" />
-          </div>
         </div>
         <h2>Trip Builder: <span id="destinationName"> {this.state.destination}</span></h2>
         <nav id="tripBuilderNav">
@@ -179,6 +198,13 @@ class TravelPlanningPage extends Component {
                 Bars
             </a></li>
           </ol>
+          <form onSubmit={(e) => {
+            e.preventDefault();
+            this._createCustomTile(this.refs.attraction.value);
+          }}>
+            <input type='text' placeholder='Attraction Name' ref='attraction'/>
+            <input type='submit' value='Create Custom Tile' />
+          </form>
           <Link className="largeButton"
             to={`/completed/${this.props.user.uid}/${this.props.params.tripId}/${this.props.params.destination}`}>View Trip</Link>
         </nav>
@@ -205,4 +231,12 @@ class TravelPlanningPage extends Component {
   }
 }
 
-export default TravelPlanningPage;
+var mapStateToProps = ({ custom }) => {
+  return {
+    user: custom.user
+  }
+}
+
+TripBuilder = connect(mapStateToProps, null)(TripBuilder);
+
+export default TripBuilder;

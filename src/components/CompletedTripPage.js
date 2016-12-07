@@ -10,6 +10,9 @@ import _ from 'lodash';
 import Header from './Header';
 import AlertModal from './AlertModal';
 
+// Redux actions
+import getSelectedTrip from '../actions/getSelectedTrip';
+
 // Styles and images
 import '../styles/completedtrip.css';
 
@@ -28,6 +31,10 @@ class CompletedTripPage extends Component {
     this._renderOtherUsersTrip = this._renderOtherUsersTrip.bind(this);
     // this._renderTiles = this._renderTiles.bind(this);
     this._showModal = this._showModal.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.setSelectedTrip(this.props.params.tripId);
   }
 
   _checkUser() {
@@ -59,14 +66,15 @@ class CompletedTripPage extends Component {
   }
 
   _renderMyTrip() {
-    let destination = _.startCase(this.props.selectedTrip.destination);
+    let { _id, destForURL, destination } = this.props.selectedTrip;
+    destination = _.startCase(destination);
 
     return (
       <div id="newTrips" >
         <h2>My Trip To {destination}</h2>
           {/* STRETCH: switch to make your trip public or private */}
         <ol className="breadcrumb">
-          <li><Link id="breadcrumb-nav" className="active" to={`/planner/${destination}`}>Edit</Link></li>
+          <li><Link id="breadcrumb-nav" className="active" to={`/trip-builder/${destForURL}/${_id}`}>Edit</Link></li>
           <li><a id="breadcrumb-nav" className="active" href="#" onClick={this._showModal}>Delete</a></li>
         </ol>
       </div>
@@ -158,13 +166,19 @@ class CompletedTripPage extends Component {
   }
 }
 
-var mapStateToProps = ({ selectedTrip, user }) => {
+var mapStateToProps = ({ custom }) => {
   return {
-    selectedTrip,
-    user
+    selectedTrip: custom.selectedTrip,
+    user: custom.user
   }
 }
 
-CompletedTripPage = connect(mapStateToProps, null)(CompletedTripPage);
+var mapDispatchToProps = (dispatch) => {
+  return {
+    setSelectedTrip: (tripId) => dispatch(getSelectedTrip(tripId))
+  }
+}
+
+CompletedTripPage = connect(mapStateToProps, mapDispatchToProps)(CompletedTripPage);
 
 export default CompletedTripPage;

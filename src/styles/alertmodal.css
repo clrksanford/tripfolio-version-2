@@ -1,9 +1,9 @@
 #alertContainer {
   position: relative;
-  margin: 15% auto;
+  margin: 200px auto;
   background-color: white;
-  width: 30%;
-  height: 400px;
+  width: 80%;
+  height: 500px;
   z-index: 1;
   box-sizing: border-box;
 }

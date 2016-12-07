@@ -71,3 +71,94 @@ class RouteMap extends Component {
 Code to refresh feed of trips on profile page
 
   <Link to="profile"><button onClick={this.props._routeToProfile}>Save</button></Link>
+
+Opening Hour Selects
+
+<select>
+        <option val='default'>Open</option>
+        <option val='0'>0:00h</option>
+        <option val='1'>1:00h</option>
+        <option val='2'>2:00h</option>
+        <option val='3'>3:00h</option>
+        <option val='4'>4:00h</option>
+        <option val='5'>5:00h</option>
+        <option val='6'>6:00h</option>
+        <option val='7'>7:00h</option>
+        <option val='8'>8:00h</option>
+        <option val='9'>9:00h</option>
+        <option val='10'>10:00h</option>
+        <option val='11'>11:00h</option>
+        <option val='12'>12:00h</option>
+        <option val='13'>13:00h</option>
+        <option val='14'>14:00h</option>
+        <option val='15'>15:00h</option>
+        <option val='16'>16:00h</option>
+        <option val='17'>17:00h</option>
+        <option val='18'>18:00h</option>
+        <option val='19'>19:00h</option>
+        <option val='20'>20:00h</option>
+        <option val='21'>21:00h</option>
+        <option val='22'>22:00h</option>
+        <option val='23'>23:00h</option>
+      </select>
+      <select>
+        <option val='default'>Close</option>
+        <option val='0'>0:00h</option>
+        <option val='1'>1:00h</option>
+        <option val='2'>2:00h</option>
+        <option val='3'>3:00h</option>
+        <option val='4'>4:00h</option>
+        <option val='5'>5:00h</option>
+        <option val='6'>6:00h</option>
+        <option val='7'>7:00h</option>
+        <option val='8'>8:00h</option>
+        <option val='9'>9:00h</option>
+        <option val='10'>10:00h</option>
+        <option val='11'>11:00h</option>
+        <option val='12'>12:00h</option>
+        <option val='13'>13:00h</option>
+        <option val='14'>14:00h</option>
+        <option val='15'>15:00h</option>
+        <option val='16'>16:00h</option>
+        <option val='17'>17:00h</option>
+        <option val='18'>18:00h</option>
+        <option val='19'>19:00h</option>
+        <option val='20'>20:00h</option>
+        <option val='21'>21:00h</option>
+        <option val='22'>22:00h</option>
+        <option val='23'>23:00h</option>
+      </select>
+
+
+
+Code for adding and removing form fields on editor
+
+_hideField(fieldName) {
+    // Make a copy of the state
+    let newState = this.state;
+
+    // Set the selected form to active
+    newState.formFields[fieldName].currentlyActive = false;
+
+    // Set the selected link to inactive
+    newState.newFormLinks[fieldName].currentlyActive = true;
+
+    console.log(newState);
+
+    // Assign the newState to state
+    this.setState(newState);
+  }
+
+  _showField(fieldName) {
+    // Make a copy of the state
+    let newState = this.state;
+
+    // Set the selected form to active
+    newState.formFields[fieldName].currentlyActive = true;
+
+    // Set the selected link to inactive
+    newState.newFormLinks[fieldName].currentlyActive = false;
+
+    // Assign the newState to state
+    this.setState(newState);
+  }

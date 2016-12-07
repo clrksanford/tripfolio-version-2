@@ -32,13 +32,10 @@ class NewTripModal extends Component {
 
         this.props.setSelectedTrip(newTrip._id);
 
-        // Clean up destination for display in URL
-        if(destination.indexOf(' ') !== -1) {
-          destination = destination.replace(/ /g, '_');
-        }
-
         // Route user to planner page, where the newly created trip will be loaded from state
-        hashHistory.push(`/planner/${destination}`);
+        let { _id, destForURL } = newTrip;
+
+        hashHistory.push(`/trip-builder/${destForURL}/${_id}`);
       })
       .catch((err) => console.error(err))
   }
@@ -57,9 +54,9 @@ class NewTripModal extends Component {
   }
 }
 
-var mapStateToProps = ({ user }) => {
+var mapStateToProps = ({ custom }) => {
   return {
-    user
+    user: custom.user
   }
 }
 

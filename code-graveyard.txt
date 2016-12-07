@@ -128,3 +128,37 @@ Opening Hour Selects
         <option val='22'>22:00h</option>
         <option val='23'>23:00h</option>
       </select>
+
+
+
+Code for adding and removing form fields on editor
+
+_hideField(fieldName) {
+    // Make a copy of the state
+    let newState = this.state;
+
+    // Set the selected form to active
+    newState.formFields[fieldName].currentlyActive = false;
+
+    // Set the selected link to inactive
+    newState.newFormLinks[fieldName].currentlyActive = true;
+
+    console.log(newState);
+
+    // Assign the newState to state
+    this.setState(newState);
+  }
+
+  _showField(fieldName) {
+    // Make a copy of the state
+    let newState = this.state;
+
+    // Set the selected form to active
+    newState.formFields[fieldName].currentlyActive = true;
+
+    // Set the selected link to inactive
+    newState.newFormLinks[fieldName].currentlyActive = false;
+
+    // Assign the newState to state
+    this.setState(newState);
+  }

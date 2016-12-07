@@ -20,20 +20,6 @@ class TileEditor extends Component {
       activeForm: '',
       activeTile: {},
       modalClass: 'hidden',
-      formFields: {
-        title: {
-          innerJSX: <input type='text' placeholder='Title' ref='title'/>,
-          currentlyActive: true
-        },
-        notes: {
-          innerJSX: <textarea placeholder='Write some notes'></textarea>,
-          currentlyActive: true
-        },
-        openingHours: {
-          innerJSX: <input type='text' placeholder='Hours of operation'/>,
-          currentlyActive: false
-        }
-      },
       newFormLinks: {
         openingHours: {
           text: 'Opening Hours',
@@ -55,11 +41,7 @@ class TileEditor extends Component {
           text: 'Transit/Parking',
           currentlyActive: true
         },
-        contact: {
-          text: 'Contact Info',
-          currentlyActive: true
-        },
-        links: {
+        helpfulLinks: {
           text: 'Helpful Links',
           currentlyActive: true
         }
@@ -68,8 +50,6 @@ class TileEditor extends Component {
 
     this._closeModal = this._closeModal.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this._hideField = this._hideField.bind(this);
-    this._showField = this._showField.bind(this);
     this._showFieldModal = this._showFieldModal.bind(this);
   }
 
@@ -82,6 +62,8 @@ class TileEditor extends Component {
         this.setState({
           activeTile
         })
+
+        console.log(activeTile);
 
         // Deactive newFormLinks for fields already populated
         _.map(this.state.newFormLinks, (link, linkName) => {
@@ -345,36 +327,6 @@ class TileEditor extends Component {
       .catch(err => console.log(err))
   }
 
-  _hideField(fieldName) {
-    // Make a copy of the state
-    let newState = this.state;
-
-    // Set the selected form to active
-    newState.formFields[fieldName].currentlyActive = false;
-
-    // Set the selected link to inactive
-    newState.newFormLinks[fieldName].currentlyActive = true;
-
-    console.log(newState);
-
-    // Assign the newState to state
-    this.setState(newState);
-  }
-
-  _showField(fieldName) {
-    // Make a copy of the state
-    let newState = this.state;
-
-    // Set the selected form to active
-    newState.formFields[fieldName].currentlyActive = true;
-
-    // Set the selected link to inactive
-    newState.newFormLinks[fieldName].currentlyActive = false;
-
-    // Assign the newState to state
-    this.setState(newState);
-  }
-
   _showFieldModal(fieldName) {
     let activeForm;
     let { tileId } = this.props.params;
@@ -430,7 +382,6 @@ class TileEditor extends Component {
             </div>
             <div className='column'>
               <h3>Add more fields</h3>
-              <TileLinkAdder onSubmit={this.handleSubmit} />
               {_.map(this.state.newFormLinks, (link, linkName) => {
                 if(link.currentlyActive) {
                   return (

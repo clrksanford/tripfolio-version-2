@@ -16,7 +16,7 @@ import getSelectedTrip from '../actions/getSelectedTrip';
 // Styles and images
 import '../styles/completedtrip.css';
 
-class CompletedTripPage extends Component {
+class MyCompletedTripPage extends Component {
   constructor(props) {
     super(props);
 
@@ -149,4 +149,4 @@ class CompletedTripPage extends Component {
 
 // CompletedTripPage = connect(null, mapDispatchToProps)(CompletedTripPage);
 
-export default CompletedTripPage;
+export default MyCompletedTripPage;

@@ -30,6 +30,7 @@ class App extends Component {
     firebase.auth().onAuthStateChanged(user => {
       // If user is signed in...
       if (user) {
+        this.setState(user);
         // Save user's info to state
         this.props.setUser(user);
 

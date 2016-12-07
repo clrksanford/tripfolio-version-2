@@ -21,54 +21,73 @@ class CompletedTripPage extends Component {
     super(props);
 
     this.state = {
-      alertModalClass: 'hidden'
+      alertModalClass: 'hidden',
+      activeTrip: {}
     }
 
     this._checkUser = this._checkUser.bind(this);
-    this._closeModal = this._closeModal.bind(this);
-    this._deleteTrip = this._deleteTrip.bind(this);
+    // this._closeModal = this._closeModal.bind(this);
+    // this._deleteTrip = this._deleteTrip.bind(this);
+    // this._isLoading = this._isLoading.bind(this);
     this._renderMyTrip = this._renderMyTrip.bind(this);
     this._renderOtherUsersTrip = this._renderOtherUsersTrip.bind(this);
     // this._renderTiles = this._renderTiles.bind(this);
-    this._showModal = this._showModal.bind(this);
+    // this._showModal = this._showModal.bind(this);
   }
 
   componentDidMount() {
-    this.props.setSelectedTrip(this.props.params.tripId);
+    let { tripId } = this.props.params;
+
+    axios.get(`https://lit-garden-98394.herokuapp.com/trips/${tripId}`)
+      .then((response) => {
+        let activeTrip = response.data;
+
+        this.setState({ activeTrip });
+      })
+    // this.props.setSelectedTrip(this.props.params.tripId);
   }
 
   _checkUser() {
-    if(!_.isEmpty(this.props.user) && !_.isEmpty(this.props.selectedTrip)) {
-      let currentUserId = this.props.user.uid;
-      let { creatorId } = this.props.selectedTrip;
+    console.log('checking user', this.props.user);
+    let currentUserId = this.props.user.uid;
+    let { creatorId } = this.state.activeTrip;
 
-      // Check if this trip belongs to currently logged in user
-      if(currentUserId === creatorId) {
-        return this._renderMyTrip();
-      } else {
-        return this._renderOtherUsersTrip();
-      }
+    // Check if this trip belongs to currently logged in user
+    if(currentUserId === creatorId) {
+      console.log('user is owner of trip');
+      return this._renderMyTrip();
+    } else {
+      console.log('this is someone elses trip');
+      return this._renderOtherUsersTrip();
     }
   }
 
-  _closeModal() {
-    this.setState({alertModalClass: 'hidden'});
-  }
+  // _closeModal() {
+  //   this.setState({alertModalClass: 'hidden'});
+  // }
+  //
+  // _deleteTrip() {
+  //   let tripId = this.props.selectedTrip._id;
+  //
+  //   axios.delete(`https://lit-garden-98394.herokuapp.com/trips/${tripId}`)
+  //     .then((response) => {
+  //       hashHistory.push('/profile');
+  //     })
+  //     .catch(err => console.error(err))
+  // }
 
-  _deleteTrip() {
-    let tripId = this.props.selectedTrip._id;
-
-    axios.delete(`https://lit-garden-98394.herokuapp.com/trips/${tripId}`)
-      .then((response) => {
-        hashHistory.push('/profile');
-      })
-      .catch(err => console.error(err))
+  _isLoading() {
+    while(_.isNil(this.props.user) && _.isEmpty(this.state.activeTrip)) {
+      console.log('no selected trip yet');
+    }
+    return false;
   }
 
   _renderMyTrip() {
-    let { _id, destForURL, destination } = this.props.selectedTrip;
+    let { _id, destForURL, destination } = this.state.activeTrip;
     destination = _.startCase(destination);
 
+    console.log('rendering my trip');
     return (
       <div id="newTrips" >
         <h2>My Trip To {destination}</h2>
@@ -82,7 +101,7 @@ class CompletedTripPage extends Component {
   }
 
   _renderOtherUsersTrip() {
-    let { creatorUsername, destination } = this.props.selectedTrip;
+    let { creatorUsername, destination } = this.state.activeTrip;
     destination = _.startCase(destination);
 
     return (
@@ -109,17 +128,25 @@ class CompletedTripPage extends Component {
   //   );
   // }
 
-  _showModal(e) {
-    e.preventDefault();
-
-    this.setState({alertModalClass:''});
-  }
+  // _showModal(e) {
+  //   e.preventDefault();
+  //
+  //   this.setState({alertModalClass:''});
+  // }
 
   render() {
+    let checkForLoading = () => {
+      if(this._isLoading()) {
+        return <h2>Loading...</h2>
+      } else {
+        return this._checkUser();
+      }
+    }
+
     return(
         <main id="main">
           <Header firebase={this.props.firebase} />
-          {this._checkUser()}
+            {checkForLoading()}
             {/* <div id="completedTrip" className="container">
               <div className="row">
                 <div className="col-sm-6">
@@ -166,12 +193,12 @@ class CompletedTripPage extends Component {
   }
 }
 
-var mapStateToProps = ({ custom }) => {
-  return {
-    selectedTrip: custom.selectedTrip,
-    user: custom.user
-  }
-}
+// var mapStateToProps = ({ custom }) => {
+//   return {
+//     userTrips: custom.userTrips,
+//     user: custom.user
+//   }
+// }
 
 var mapDispatchToProps = (dispatch) => {
   return {
@@ -179,6 +206,6 @@ var mapDispatchToProps = (dispatch) => {
   }
 }
 
-CompletedTripPage = connect(mapStateToProps, mapDispatchToProps)(CompletedTripPage);
+CompletedTripPage = connect(null, mapDispatchToProps)(CompletedTripPage);
 
 export default CompletedTripPage;

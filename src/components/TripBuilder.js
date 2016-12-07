@@ -54,8 +54,8 @@ class TripBuilder extends Component {
   }
 
   _createCustomTile(attractionName) {
-    let creatorId = this.props.user.uid;
-    let tripId = this.props.params.tripId;
+    let { creatorId } = this.state.activeTrip;
+    let { tripId } = this.props.params;
 
     axios.post('https://lit-garden-98394.herokuapp.com/travel-tiles', {
       _correspondingTrip: tripId,

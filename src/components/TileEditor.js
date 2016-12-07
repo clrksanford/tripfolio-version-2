@@ -49,6 +49,7 @@ class TileEditor extends Component {
     }
 
     this._closeModal = this._closeModal.bind(this);
+    this._filterLinks = this._filterLinks.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this._showFieldModal = this._showFieldModal.bind(this);
   }
@@ -65,15 +66,7 @@ class TileEditor extends Component {
 
         console.log(activeTile);
 
-        // Deactive newFormLinks for fields already populated
-        _.map(this.state.newFormLinks, (link, linkName) => {
-          if(!_.isEmpty(this.state.activeTile[linkName])) {
-            let newFormLinks = this.state.newFormLinks;
-            newFormLinks[linkName].currentlyActive = false;
-
-            this.setState({ newFormLinks });
-          }
-        })
+        this._filterLinks(activeTile);
       })
       .catch(err => console.log(err))
   }
@@ -81,6 +74,18 @@ class TileEditor extends Component {
   _closeModal() {
     this.setState({
       modalClass: 'hidden'
+    })
+  }
+
+  _filterLinks(tileToCheck) {
+    // Deactive newFormLinks for fields already populated
+    _.map(this.state.newFormLinks, (link, linkName) => {
+      if(!_.isEmpty(tileToCheck[linkName])) {
+        let { newFormLinks } = this.state;
+        newFormLinks[linkName].currentlyActive = false;
+
+        this.setState({ newFormLinks });
+      }
     })
   }
 
@@ -320,9 +325,15 @@ class TileEditor extends Component {
 
     axios.put(`https://lit-garden-98394.herokuapp.com/travel-tiles/${tileId}`, options)
       .then((response) => {
-        console.log(response);
+        let updatedTile = response.data;
+
+        this._filterLinks(updatedTile);
 
         // Close modal
+        this.setState({
+          activeTile: updatedTile,
+          modalClass: 'hidden'
+        })
       })
       .catch(err => console.log(err))
   }
@@ -397,9 +408,10 @@ class TileEditor extends Component {
             </div>
           </div>
         </div>
-        <TileEditorModal className={this.state.modalClass}
+        <TileEditorModal
+          className={this.state.modalClass}
           _closeModal={this._closeModal}
-          modalButton='Save'>
+        >
           {this.state.activeForm}
         </TileEditorModal>
       </main>

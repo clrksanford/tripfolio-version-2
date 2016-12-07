@@ -13,9 +13,6 @@ export default (props) => {
           <div id="alertContent">
             {props.children}
           </div>
-          <div id="alertFooter">
-            <button className="largeButton" onClick={() => props.modalFunction()}>{props.modalButton}</button>
-          </div>
         </div>
       </div>
     </div>

@@ -5,16 +5,17 @@ import firebase from '../utils/firebase';
 
 // Components
 import App from '../App';
-import Home from '../components/Home';
-import Profile from '../components/Profile';
-import TripBuilder from '../components/TripBuilder';
-import NewTripModal from '../components/NewTripModal';
 import CompletedTripPage from '../components/CompletedTripPage';
 import Destinations from '../components/Destinations';
+import Home from '../components/Home';
+import MyCompletedTrip from '../components/MyCompletedTrip';
+import NewTripModal from '../components/NewTripModal';
+import OtherCompletedTrip from '../components/OtherCompletedTrip';
+import Profile from '../components/Profile';
 import TileEditor from '../components/TileEditor';
 import TileEditorSandbox from '../components/TileEditorSandbox';
-import MyCompletedTrip from '../components/MyCompletedTrip';
-import OtherCompletedTrip from '../components/OtherCompletedTrip';
+import TripBuilder from '../components/TripBuilder';
+
 
 // Redux
 import store from './ReduxStore';

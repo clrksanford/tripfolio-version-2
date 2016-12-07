@@ -12,12 +12,6 @@ import TripListItem from './TripListItem';
 import "../styles/profile.css";
 
 class Profile extends Component {
-    constructor(props) {
-      super(props);
-
-      this._deleteTrip = this._deleteTrip.bind(this);
-    }
-
     componentDidMount() {
       console.log('component mounted', this.props.user, this.props.userTrips);
     }
@@ -25,21 +19,15 @@ class Profile extends Component {
       console.log('component updated', this.props.user, this.props.userTrips);
     }
 
-    _deleteTrip(tripId) {
-      let uid = this.props.user.uid;
-
-      this.props.firebase.database().ref(`/tripbook/${uid}/${tripId}`).remove();
-    }
-
     render() {
       // {/* If there is a logged in user, get their profile picture */}
-      let profilePicture = this.props.user ? this.props.user.providerData[0].photoURL : 'http://placehold.it/100x100'
+      // let profilePicture = this.props.user ? this.props.user.providerData[0].photoURL : 'http://placehold.it/100x100'
 
       return(
         <div>
-            <Header firebase={this.props.firebase}
+            {/* <Header firebase={this.props.firebase}
               profilePicture={profilePicture}
-            />
+            /> */}
             <main>
               <div id="newTripContainer">
                 <NewTripModal firebase={this.props.firebase} user={this.props.user}/>
@@ -60,7 +48,10 @@ class Profile extends Component {
                         creatorUsername={creatorUsername}
                         destForURL={destForURL}
                         destination={destination}
+                        displayName='My'
                         pageName='completed'
+                        user={this.props.user}
+                        URLname='myTrip'
                       />
                     );
                   })}
@@ -72,13 +63,13 @@ class Profile extends Component {
     }
 }
 
-var mapStateToProps = ({ custom }) => {
-  return {
-    user: custom.user,
-    userTrips: custom.userTrips
-  }
-}
+// var mapStateToProps = ({ custom }) => {
+//   return {
+//     user: custom.user,
+//     userTrips: custom.userTrips
+//   }
+// }
 
-Profile = connect(mapStateToProps, null)(Profile);
+// Profile = connect(mapStateToProps, null)(Profile);
 
 export default Profile;

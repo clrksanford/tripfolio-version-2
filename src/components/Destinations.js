@@ -32,7 +32,7 @@ class Destinations extends Component {
         <div>
           <ul id="searchResults">
             {_.map(this.props.trips, (trip) => {
-              let { _id, creatorId, creatorUsername, destination } = trip;
+              let { _id, creatorId, creatorUsername, destForURL, destination } = trip;
               destination = _.startCase(destination);
 
               // Do not display current user's own trips
@@ -42,8 +42,10 @@ class Destinations extends Component {
                     tripId={_id}
                     pageName='explore'
                     creatorId={creatorId}
-                    creatorUsername={creatorUsername}
+                    displayName={`${creatorUsername}'s`}
+                    destForURL={destForURL}
                     destination={destination}
+                    URLname={_.snakeCase(creatorUsername)}
                   />
                 );
               }
@@ -63,8 +65,7 @@ var mapDispatchToProps = (dispatch) => {
 
 var mapStateToProps = ({ custom }) => {
   return {
-    trips: custom.trips,
-    user: custom.user
+    trips: custom.trips
   }
 }
 

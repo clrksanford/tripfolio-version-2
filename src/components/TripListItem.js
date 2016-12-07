@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { hashHistory } from 'react-router';
+import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
@@ -20,45 +20,40 @@ class TripListItem extends Component {
   //   }
   // }
   render() {
-    let { creatorId, creatorUsername, destForURL, destination, pageName, tripId, user } = this.props;
-    let displayName, URLname;
-
-    if (creatorId === user.uid) {
-      displayName = 'My';
-      URLname = 'myTrip'
-    } else {
-      displayName = `${creatorUsername}'s`;
-      URLname = creatorUsername;
-    }
+    let { creatorId, creatorUsername, destForURL, destination, displayName, pageName, tripId, user, URLname } = this.props;
+    // let displayName, URLname;
+    //
+    // if (creatorId === user.uid) {
+    //   displayName = 'My';
+    //   URLname = 'myTrip'
+    // } else {
+    //   displayName = `${creatorUsername}'s`;
+    //   URLname = creatorUsername;
+    // }
 
     return(
       <li>
-        <a href='#' onClick={(e) => {
-          e.preventDefault();
-
-          this.props.setSelectedTrip(tripId);
-          hashHistory.push(`${pageName}/${URLname}/${destForURL}/${tripId}`);
-        }}>
+        <Link to={`${pageName}/${URLname}/${destForURL}/${tripId}`}>
           {displayName} trip to {destination}
-        </a>
+        </Link>
       </li>
     )
   }
 }
 
-var mapStateToProps = ({ custom }) => {
-  return {
-    selectedTrip: custom.selectedTrip,
-    user: custom.user
-  }
-}
-
-var mapDispatchToProps = (dispatch) => {
-  return {
-    setSelectedTrip: (tripId) => dispatch(getSelectedTrip(tripId))
-  }
-}
-
-TripListItem = connect(mapStateToProps, mapDispatchToProps)(TripListItem);
-
+// var mapStateToProps = ({ custom }) => {
+//   return {
+//     selectedTrip: custom.selectedTrip,
+//     user: custom.user
+//   }
+// }
+//
+// var mapDispatchToProps = (dispatch) => {
+//   return {
+//     setSelectedTrip: (tripId) => dispatch(getSelectedTrip(tripId))
+//   }
+// }
+//
+// TripListItem = connect(mapStateToProps, mapDispatchToProps)(TripListItem);
+//
 export default TripListItem;

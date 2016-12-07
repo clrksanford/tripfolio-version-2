@@ -20,7 +20,7 @@ const reducer = combineReducers(reducers);
 const logger = createLogger();
 
 let store = compose(
-  applyMiddleware(logger, ReduxThunk),
+  applyMiddleware(ReduxThunk),
   autoRehydrate()
 )(createStore)(reducer);
 

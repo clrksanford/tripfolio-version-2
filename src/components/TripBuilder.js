@@ -37,6 +37,8 @@ class TripBuilder extends Component {
   }
 
   componentDidMount() {
+    this._axiosCall();
+
     let { tripId } = this.props.params;
 
     axios.get(`https://lit-garden-98394.herokuapp.com/trips/${tripId}`)

@@ -164,9 +164,19 @@ class TripBuilder extends Component {
   }
 
   _deleteTile(index) {
-    let uid = this.props.user.uid;
-    let tripId = this.props.params.tripId;
-    this.props.firebase.database().ref(`/tripbook/${uid}/${tripId}/places/${index}`).remove();
+    let tileId = this.state.userTiles[index]._id;
+
+    axios.delete(`https://lit-garden-98394.herokuapp.com/travel-tiles/${tileId}`)
+      .then(response => {
+        let { userTiles } = this.state;
+
+        _.remove(userTiles, (tile, i) => {
+          return i === index;
+        })
+
+        this.setState({ userTiles });
+      })
+      .catch(err => console.log(err))
   }
 
   _routeToProfile() {
@@ -241,7 +251,7 @@ class TripBuilder extends Component {
                 key={index}
                 image={image}
                 name={name}
-                _deleteTile={this._deleteTile}
+                _deleteTile={() => this._deleteTile(index)}
                 _showModal={() => this._showSavedModal(index)}
                 spanClass=''/>
             })

@@ -24,6 +24,8 @@ class TripBuilder extends Component {
       modalClass: 'hidden',
       userTiles: []
     }
+
+    this._addTile = this._addTile.bind(this);
     this._axiosCall = this._axiosCall.bind(this);
     this._closeModal = this._closeModal.bind(this);
     this._createCustomTile = this._createCustomTile.bind(this);
@@ -144,6 +146,30 @@ class TripBuilder extends Component {
       modalClass: 'hidden'
     })
   }
+  _addTile() {
+    let { name } = this.state.selectedTile;
+    let image = this.state.selectedTile['image_url'];
+    let { creatorId } = this.state.activeTrip;
+    let tripId = this.props.params.tripId;
+
+    axios.post(`https://lit-garden-98394.herokuapp.com/travel-tiles`, {
+      name,
+      image,
+      creatorId,
+      _correspondingTrip: tripId
+    })
+      .then(response => {
+        let newTile = response.data;
+
+        let { userTiles } = this.state;
+        userTiles.push(newTile);
+
+        this.setState({ userTiles });
+      })
+      .catch(err => console.log(err))
+
+    this._removeYelpListing(this.state.selectedTileIndex);
+  }
 
   _setActiveTab(e) {
       // Remove active class from currently active link
@@ -262,6 +288,7 @@ class TripBuilder extends Component {
         <SuggestionBox results={this.state.results} _showModal={this._showModal} />
 
         <TravelTileModal className={this.state.modalClass}
+          _addTile={this._addTile}
           _closeModal={this._closeModal}
           selectedTile={this.state.selectedTile}
           selectedTileIndex={this.state.selectedTileIndex}
@@ -277,12 +304,12 @@ class TripBuilder extends Component {
   }
 }
 
-var mapStateToProps = ({ custom }) => {
-  return {
-    user: custom.user
-  }
-}
-
-TripBuilder = connect(mapStateToProps, null)(TripBuilder);
+// var mapStateToProps = ({ custom }) => {
+//   return {
+//     user: custom.user
+//   }
+// }
+//
+// TripBuilder = connect(mapStateToProps, null)(TripBuilder);
 
 export default TripBuilder;

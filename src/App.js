@@ -20,7 +20,6 @@ class App extends Component {
       userTrips: {}
     }
 
-    this._handleSubmit = this._handleSubmit.bind(this);
     this._loadUsersTrips = this._loadUsersTrips.bind(this);
   }
 
@@ -30,6 +29,7 @@ class App extends Component {
     firebase.auth().onAuthStateChanged(user => {
       // If user is signed in...
       if (user) {
+        console.log('we have a user');
         this.setState(user);
 
         this._loadUsersTrips(user);
@@ -41,6 +41,7 @@ class App extends Component {
 
       // Otherwise, if no user is signed in.
       } else {
+        console.log('no user found');
         // Remove user and their trips from the state
         this.setState({ user: {}, destination: {} });
       }
@@ -54,26 +55,17 @@ class App extends Component {
       .then((response) => {
         let userTrips = response.data;
 
-        console.log(userTrips);
-
         this.setState({ userTrips });
       })
-  }
-
-  _handleSubmit(destination) {
-    this.setState({ destination });
   }
 
   render(){
     let children = null;
     if(this.props.children){
       children = React.cloneElement(this.props.children, {
-        _handleSubmit: this._handleSubmit,
-        destination: this.state.destination,
         firebase: this.props.route.firebase,
-        userTrips: this.state.userTrips,
         user: this.state.user,
-        _loadUsersTrips: this._loadUsersTrips
+        userTrips: this.state.userTrips
       })
     }
 

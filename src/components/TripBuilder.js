@@ -19,6 +19,7 @@ class TripBuilder extends Component {
     super(props);
 
     this.state = {
+      activeTrip: {},
       results: [],
       modalClass: 'hidden',
       destination: this.props.params.destination
@@ -33,6 +34,17 @@ class TripBuilder extends Component {
     this._deleteTile = this._deleteTile.bind(this);
     this._showSavedModal = this._showSavedModal.bind(this);
     this._routeToProfile = this._routeToProfile.bind(this);
+  }
+
+  componentDidMount() {
+    let { tripId } = this.props.params;
+
+    axios.get(`https://lit-garden-98394.herokuapp.com/trips/${tripId}`)
+      .then((response) => {
+        let activeTrip = response.data;
+
+        this.setState({ activeTrip });
+      })
   }
 
   _createCustomTile(attractionName) {
@@ -151,11 +163,6 @@ class TripBuilder extends Component {
     })
   }
 
-  componentDidMount() {
-    this._axiosCall();
-    this._loadUsersTiles();
-  }
-
   _deleteTile(index) {
     let uid = this.props.user.uid;
     let tripId = this.props.params.tripId;
@@ -168,12 +175,15 @@ class TripBuilder extends Component {
   }
 
   render() {
+    let { _id, destForURL, destination } = this.state.activeTrip;
+    destination = _.startCase(destination);
+
     return(
       <main id="main">
         <div id="completed-nav">
           <Header firebase={this.props.firebase} />
         </div>
-        <h2>Trip Builder: <span id="destinationName"> {this.state.destination}</span></h2>
+        <h2>Trip Builder: <span id="destinationName">{destination}</span></h2>
         <nav id="tripBuilderNav">
           <ol className="breadcrumb">
             <li><a href="#"
@@ -206,7 +216,7 @@ class TripBuilder extends Component {
             <input type='submit' value='Create Custom Tile' />
           </form>
           <Link className="largeButton"
-            to={`/completed/${this.props.user.uid}/${this.props.params.tripId}/${this.props.params.destination}`}>View Trip</Link>
+            to={`/completed/myTrip/${destination}/${_id}`}>View Trip</Link>
         </nav>
         <div>
           <div className="tileHeader">

@@ -40,7 +40,7 @@ class Destinations extends Component {
                 return (
                   <TripListItem key={_id}
                     tripId={_id}
-                    pageName='completed'
+                    pageName='explore'
                     creatorId={creatorId}
                     creatorUsername={creatorUsername}
                     destination={destination}

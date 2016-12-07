@@ -37,7 +37,7 @@ class TripListItem extends Component {
           e.preventDefault();
 
           this.props.setSelectedTrip(tripId);
-          hashHistory.push(`completed/${URLname}/${destForURL}/${tripId}`);
+          hashHistory.push(`${pageName}/${URLname}/${destForURL}/${tripId}`);
         }}>
           {displayName} trip to {destination}
         </a>

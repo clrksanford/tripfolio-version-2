@@ -60,6 +60,7 @@ class Profile extends Component {
                         creatorUsername={creatorUsername}
                         destForURL={destForURL}
                         destination={destination}
+                        pageName='completed'
                       />
                     );
                   })}

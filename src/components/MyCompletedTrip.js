@@ -9,6 +9,7 @@ import _ from 'lodash';
 // import UsersTile from './UsersTile';
 import Header from './Header';
 import AlertModal from './AlertModal';
+import UsersTile from './UsersTile';
 
 // Redux actions
 import getSelectedTrip from '../actions/getSelectedTrip';
@@ -22,7 +23,8 @@ class MyCompletedTripPage extends Component {
 
     this.state = {
       alertModalClass: 'hidden',
-      activeTrip: {}
+      activeTrip: {},
+      userTiles: []
     }
   }
 
@@ -34,6 +36,13 @@ class MyCompletedTripPage extends Component {
         let activeTrip = response.data;
 
         this.setState({ activeTrip });
+      })
+
+    axios.get(`https://lit-garden-98394.herokuapp.com/find-tile-by-trip/${tripId}`)
+      .then((response) => {
+        let userTiles = response.data;
+
+        this.setState({ userTiles });
       })
     // this.props.setSelectedTrip(this.props.params.tripId);
   }
@@ -88,8 +97,21 @@ class MyCompletedTripPage extends Component {
               <li><a id="breadcrumb-nav" className="active" href="#" onClick={this._showModal}>Delete</a></li>
             </ol>
           </div>
-            {/* <div id="completedTrip" className="container">
-              <div className="row">
+          <div id="completedTrip" className="container">
+            {_.map(this.state.userTiles, (tile, index) => {
+              let { _id, image, name } = tile;
+
+              return <UsersTile index={index}
+                key={index}
+                image={image}
+                name={name}
+                _deleteTile={this._deleteTile}
+                _showModal={() => this._showSavedModal(index)}
+                spanClass='hidden'/>
+            })
+
+            }
+              {/* <div className="row">
                 <div className="col-sm-6">
                   <div id="restaurantTiles"
                   className="tileColumn">
@@ -120,8 +142,8 @@ class MyCompletedTripPage extends Component {
                     {this._renderTiles('bars')}
                   </div>
                 </div>
-              </div>
-            </div> */}
+              </div> */}
+            </div>
             <AlertModal className={this.state.alertModalClass}
               _closeModal={this._closeModal}
               modalFunction={this._deleteTrip}

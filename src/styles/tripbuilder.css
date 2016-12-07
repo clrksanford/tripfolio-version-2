@@ -7,11 +7,6 @@
   border: 1px solid black;
 }
 
-#myTilesContainer img {
-  width: 100px;
-  height: 100px;
-}
-
 .tileHeader {
   border: 1px solid black;
   width: 80%;

@@ -510,3 +510,8 @@ a.active, a.active:active {
 #navYelpLinks a {
   margin: 0px 5px;
 }
+
+.tileImage {
+  height: 100px;
+  width: 100px;
+}

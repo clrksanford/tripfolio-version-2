@@ -3,11 +3,11 @@ import _ from 'lodash';
 
 import Address from './CompletedTileFields/Address';
 import Entrance from './CompletedTileFields/Entrance';
-// import HelpfulLinks from './CompletedTileFields/HelpfulLinks';
-// import Image from './CompletedTileFields/Image';
-// import OpeningHours from './CompletedTileFields/OpeningHours';
-// import TileNotes from './CompletedTileFields/TileNotes';
-// import Transit from './CompletedTileFields/Transit';
+import HelpfulLinks from './CompletedTileFields/HelpfulLinks';
+import Image from './CompletedTileFields/Image';
+import OpeningHours from './CompletedTileFields/OpeningHours';
+import TileNotes from './CompletedTileFields/TileNotes';
+import Transit from './CompletedTileFields/Transit';
 
 import '../styles/completedCustomTile.css';
 
@@ -32,6 +32,21 @@ export default (props) => {
       case 'entrance':
         entranceComponent = <Entrance tile={props.tile} />;
         break;
+      case 'helpfulLinks':
+        helpfulLinksComponent = <HelpfulLinks tile={props.tile} />;
+        break;
+      case 'image':
+        imageComponent = <Image tile={props.tile} />;
+        break;
+      case 'openingHours':
+        openingHoursComponent = <OpeningHours tile={props.tile} />;
+        break;
+      case 'notes':
+        tileNotesComponent = <TileNotes tile={props.tile} />;
+        break;
+      case 'transit':
+        transitComponent = <Transit tile={props.tile} />;
+        break;
       default:
         break;
     }
@@ -40,11 +55,11 @@ export default (props) => {
   if(props.tile) {
     let {tile} = props;
     for(var key in tile) {
-       {
+      if(neitherNilNorEmpty(tile[key])) {
           setComponent(key);
-        }
-
+      }
     }
+  }
 
 
     // If address field is filled in, render it
@@ -53,24 +68,23 @@ export default (props) => {
     // }
 
     // If entrance field is filled in, render it
-    if(!_.isEmpty(props.tile.entrance)) {
-      entranceComponent = <Entrance tile={props.tile} />
-    }
-
-    var { image, name, notes } = props.tile;
-
-    if(!_.isEmpty(props.tile.helpfulLinks)) {
-      var { helpfulLinks } = props.tile;
-    }
-
-    if(!_.isEmpty(props.tile.openingHours)) {
-      var { openingHours } = props.tile;
-    }
-
-    if(!_.isEmpty(props.tile.transit)) {
-      var transitNotes = props.tile.transit.notes;
-    }
-  }
+    // if(!_.isEmpty(props.tile.entrance)) {
+    //   entranceComponent = <Entrance tile={props.tile} />
+    // }
+    //
+    // var { image, name, notes } = props.tile;
+    //
+    // if(!_.isEmpty(props.tile.helpfulLinks)) {
+    //   var { helpfulLinks } = props.tile;
+    // }
+    //
+    // if(!_.isEmpty(props.tile.openingHours)) {
+    //   var { openingHours } = props.tile;
+    // }
+    //
+    // if(!_.isEmpty(props.tile.transit)) {
+    //   var transitNotes = props.tile.transit.notes;
+    // }
 
   return(
     <div className='completedCustomTile'>

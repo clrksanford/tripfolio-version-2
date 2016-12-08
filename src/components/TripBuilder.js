@@ -6,6 +6,7 @@ import { Link, hashHistory } from 'react-router';
 import { connect } from 'react-redux';
 
 // Components
+import AlertModal from './AlertModal';
 import CompletedCustomTile from './CompletedCustomTile';
 import SuggestionBox from './SuggestionBox';
 import TileEditorModal from './TileEditorModal';
@@ -22,6 +23,7 @@ class TripBuilder extends Component {
 
     this.state = {
       activeTrip: {},
+      alertModalClass: 'hidden',
       results: [],
       modalButton: '',
       modalClass: 'hidden',
@@ -34,6 +36,7 @@ class TripBuilder extends Component {
     this._createCustomTile = this._createCustomTile.bind(this);
     this._setActiveTab = this._setActiveTab.bind(this);
     this._showModal = this._showModal.bind(this);
+    this._showAlertModal = this._showAlertModal.bind(this);
     this._loadUsersTiles = this._loadUsersTiles.bind(this);
     this._removeYelpListing = this._removeYelpListing.bind(this);
     this._deleteTile = this._deleteTile.bind(this);
@@ -161,6 +164,7 @@ class TripBuilder extends Component {
 
   _closeModal() {
     this.setState({
+      alertModalClass: 'hidden',
       modalClass: 'hidden'
     })
   }
@@ -222,6 +226,8 @@ class TripBuilder extends Component {
         })
 
         this.setState({ userTiles });
+
+        this._closeModal();
       })
       .catch(err => console.log(err))
   }
@@ -229,6 +235,13 @@ class TripBuilder extends Component {
   _routeToProfile() {
     this.props._loadUsersTrips(this.props.user);
     hashHistory.pushState('/profile');
+  }
+
+  _showAlertModal(index) {
+    this.setState({
+      alertModalClass: '',
+      selectedTileIndex: index
+    })
   }
 
   render() {
@@ -301,7 +314,7 @@ class TripBuilder extends Component {
                     key={index}
                     image={image}
                     name={name}
-                    _deleteTile={() => this._deleteTile(index)}
+                    _showAlertModal={() => this._showAlertModal(index)}
                     _showModal={() => this._showSavedModal(index)}
                     spanClass=''
                   />
@@ -333,6 +346,13 @@ class TripBuilder extends Component {
           >
             <CompletedCustomTile tile={this.state.selectedTile}/>
           </TileEditorModal>
+          <AlertModal className={this.state.alertModalClass}
+            _closeModal={this._closeModal}
+            modalFunction={() => this._deleteTile(this.state.selectedTileIndex)}
+            newTripTitle="Delete Tile"
+            modalMessage="You are about to delete this tile forever!"
+            modalButton="Delete"
+          />
       </main>
     );
   }

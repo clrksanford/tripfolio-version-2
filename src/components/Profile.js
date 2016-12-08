@@ -25,9 +25,7 @@ class Profile extends Component {
 
       return(
         <div>
-            {/* <Header firebase={this.props.firebase}
-              profilePicture={profilePicture}
-            /> */}
+            <Header firebase={this.props.firebase}/>
             <main>
               <div id="newTripContainer">
                 <NewTripModal firebase={this.props.firebase} user={this.props.user}/>

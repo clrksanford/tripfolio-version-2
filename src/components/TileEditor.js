@@ -396,12 +396,23 @@ class TileEditor extends Component {
           <div className='row'>
             <div className='column'>
               <h3>My Info for {this.state.activeTile.name || ''}</h3>
-              <img src={image} alt='Beautiful view of wherever you want to be!' />
-              <p>
-                {street1}
-                {city}, {country}
-                {zip}
-              </p>
+              <a href='#' onClick={(e) => {
+                e.preventDefault();
+                this._showFieldModal('image');
+              }}>
+                <img src={image} alt='Beautiful view of wherever you want to be!' />
+              </a>
+              <h4>Address</h4>
+              <a href='#' onClick={(e) => {
+                e.preventDefault();
+                this._showFieldModal('address');
+              }}>
+                <p>
+                  {street1}
+                  {city}, {country}
+                  {zip}
+                </p>
+              </a>
             </div>
             <div className='column'>
               <h3>Add more fields</h3>

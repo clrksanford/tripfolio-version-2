@@ -6,7 +6,7 @@ class Notes extends Component {
     return(
       <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
         <Field name='notes' component='textarea' placeholder='Add any general notes' />
-        <button type='submit'>Save</button>
+        <button type='submit' className='largeButton'>Save</button>
       </form>
     );
   }

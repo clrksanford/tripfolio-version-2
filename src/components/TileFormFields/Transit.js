@@ -10,7 +10,7 @@ class Transit extends Component {
           {/* Lets user add a new link to sites with more info; import TileLinks for this */}
           Add Link
         </a>
-        <button type='submit'>Save</button>
+        <button type='submit' className='largeButton'>Save</button>
       </form>
     );
   }

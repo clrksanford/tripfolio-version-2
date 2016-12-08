@@ -106,7 +106,7 @@ class TileLinkAdder extends Component {
           Add Link
         </a>
 
-        <button type='submit'>Save</button>
+        <button type='submit' className='largeButton'>Save</button>
       </form>
     );
   }

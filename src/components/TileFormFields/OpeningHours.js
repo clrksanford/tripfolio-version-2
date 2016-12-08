@@ -3,7 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import axios from 'axios';
 import _ from 'lodash';
 
-import Day from './Day';
+// import Day from './Day';
 
 class OpeningHours extends Component {
   render() {
@@ -247,7 +247,7 @@ class OpeningHours extends Component {
         }}>
           Add day
         </a> */}
-        <button type='submit'>Save</button>
+        <button type='submit' className='largeButton' className='largeButton'>Save</button>
       </form>
     );
   }

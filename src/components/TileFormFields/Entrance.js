@@ -47,7 +47,7 @@ class Entrance extends Component {
           Add notes
         </a> */}
 
-        <button type='submit'>Save</button>
+        <button type='submit' className='largeButton'>Save</button>
       </form>
     );
   }

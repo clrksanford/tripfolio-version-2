@@ -19,7 +19,7 @@ class Address extends Component {
           {/* Adds additional fields with option to save phone number */}
           Add Phone
         </a>
-        <button type='submit'>Save</button>
+        <button type='submit' className='largeButton'>Save</button>
       </form>
     );
   }

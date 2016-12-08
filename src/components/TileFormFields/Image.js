@@ -8,7 +8,7 @@ class Image extends Component {
       <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
         <Field name='image' component='input' type='text'
           placeholder='Enter image URL' />
-        <button type='submit'>Upload</button>
+        <button type='submit' className='largeButton'>Upload</button>
       </form>
     );
   }

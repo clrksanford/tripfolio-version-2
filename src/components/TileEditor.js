@@ -5,10 +5,12 @@ import _ from 'lodash';
 
 import TileEditorModal from './TileEditorModal';
 import Address from './TileFormFields/Address';
+import CompletedCustomTile from './CompletedCustomTile';
 import Entrance from './TileFormFields/Entrance';
 import Image from './TileFormFields/Image';
 import OpeningHours from './TileFormFields/OpeningHours';
 import TileLinkAdder from './TileFormFields/TileLinkAdder';
+import TileNotes from './TileFormFields/TileNotes';
 import Transit from './TileFormFields/Transit';
 
 
@@ -43,6 +45,10 @@ class TileEditor extends Component {
         },
         helpfulLinks: {
           text: 'Helpful Links',
+          currentlyActive: true
+        },
+        notes: {
+          text: 'Add notes',
           currentlyActive: true
         }
       }
@@ -373,6 +379,9 @@ class TileEditor extends Component {
       case 'transit':
         activeForm = <Transit tileId={tileId} onSubmit={this.handleSubmit} />;
         break;
+      case 'notes':
+        activeForm = <TileNotes tileId={tileId} onSubmit={this.handleSubmit} />;
+        break;
       default:
         activeForm = '';
     }
@@ -393,28 +402,11 @@ class TileEditor extends Component {
       <main>
         <h2>Create a Custom Tile</h2>
         <div className='pageContent'>
-          <div className='row'>
-            <div className='column'>
-              <h3>My Info for {this.state.activeTile.name || ''}</h3>
-              <a href='#' onClick={(e) => {
-                e.preventDefault();
-                this._showFieldModal('image');
-              }}>
-                <img src={image} alt='Beautiful view of wherever you want to be!' />
-              </a>
-              <h4>Address</h4>
-              <a href='#' onClick={(e) => {
-                e.preventDefault();
-                this._showFieldModal('address');
-              }}>
-                <p>
-                  {street1}
-                  {city}, {country}
-                  {zip}
-                </p>
-              </a>
-            </div>
-            <div className='column'>
+          <CompletedCustomTile
+            tile={this.state.activeTile}
+          />
+          <div className='container'>
+            <div className='row'>
               <h3>Add more fields</h3>
               {_.map(this.state.newFormLinks, (link, linkName) => {
                 if(link.currentlyActive) {

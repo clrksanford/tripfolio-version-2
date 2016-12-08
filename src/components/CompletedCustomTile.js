@@ -36,97 +36,18 @@ export default (props) => {
         </div>
       </div>
       <div className='container tileBody'>
-        <div className='row completedTileContainer' id='completedImageContainer'>
-          <img src={image} id='customTileImage' alt='tile.image' />
-        </div>
-      <div className='container'>
-        <div className='row completedTileContainer' id='completedNotesContainer'>
-          <p>{notes}</p>
-        </div>
-      </div>
+        {/* IMAGE */}
+        {/* NOTES */}
       <div className='container'>
         <div className='row'>
           <div className='col-lg-6 col-md-12'>
-            <div className='row completedTileContainer'>
-              <div className='tileHeader'>
-                <h4>Address</h4>
-              </div>
-              <div className='tileBody'>
-                <p>
-                  {street1},
-                  {city}, {country}
-                  {zip}
-                </p>
-              </div>
-            </div>
-            <div className='row completedTileContainer'>
-              <div className='tileHeader'>
-                <h4>Hours</h4>
-              </div>
-              {/* <a href='#' onClick={(e) => {
-                e.preventDefault();
-                this._showFieldModal('openingHours');
-              }}> */}
-              <div className='tileBody'>
-                <ul>
-                  {_.map(openingHours, (hoursObj, index) => {
-                    return(
-                      <li key={index}>
-                        <p>{hoursObj.value}: {hoursObj.from1}-{hoursObj.to1}</p>
-                        <p>{hoursObj.from2}-{hoursObj.to2}</p>
-                        <p>{hoursObj.from3}-{hoursObj.to3}</p>
-                      </li>
-                    )
-                  })}
-                </ul>
-              </div> {/* ---close tile body--- */}
-            </div> {/* ---close row completedTileContainer--- */}
+            {/* ADDRESS */}
+            {/* OPENING HOURS */}
           </div> {/* ---close col-md-6--- */}
           <div className='col-lg-6 col-md-12'>
-            <div className='row completedTileContainer'>
-              <div className='tileHeader'>
-                <h4>Admissions</h4>
-              </div>
-              <div className='tileBody'>
-                <ul>
-                  {_.map(entrance, (entranceType, index) => {
-                    return (
-                      <li key={index}>
-                        <p>{entranceType.label}: <span>{entranceType.price}</span></p>
-                      </li>
-                    )
-                  })}
-                </ul>
-              </div>
-            </div>
-            <div className='row completedTileContainer'>
-              <div className='tileHeader'>
-                <h4>Transit/Parking</h4>
-              </div>
-              <div className='tileBody'>
-                <p>
-                  {transitNotes}
-                </p>
-              </div>
-            </div>
-            <div className='row completedTileContainer'>
-              <div className='tileHeader'>
-                <h4>Helpful Links</h4>
-              </div>
-              <div className='tileBody'>
-              <ul>
-                {_.map(helpfulLinks, (link, index) => {
-                  return (
-                    <li key={index}>
-                      <a href={link.url} target='_blank'>
-                        {link.name}
-                      </a>
-                    </li>
-                  )
-                })}
-              </ul>
-            </div>
-          </div>
+            {/* ENTRANCE */}
+            {/* TRANSIT */}
+            {/* HELPFUL LINKS */}
         </div>
       </div>
     </div>

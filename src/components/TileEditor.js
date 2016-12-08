@@ -9,6 +9,7 @@ import deleteEmptyKeys from '../constants/deleteEmptyKeys';
 import TileEditorModal from './TileEditorModal';
 import Address from './TileFormFields/Address';
 import CompletedCustomTile from './CompletedCustomTile';
+import Header from './Header';
 import Entrance from './TileFormFields/Entrance';
 import Image from './TileFormFields/Image';
 import OpeningHours from './TileFormFields/OpeningHours';
@@ -378,42 +379,55 @@ class TileEditor extends Component {
     let tripId = this.state.activeTile._correspondingTrip;
 
     return(
-      <main>
-        <h2>Create a Custom Tile</h2>
-        <Link to={`trip-builder/${destination}/${tripId}`}>Back to Trip Builder</Link>
-        <div className='pageContent'>
-          <CompletedCustomTile
-            tile={this.state.activeTile}
-          />
-          <div className='container'>
-            <div className='row'>
-              <h3>Add more fields</h3>
-              <ul>
-                {_.map(this.state.newFormLinks, (link, linkName) => {
-                  if(link.currentlyActive) {
-                    return (
-                      <li key={linkName}>
-                        <a href='#' onClick={(e) => {
-                          e.preventDefault();
-                          this._showFieldModal(linkName);
-                        }}>
-                          {link.text}
-                        </a>
-                      </li>
-                    )
-                  }
-                })}
-              </ul>
+      <div>
+        <Header firebase={this.props.firebase}/>
+        <main>
+          <h2>Create a Custom Tile</h2>
+          <div className='row'>
+            <Link to={`trip-builder/${destination}/${tripId}`}
+              className='largeButton'
+            >
+              Back to Trip Builder
+            </Link>
+          </div>
+          <div className='pageContent'>
+            <CompletedCustomTile
+              tile={this.state.activeTile}
+            />
+            <div className='container-fluid'>
+              <div className='row'>
+                <div className='tileHeader' id='addTileFields'>
+                  <h3>Add more fields</h3>
+                </div>
+                <div className='tileBody'>
+                  <ul id='tileEditorList'>
+                    {_.map(this.state.newFormLinks, (link, linkName) => {
+                      if(link.currentlyActive) {
+                        return (
+                          <li key={linkName}>
+                            <a href='#' onClick={(e) => {
+                              e.preventDefault();
+                              this._showFieldModal(linkName);
+                            }}>
+                              {link.text}
+                            </a>
+                          </li>
+                        )
+                      }
+                    })}
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        <TileEditorModal
-          className={this.state.modalClass}
-          _closeModal={this._closeModal}
-        >
-          {this.state.activeForm}
-        </TileEditorModal>
-      </main>
+          <TileEditorModal
+            className={this.state.modalClass}
+            _closeModal={this._closeModal}
+          >
+            {this.state.activeForm}
+          </TileEditorModal>
+        </main>
+      </div>
     )
   }
 }

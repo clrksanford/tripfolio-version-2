@@ -154,9 +154,9 @@ class TripBuilder extends Component {
     let modalButton;
 
     if(this.state.modalButton === 'save') {
-      modalButton = <button onClick={this._addTile}>Save</button>
+      modalButton = <button onClick={this._addTile} className='largeButton'>Save</button>
     } else if(this.state.modalButton === 'edit') {
-      modalButton = <Link to={`tile-editor/${this.props.params.destination}/${this.state.selectedTile._id}`}>Edit</Link>
+      modalButton = <Link to={`tile-editor/${this.props.params.destination}/${this.state.selectedTile._id}`} className='largeButton'>Edit</Link>
     }
 
     return modalButton;

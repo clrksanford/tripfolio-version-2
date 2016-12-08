@@ -10,8 +10,9 @@ export default (props) => {
           <span id="closeModal" onClick={props._closeModal}>x</span>
         </div>
           {props.children}
+        <div className='row'>
           {props.modalButton}
-
+        </div>
       </div>
     </div>
   );

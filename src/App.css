@@ -131,6 +131,10 @@ h1{
 
 }
 
+.row {
+  margin-bottom: 20px;
+}
+
 #row{
   display: inline-block;
 }
@@ -524,4 +528,9 @@ a.active, a.active:active {
 .tileImage {
   height: 100px;
   width: 100px;
+}
+
+#tileEditorList {
+  margin: 0 auto;
+  padding: 0;
 }

@@ -9,6 +9,7 @@ import _ from 'lodash';
 // import UsersTile from './UsersTile';
 import Header from './Header';
 import AlertModal from './AlertModal';
+import UsersTile from './UsersTile';
 
 // Redux actions
 import getSelectedTrip from '../actions/getSelectedTrip';
@@ -16,13 +17,14 @@ import getSelectedTrip from '../actions/getSelectedTrip';
 // Styles and images
 import '../styles/completedtrip.css';
 
-class OtherCompletedTripPage extends Component {
+class MyCompletedTripPage extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       alertModalClass: 'hidden',
-      activeTrip: {}
+      activeTrip: {},
+      userTiles: []
     }
   }
 
@@ -34,6 +36,13 @@ class OtherCompletedTripPage extends Component {
         let activeTrip = response.data;
 
         this.setState({ activeTrip });
+      })
+
+    axios.get(`https://lit-garden-98394.herokuapp.com/find-tile-by-trip/${tripId}`)
+      .then((response) => {
+        let userTiles = response.data;
+
+        this.setState({ userTiles });
       })
     // this.props.setSelectedTrip(this.props.params.tripId);
   }
@@ -74,20 +83,31 @@ class OtherCompletedTripPage extends Component {
   // }
 
   render() {
-    let { creatorUsername, destination } = this.state.activeTrip;
+    let { _id, creatorUsername, destForURL, destination } = this.state.activeTrip;
     destination = _.startCase(destination);
 
     return(
         <main id="main">
           <Header firebase={this.props.firebase} />
-          <div className="pageHeader">
-            <h2>{creatorUsername}'s trip to {destination}</h2>
-            <nav>
-              {/* TODO options to "add to your saved trips" and "like" will be added later */}
-            </nav>
+          <div id="newTrips" >
+            <h2>{creatorUsername}'s Trip To {destination}</h2>
+              {/* STRETCH: switch to make your trip public or private */}
           </div>
-            {/* <div id="completedTrip" className="container">
-              <div className="row">
+          <div id="completedTrip" className="container">
+            {_.map(this.state.userTiles, (tile, index) => {
+              let { _id, image, name } = tile;
+
+              return <UsersTile index={index}
+                key={index}
+                image={image}
+                name={name}
+                _deleteTile={this._deleteTile}
+                _showModal={() => this._showSavedModal(index)}
+                spanClass='hidden'/>
+            })
+
+            }
+              {/* <div className="row">
                 <div className="col-sm-6">
                   <div id="restaurantTiles"
                   className="tileColumn">
@@ -118,8 +138,8 @@ class OtherCompletedTripPage extends Component {
                     {this._renderTiles('bars')}
                   </div>
                 </div>
-              </div>
-            </div> */}
+              </div> */}
+            </div>
             <AlertModal className={this.state.alertModalClass}
               _closeModal={this._closeModal}
               modalFunction={this._deleteTrip}
@@ -147,4 +167,4 @@ class OtherCompletedTripPage extends Component {
 
 // CompletedTripPage = connect(null, mapDispatchToProps)(CompletedTripPage);
 
-export default OtherCompletedTripPage;
+export default MyCompletedTripPage;

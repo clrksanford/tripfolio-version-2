@@ -5,6 +5,10 @@
   border: 1px solid black;
 }
 
+.container {
+  max-width: 100%;
+}
+
 .completedTileContainer {
   margin-bottom: 20px;
 }
@@ -21,8 +25,9 @@
 }
 
 #completedNotesContainer {
-  margin-bottom: 40px;
+  margin: 0 auto 40px auto;
   padding: 20px;
+  width: 80%;
   /*border: 5px solid black;*/
   box-shadow: 8px 8px 4px black;
   background-color: rgb(203,203,203);

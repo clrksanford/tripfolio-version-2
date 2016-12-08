@@ -46,7 +46,7 @@ export default (props) => {
       </div>
       <div className='container'>
         <div className='row'>
-          <div className='col-md-6'>
+          <div className='col-lg-6 col-md-12'>
             <div className='row completedTileContainer'>
               <div className='tileHeader'>
                 <h4>Address</h4>
@@ -82,7 +82,7 @@ export default (props) => {
               </div> {/* ---close tile body--- */}
             </div> {/* ---close row completedTileContainer--- */}
           </div> {/* ---close col-md-6--- */}
-          <div className='col-md-6'>
+          <div className='col-lg-6 col-md-12'>
             <div className='row completedTileContainer'>
               <div className='tileHeader'>
                 <h4>Admissions</h4>

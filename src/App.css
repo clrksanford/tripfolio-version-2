@@ -368,7 +368,7 @@ a.active, a.active:active {
 }
 
 /*---MODAL STYLES---*/
-#modalBackground {
+.modalBackground {
   position: fixed;
   top: 0;
   left: 0;
@@ -377,7 +377,7 @@ a.active, a.active:active {
   width: 100%;
 }
 
-#modalContainer {
+.modalContainer {
   margin: 15% auto;
   background-color: #fff;
   width: 30%;
@@ -393,7 +393,7 @@ a.active, a.active:active {
   z-index: 1;
 }
 
-#modalHeader {
+.modalHeader {
   background-color: lightgrey;
   text-align: right;
   height: 8%;

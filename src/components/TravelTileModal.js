@@ -17,11 +17,11 @@ export default (props) => {
 
   return(
     <div>
-      <div id="modalBackground" className={props.className} onClick={props._closeModal}>
-        <div id="modalContainer">
+      <div className="modalBackground" className={props.className} onClick={props._closeModal}>
+        <div className="modalContainer">
           <img src={image} alt="Tile background of the place you selected"
             id="modalImage"/>
-          <div id="modalHeader" className="clearfix">
+          <div className="clearfix modalHeader">
             <img src={exitButton} alt="Close tile" id="closeModal"
               onClick={props._closeModal} />
           </div>

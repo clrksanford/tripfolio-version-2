@@ -2,6 +2,14 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 
 class Entrance extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      entrance3Visible: false
+    }
+  }
+
   render() {
     return(
       <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
@@ -15,12 +23,22 @@ class Entrance extends Component {
           <Field name='entrance2price' component='input' type='text' />
         </div>
 
-        <div className='entranceType'>
+        <div className={this.state.entrance3Visible ? 'entranceType' : 'hidden'}>
+          <span onClick={() => {
+            this.setState({ entrance3Visible: false })
+          }}>
+            X
+          </span>
           <Field name='entrance3label' component='input' type='text' placeholder='Other (free hours)' />
           <Field name='entrance3price' component='input' type='text' />
         </div>
 
-        <a href='#'>
+        <a href='#' className={this.state.entrance3Visible ? 'hidden' : ''}
+          onClick={(e) => {
+            e.preventDefault();
+            this.setState({ entrance3Visible: true });
+          }
+        }>
           {/* Gives user a form to input a new discount type name and a new discount price (i.e. Under 25: $5) */}
           Add new discount type
         </a>

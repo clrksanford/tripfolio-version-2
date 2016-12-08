@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import _ from 'lodash';
@@ -372,14 +373,13 @@ class TileEditor extends Component {
   }
 
   render() {
-    if(this.state.activeTile) {
-      var { street1, city, country, zip } = this.state.activeTile.address || ''
-        , { image } = this.state.activeTile;
-    }
+    let { destination } = this.props.params;
+    let tripId = this.state.activeTile._correspondingTrip;
 
     return(
       <main>
         <h2>Create a Custom Tile</h2>
+        <Link to={`trip-builder/${destination}/${tripId}`}>Back to Trip Builder</Link>
         <div className='pageContent'>
           <CompletedCustomTile
             tile={this.state.activeTile}

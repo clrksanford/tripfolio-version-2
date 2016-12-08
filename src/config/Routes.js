@@ -31,8 +31,8 @@ export default () => (
         <Route path='/destinations' component={Destinations}/>
         <Route path='/completed/myTrip/:destination/:tripId' component={MyCompletedTrip}/>
         <Route path='/explore/:userName/:destination/:tripId' component={OtherCompletedTrip}/>
-        <Route path='/tile-editor/:tileId' component={TileEditor}/>
-        <Route path='/tile/:tileId' component={CompletedCustomTile}/>
+        <Route path='/tile-editor/:destination/:tileId' component={TileEditor}/>
+        <Route path='/tile/:destination/:tileId' component={CompletedCustomTile}/>
       </Route>
     </Router>
   </Provider>

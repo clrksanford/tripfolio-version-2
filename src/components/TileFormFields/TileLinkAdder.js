@@ -45,7 +45,7 @@ class TileLinkAdder extends Component {
 
   render() {
     return(
-      <form id='tileLinkAdderContainer' onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
+      <form id='tileLinkAdderContainer' className='tileForm' onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
         {/* {_.map(this.state.linkArray, (link, i) => {
           let index = i + 1;
 
@@ -59,21 +59,22 @@ class TileLinkAdder extends Component {
             </div>
           )
         })} */}
+        <div className='formBody'>
+          <h4>Helfpul Links</h4>
+          {_.times(this.state.linkCount, (i) => {
+            let index = i + 1;
 
-        {_.times(this.state.linkCount, (i) => {
-          let index = i + 1;
+            return (
+                <div id={`link${index}Container`} key={index}>
+                  <span onClick={this._removeLinks}>X</span>
+                  <label htmlFor={`link${index}Name`}>Link Name</label>
+                  <Field name={`link${index}Name`} component='input' type='text' />
 
-          return (
-              <div id={`link${index}Container`} key={index}>
-                <span onClick={this._removeLinks}>X</span>
-                <label htmlFor={`link${index}Name`}>Link Name</label>
-                <Field name={`link${index}Name`} component='input' type='text' />
-
-                <label htmlFor={`link${index}URL`}>URL</label>
-                <Field name={`link${index}URL`} component='input' type='text' />
-              </div>
-            )
-        })}
+                  <label htmlFor={`link${index}URL`}>URL</label>
+                  <Field name={`link${index}URL`} component='input' type='text' />
+                </div>
+              )
+          })}
 
         {/* <div id='link1Container'>
           <label htmlFor='link1Name'>Link Name</label>
@@ -97,14 +98,15 @@ class TileLinkAdder extends Component {
           <Field name='link3URL' component='input' type='text' />
         </div> */}
 
-        <a href='#' className={this.state.addLinkVisible ? '' : 'hidden'}
-          onClick={(e) => {
-            e.preventDefault();
-            this._addLinks();
-          }
-        }>
-          Add Link
-        </a>
+          <a href='#' className={this.state.addLinkVisible ? '' : 'hidden'}
+            onClick={(e) => {
+              e.preventDefault();
+              this._addLinks();
+            }
+          }>
+            Add Link
+          </a>
+        </div>
 
         <button type='submit' className='largeButton'>Save</button>
       </form>

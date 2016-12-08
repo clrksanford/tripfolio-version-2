@@ -16,6 +16,7 @@ import TileLinkAdder from './TileFormFields/TileLinkAdder';
 import TileNotes from './TileFormFields/TileNotes';
 import Transit from './TileFormFields/Transit';
 
+import '../styles/forms.css';
 
 class TileEditor extends Component {
   constructor(props) {
@@ -35,7 +36,7 @@ class TileEditor extends Component {
           currentlyActive: true
         },
         entrance: {
-          text: 'Entrance Fee',
+          text: 'Admissions',
           currentlyActive: true
         },
         image: {

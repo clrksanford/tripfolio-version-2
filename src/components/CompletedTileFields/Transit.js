@@ -8,7 +8,7 @@ export default (props) => {
       </div>
       <div className='tileBody'>
         <p>
-          {transitNotes}
+          {props.tile.transit.notes}
         </p>
       </div>
     </div>

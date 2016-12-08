@@ -1,6 +1,9 @@
 import React from 'react';
+import _ from 'lodash';
 
 export default (props) => {
+  let { helpfulLinks } = props.tile;
+
   return(
     <div className='row completedTileContainer'>
       <div className='tileHeader'>

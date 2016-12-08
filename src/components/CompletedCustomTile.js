@@ -30,18 +30,17 @@ export default (props) => {
 
   return(
     <div className='completedCustomTile'>
-      <div className='container'>
+      <div className='container tileHeader'>
         <div className='row'>
           <h3>{name}</h3>
         </div>
       </div>
-      <div className='container'>
-        <div className='row'>
+      <div className='container tileBody'>
+        <div className='row completedTileContainer' id='completedImageContainer'>
           <img src={image} id='customTileImage' alt='tile.image' />
         </div>
-      </div>
       <div className='container'>
-        <div className='row'>
+        <div className='row completedTileContainer' id='completedNotesContainer'>
           <p>{notes}</p>
         </div>
       </div>
@@ -132,5 +131,6 @@ export default (props) => {
       </div>
     </div>
     </div>
+  </div>
   )
 }

@@ -74,7 +74,7 @@ class TripBuilder extends Component {
 
         let tile = response.data;
 
-        hashHistory.push(`/tile-editor/${tile._id}`);
+        hashHistory.push(`/tile-editor/${this.props.params.destination}/${tile._id}`);
       })
       .catch((err) => {
         if(err.response) {
@@ -280,16 +280,16 @@ class TripBuilder extends Component {
                 Bars
             </a></li>
           </ol>
-          <form onSubmit={(e) => {
-            e.preventDefault();
-            this._createCustomTile(this.refs.attraction.value);
-          }}>
-            <input type='text' placeholder='Attraction Name' ref='attraction'/>
-            <input type='submit' value='Create Custom Tile' />
-          </form>
           <Link className="largeButton"
             to={`/completed/myTrip/${destination}/${_id}`}>View Trip</Link>
         </nav>
+        <form id='newCustomTile' onSubmit={(e) => {
+          e.preventDefault();
+          this._createCustomTile(this.refs.attraction.value);
+        }}>
+          <input id='newTripSubmit' type='text' placeholder='Attraction Name' ref='attraction'/>
+          <input className='largeButton' type='submit' value='Create Custom Tile' />
+        </form>
         <div>
           <div className="tileHeader">
             <h3>My Saved Tiles</h3>

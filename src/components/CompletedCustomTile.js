@@ -12,17 +12,31 @@ import Transit from './CompletedTileFields/Transit';
 import '../styles/completedCustomTile.css';
 
 export default (props) => {
-  let addressComponent, entranceComponent, helpfulLinksComponent, imageComponent, openingHoursComponent, tileNotesComponent, transitComponent;
+  let addressComponent = null;
+  let entranceComponent = null;
+  let helpfulLinksComponent = null;
+  let imageComponent = null;
+  let openingHoursComponent = null;
+  let tileNotesComponent = null;
+  let transitComponent = null;
+  let name;
 
-  let neitherNilNorEmpty = (value) => {
-    let result = false;
-
-    if((typeof value === 'object' && !_.isEmpty(value)) ||
-      (typeof value !== 'object' && !_.isNil(value))) {
-        result = true;
-      }
-    return result;
-  }
+  // let neitherNilNorEmpty = (value) => {
+  //   let result = false;
+  //
+  //   console.log('value before deleting keys', value);
+  //   if(typeof value === 'object') {
+  //     value = deleteEmptyKeys(value);
+  //   }
+  //
+  //   console.log('value after deleting empty keys', value);
+  //
+  //   if((typeof value === 'object' && !_.isEmpty(value)) ||
+  //     (typeof value !== 'object' && !_.isNil(value))) {
+  //       result = true;
+  //   }
+  //   return result;
+  // }
 
   let setComponent = (componentName) => {
     switch(componentName) {
@@ -54,37 +68,15 @@ export default (props) => {
 
   if(props.tile) {
     let {tile} = props;
+    console.log(tile);
+    name = tile.name;
     for(var key in tile) {
-      if(neitherNilNorEmpty(tile[key])) {
-          setComponent(key);
-      }
+      setComponent(key);
+      // if(neitherNilNorEmpty(tile[key])) {
+      //     setComponent(key);
+      // }
     }
   }
-
-
-    // If address field is filled in, render it
-    // if(!_.isEmpty(props.tile.address)) {
-    //   addressComponent = <Address tile={props.tile} />
-    // }
-
-    // If entrance field is filled in, render it
-    // if(!_.isEmpty(props.tile.entrance)) {
-    //   entranceComponent = <Entrance tile={props.tile} />
-    // }
-    //
-    // var { image, name, notes } = props.tile;
-    //
-    // if(!_.isEmpty(props.tile.helpfulLinks)) {
-    //   var { helpfulLinks } = props.tile;
-    // }
-    //
-    // if(!_.isEmpty(props.tile.openingHours)) {
-    //   var { openingHours } = props.tile;
-    // }
-    //
-    // if(!_.isEmpty(props.tile.transit)) {
-    //   var transitNotes = props.tile.transit.notes;
-    // }
 
   return(
     <div className='completedCustomTile'>
@@ -94,18 +86,18 @@ export default (props) => {
         </div>
       </div>
       <div className='container tileBody'>
-        {/* IMAGE */}
-        {/* NOTES */}
+        {imageComponent}
+        {tileNotesComponent}
       <div className='container'>
         <div className='row'>
           <div className='col-lg-6 col-md-12'>
             {addressComponent}
-            {/* OPENING HOURS */}
+            {openingHoursComponent}
           </div> {/* ---close col-md-6--- */}
           <div className='col-lg-6 col-md-12'>
             {entranceComponent}
-            {/* TRANSIT */}
-            {/* HELPFUL LINKS */}
+            {transitComponent}
+            {helpfulLinksComponent}
         </div>
       </div>
     </div>

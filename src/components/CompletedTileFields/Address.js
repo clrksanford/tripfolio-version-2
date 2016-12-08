@@ -1,6 +1,8 @@
 import React from 'react';
 
 export default (props) => {
+  let { city, country, street1, street2, zip} = props.tile.address;
+  
   return(
     <div className='row completedTileContainer'>
       <div className='tileHeader'>

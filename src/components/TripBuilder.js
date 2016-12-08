@@ -273,7 +273,7 @@ class TripBuilder extends Component {
             {_.map(this.state.userTiles, (tile, index) => {
               let { _id, image, name } = tile;
 
-              return <Link to={`tile-editor/${_id}`}><UsersTile index={index}
+              return <Link to={`tile-editor/${_id}`} key={index}><UsersTile index={index}
                 key={index}
                 image={image}
                 name={name}

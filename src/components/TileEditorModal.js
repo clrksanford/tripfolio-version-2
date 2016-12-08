@@ -12,6 +12,7 @@ export default (props) => {
           </div>
           <div id="alertContent">
             {props.children}
+            {props.modalButton}
           </div>
         </div>
       </div>

@@ -6,7 +6,9 @@ import { Link, hashHistory } from 'react-router';
 import { connect } from 'react-redux';
 
 // Components
+import CompletedCustomTile from './CompletedCustomTile';
 import SuggestionBox from './SuggestionBox';
+import TileEditorModal from './TileEditorModal';
 import TravelTileModal from './TravelTileModal';
 import UsersTile from './UsersTile';
 import Header from './Header';
@@ -21,6 +23,7 @@ class TripBuilder extends Component {
     this.state = {
       activeTrip: {},
       results: [],
+      modalButton: '',
       modalClass: 'hidden',
       userTiles: []
     }
@@ -36,6 +39,7 @@ class TripBuilder extends Component {
     this._deleteTile = this._deleteTile.bind(this);
     this._showSavedModal = this._showSavedModal.bind(this);
     this._routeToProfile = this._routeToProfile.bind(this);
+    this._renderModalButton = this._renderModalButton.bind(this);
   }
 
   componentDidMount() {
@@ -125,6 +129,7 @@ class TripBuilder extends Component {
     let selectedTile = this.state.results[index];
 
     this.setState({
+      modalButton: 'save',
       modalClass: '',
       selectedTile: selectedTile,
       selectedTileIndex: index
@@ -135,10 +140,23 @@ class TripBuilder extends Component {
     let selectedTile = this.state.userTiles[index];
 
     this.setState({
+      modalButton: 'edit',
       modalClass: '',
       selectedTile: selectedTile,
       selectedTileIndex: index
     })
+  }
+
+  _renderModalButton() {
+    let modalButton;
+
+    if(this.state.modalButton === 'save') {
+      modalButton = <button onClick={this._addTile}>Save</button>
+    } else if(this.state.modalButton === 'edit') {
+      modalButton = <Link to={`tile-editor/${this.state.selectedTile._id}`}>Edit</Link>
+    }
+
+    return modalButton;
   }
 
   _closeModal() {
@@ -164,11 +182,14 @@ class TripBuilder extends Component {
         let { userTiles } = this.state;
         userTiles.push(newTile);
 
-        this.setState({ userTiles });
+        this.setState({
+          modalClass: 'hidden',
+          userTiles
+        });
+
+        this._removeYelpListing(this.state.selectedTileIndex);
       })
       .catch(err => console.log(err))
-
-    this._removeYelpListing(this.state.selectedTileIndex);
   }
 
   _setActiveTab(e) {
@@ -213,6 +234,8 @@ class TripBuilder extends Component {
   render() {
     let { _id, destForURL, destination } = this.state.activeTrip;
     destination = _.startCase(destination);
+
+    let modalButton = this._renderModalButton();
 
     return(
       <main id="main">
@@ -273,13 +296,16 @@ class TripBuilder extends Component {
             {_.map(this.state.userTiles, (tile, index) => {
               let { _id, image, name } = tile;
 
-              return <Link to={`tile-editor/${_id}`} key={index}><UsersTile index={index}
-                key={index}
-                image={image}
-                name={name}
-                _deleteTile={() => this._deleteTile(index)}
-                _showModal={() => this._showSavedModal(index)}
-                spanClass=''/></Link>
+              return (
+                  <UsersTile index={index}
+                    key={index}
+                    image={image}
+                    name={name}
+                    _deleteTile={() => this._deleteTile(index)}
+                    _showModal={() => this._showSavedModal(index)}
+                    spanClass=''
+                  />
+                )
             })
 
             }
@@ -287,7 +313,7 @@ class TripBuilder extends Component {
         </div>
         <SuggestionBox results={this.state.results} _showModal={this._showModal} />
 
-        <TravelTileModal className={this.state.modalClass}
+        {/* <TravelTileModal className={this.state.modalClass}
           _addTile={this._addTile}
           _closeModal={this._closeModal}
           selectedTile={this.state.selectedTile}
@@ -298,7 +324,15 @@ class TripBuilder extends Component {
           destination={this.state.destination}
           tripId={this.props.params.tripId}
           _removeYelpListing={this._removeYelpListing}
-          category={this.state.term}/>
+          category={this.state.term}/> */}
+          <TileEditorModal
+            className={this.state.modalClass}
+            _closeModal={this._closeModal}
+            modalButton={modalButton}
+            selectedTile={this.state.selectedTile}
+          >
+            <CompletedCustomTile tile={this.state.selectedTile}/>
+          </TileEditorModal>
       </main>
     );
   }

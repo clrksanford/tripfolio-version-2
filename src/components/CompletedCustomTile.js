@@ -2,35 +2,52 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 
 export default (props) => {
-  if(props.tile.address) {
-    var { street1, city, country, zip } = props.tile.address;
+  if(props.tile) {
+    var { image, name, notes } = props.tile;
+
+    if(!_.isEmpty(props.tile.helpfulLinks)) {
+      var { helpfulLinks } = props.tile;
+    }
+
+    if(!_.isEmpty(props.tile.address)) {
+      var { street1, city, country, zip } = props.tile.address;
+    }
+
+    if(!_.isEmpty(props.tile.openingHours)) {
+      var { openingHours } = props.tile;
+    }
+
+    if(!_.isEmpty(props.tile.entrance)) {
+      var { entrance } = props.tile;
+    }
+
+    if(!_.isEmpty(props.tile.transit)) {
+      var transitNotes = props.tile.transit.notes;
+    }
   }
 
-  if(props.tile.transit) {
-    var transitNotes = props.tile.transit.notes;
-  }
   return(
     <div className='completedCustomTile'>
       <div className='container'>
         <div className='row'>
-          <h3>{props.tile.name}</h3>
+          <h3>{name}</h3>
         </div>
       </div>
       <div className='container'>
         <div className='row'>
-          <img src={props.tile.image} alt='tile.image' />
+          <img src={image} alt='tile.image' />
         </div>
       </div>
       <div className='container'>
         <div className='row'>
-          <p>{props.tile.notes}</p>
+          <p>{notes}</p>
         </div>
       </div>
       <div className='container'>
         <div className='row'>
           <h4>Helpful Links</h4>
           <ul>
-            {_.map(props.tile.helpfulLinks, (link, index) => {
+            {_.map(helpfulLinks, (link, index) => {
               return (
                 <li key={index}>
                   <a href={link.url} target='_blank'>
@@ -65,7 +82,7 @@ export default (props) => {
                 this._showFieldModal('openingHours');
               }}> */}
                 <ul>
-                  {_.map(props.tile.openingHours, (hoursObj, index) => {
+                  {_.map(openingHours, (hoursObj, index) => {
                     return(
                       <li key={index}>
                         <p>{hoursObj.value}: {hoursObj.from1}-{hoursObj.to1}</p>
@@ -86,7 +103,7 @@ export default (props) => {
                 this._showFieldModal('entrance');
               }}> */}
               <ul>
-                {_.map(props.tile.entrance, (entranceType, index) => {
+                {_.map(entrance, (entranceType, index) => {
                   return (
                     <li key={index}>
                       <p>{entranceType.label}: <span>{entranceType.price}</span></p>

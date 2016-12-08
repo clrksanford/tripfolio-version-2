@@ -1,0 +1,11 @@
+#customTileImage {
+  width: 60%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.tileBody {
+  width: 80%;
+  margin: 0 auto;
+  border: 1px solid black;
+}

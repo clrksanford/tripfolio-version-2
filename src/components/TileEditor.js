@@ -408,18 +408,22 @@ class TileEditor extends Component {
           <div className='container'>
             <div className='row'>
               <h3>Add more fields</h3>
-              {_.map(this.state.newFormLinks, (link, linkName) => {
-                if(link.currentlyActive) {
-                  return (
-                    <a href='#' key={linkName} onClick={(e) => {
-                      e.preventDefault();
-                      this._showFieldModal(linkName);
-                    }}>
-                      {link.text}
-                    </a>
-                  )
-                }
-              })}
+              <ul>
+                {_.map(this.state.newFormLinks, (link, linkName) => {
+                  if(link.currentlyActive) {
+                    return (
+                      <li key={linkName}>
+                        <a href='#' onClick={(e) => {
+                          e.preventDefault();
+                          this._showFieldModal(linkName);
+                        }}>
+                          {link.text}
+                        </a>
+                      </li>
+                    )
+                  }
+                })}
+              </ul>
             </div>
           </div>
         </div>

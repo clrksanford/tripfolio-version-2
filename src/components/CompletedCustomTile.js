@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 
+import '../styles/completedCustomTile.css';
+
 export default (props) => {
   if(props.tile) {
     var { image, name, notes } = props.tile;
@@ -35,7 +37,7 @@ export default (props) => {
       </div>
       <div className='container'>
         <div className='row'>
-          <img src={image} alt='tile.image' />
+          <img src={image} id='customTileImage' alt='tile.image' />
         </div>
       </div>
       <div className='container'>
@@ -45,42 +47,28 @@ export default (props) => {
       </div>
       <div className='container'>
         <div className='row'>
-          <h4>Helpful Links</h4>
-          <ul>
-            {_.map(helpfulLinks, (link, index) => {
-              return (
-                <li key={index}>
-                  <a href={link.url} target='_blank'>
-                    {link.name}
-                  </a>
-                </li>
-              )
-            })}
-          </ul>
-        </div>
-      </div>
-      <div className='container'>
-        <div className='row'>
           <div className='col-md-6'>
             <div className='row completedTileContainer'>
-              <h4>Address</h4>
-              {/* <a href='#' onClick={(e) => {
-                e.preventDefault();
-                this._showFieldModal('address');
-              }}> */}
+              <div className='tileHeader'>
+                <h4>Address</h4>
+              </div>
+              <div className='tileBody'>
                 <p>
                   {street1},
                   {city}, {country}
                   {zip}
                 </p>
-              {/* </a> */}
+              </div>
             </div>
             <div className='row completedTileContainer'>
-              <h4>Hours</h4>
+              <div className='tileHeader'>
+                <h4>Hours</h4>
+              </div>
               {/* <a href='#' onClick={(e) => {
                 e.preventDefault();
                 this._showFieldModal('openingHours');
               }}> */}
+              <div className='tileBody'>
                 <ul>
                   {_.map(openingHours, (hoursObj, index) => {
                     return(
@@ -92,36 +80,57 @@ export default (props) => {
                     )
                   })}
                 </ul>
-              {/* </a> */}
-            </div>
-          </div>
+              </div> {/* ---close tile body--- */}
+            </div> {/* ---close row completedTileContainer--- */}
+          </div> {/* ---close col-md-6--- */}
           <div className='col-md-6'>
             <div className='row completedTileContainer'>
-              <h4>Admissions</h4>
-              {/* <a href='#' onClick={(e) => {
-                e.preventDefault();
-                this._showFieldModal('entrance');
-              }}> */}
+              <div className='tileHeader'>
+                <h4>Admissions</h4>
+              </div>
+              <div className='tileBody'>
+                <ul>
+                  {_.map(entrance, (entranceType, index) => {
+                    return (
+                      <li key={index}>
+                        <p>{entranceType.label}: <span>{entranceType.price}</span></p>
+                      </li>
+                    )
+                  })}
+                </ul>
+              </div>
+            </div>
+            <div className='row completedTileContainer'>
+              <div className='tileHeader'>
+                <h4>Transit/Parking</h4>
+              </div>
+              <div className='tileBody'>
+                <p>
+                  {transitNotes}
+                </p>
+              </div>
+            </div>
+            <div className='row completedTileContainer'>
+              <div className='tileHeader'>
+                <h4>Helpful Links</h4>
+              </div>
+              <div className='tileBody'>
               <ul>
-                {_.map(entrance, (entranceType, index) => {
+                {_.map(helpfulLinks, (link, index) => {
                   return (
                     <li key={index}>
-                      <p>{entranceType.label}: <span>{entranceType.price}</span></p>
+                      <a href={link.url} target='_blank'>
+                        {link.name}
+                      </a>
                     </li>
                   )
                 })}
               </ul>
-              {/* </a> */}
-            </div>
-            <div className='row completedTileContainer'>
-              <h4>Transit/Parking</h4>
-              <p>
-                {transitNotes}
-              </p>
             </div>
           </div>
         </div>
       </div>
+    </div>
     </div>
   )
 }

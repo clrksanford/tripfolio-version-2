@@ -75,8 +75,6 @@ class TileEditor extends Component {
           activeTile
         })
 
-        console.log(activeTile);
-
         this._filterLinks(activeTile);
       })
       .catch(err => console.log(err))
@@ -313,15 +311,6 @@ class TileEditor extends Component {
     let options = { address, entrance, helpfulLinks, image, notes, openingHours, transit };
 
     options = _.omitBy(options, _.isEmpty || _.isNil);
-
-    // console.log(options);
-    // console.log('address', address);
-    // console.log('entrance', entrance);
-    // console.log('helpfulLinks', helpfulLinks);
-    // console.log('image', image);
-    // console.log('notes', notes);
-    // console.log('openingHours', openingHours);
-    // console.log('transit', transit);
 
     axios.put(`https://lit-garden-98394.herokuapp.com/travel-tiles/${tileId}`, options)
       .then((response) => {

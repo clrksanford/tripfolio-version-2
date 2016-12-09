@@ -68,8 +68,6 @@ class TripBuilder extends Component {
       name: attractionName
     })
       .then((response) => {
-        console.log(response);
-
         let tile = response.data;
 
         hashHistory.push(`/tile-editor/${this.props.params.destination}/${tile._id}`);

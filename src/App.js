@@ -24,19 +24,14 @@ class App extends Component {
     firebase.auth().onAuthStateChanged(user => {
       // If user is signed in...
       if (user) {
-        console.log('we have a user');
+        // Save user's info to state
         this.setState({user});
 
+        // Load user's trips
         this._loadUsersTrips(user);
-        // // Save user's info to state
-        // this.props.setUser(user);
-        //
-        // // Load logged in users trips to display on profile page
-        // this.props.setUserTrips(user);
 
       // Otherwise, if no user is signed in.
       } else {
-        console.log('no user found');
         // Remove user and their trips from the state
         this.setState({ user: {}, destination: {} });
       }

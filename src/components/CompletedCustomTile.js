@@ -51,8 +51,8 @@ export default (props) => {
 
   if(props.tile) {
     let {tile} = props;
-    console.log(tile);
     name = tile.name;
+    
     for(var key in tile) {
       if(tile.hasOwnProperty(key)) {
         setComponent(key);

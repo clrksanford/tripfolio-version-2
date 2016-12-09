@@ -33,7 +33,7 @@ class App extends Component {
       // Otherwise, if no user is signed in.
       } else {
         // Remove user and their trips from the state
-        this.setState({ user: {}, destination: {} });
+        this.setState({ user: {} });
       }
     });
   }

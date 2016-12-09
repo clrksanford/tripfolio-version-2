@@ -15,6 +15,7 @@ import Entrance from './TileFormFields/Entrance';
 import Header from './Header';
 import Image from './TileFormFields/Image';
 import OpeningHours from './TileFormFields/OpeningHours';
+import TileEditorModal from './TileEditorModal';
 import TileLinkAdder from './TileFormFields/TileLinkAdder';
 import TileNotes from './TileFormFields/TileNotes';
 import Transit from './TileFormFields/Transit';

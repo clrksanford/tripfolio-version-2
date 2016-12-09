@@ -85,7 +85,7 @@ class TripBuilder extends Component {
 
   _axiosCall(e) {
     let term;
-    let destination = this.state.destination;
+    let destination = this.props.params.destination;
     let link = `https://thawing-cliffs-39852.herokuapp.com/${destination}`;
 
     // If the call originated from user clicking a link (as opposed to from the component mounting), handle the event
@@ -251,109 +251,107 @@ class TripBuilder extends Component {
     let modalButton = this._renderModalButton();
 
     return(
-      <main id="main">
-        <div id="completed-nav">
-          <Header firebase={this.props.firebase} />
-        </div>
-        <h2>Trip Builder: <span id="destinationName">{destination}</span></h2>
-        <nav id="tripBuilderNav">
-          <ol className="breadcrumb">
-            <li><a href="#"
-              onClick={this._axiosCall}
-              data-query="tourist%20attractions"
-              className="active">
-                Attractions
-            </a></li>
-            <li><a href="#"
-              onClick={this._axiosCall}
-              data-query="restaurants">
-                Food
-            </a></li>
-            <li><a href="#"
-              onClick={this._axiosCall}
-              data-query="hotels">
-                Hotels
-            </a></li>
-            <li><a href="#"
-              onClick={this._axiosCall}
-              data-query="bars">
-                Bars
-            </a></li>
-          </ol>
-          <Link className="largeButton"
-            to={`/completed/myTrip/${destination}/${_id}`}>View Trip</Link>
-        </nav>
-        <form id='newCustomTile' onSubmit={(e) => {
-          e.preventDefault();
-          this._createCustomTile(this.refs.attraction.value);
-        }}>
-          <input id='newTripSubmit' type='text' placeholder='Attraction Name' ref='attraction'/>
-          <input className='largeButton' type='submit' value='Create Custom Tile' />
-        </form>
-        <div>
-          <div className="tileHeader">
-            <h3>My Saved Tiles</h3>
-          </div>
-          <div id="myTilesContainer">
-            {/*
-              OLD  MAP FOR YELP TILES
+      <div>
+        <Header firebase={this.props.firebase} />
+        <main>
+          <h2>Trip Builder: <span id="destinationName">{destination}</span></h2>
+          <nav id="tripBuilderNav">
+            <ol className="breadcrumb">
+              <li><a href="#"
+                onClick={this._axiosCall}
+                data-query="tourist%20attractions"
+                className="active">
+                  Attractions
+              </a></li>
+              <li><a href="#"
+                onClick={this._axiosCall}
+                data-query="restaurants">
+                  Food
+              </a></li>
+              <li><a href="#"
+                onClick={this._axiosCall}
+                data-query="hotels">
+                  Hotels
+              </a></li>
+              <li><a href="#"
+                onClick={this._axiosCall}
+                data-query="bars">
+                  Bars
+              </a></li>
+            </ol>
+            <Link className="largeButton"
+              to={`/completed/myTrip/${destination}/${_id}`}>View Trip</Link>
+          </nav>
+          <form id='newCustomTile' onSubmit={(e) => {
+            e.preventDefault();
+            this._createCustomTile(this.refs.attraction.value);
+          }}>
+            <input id='newTripSubmit' type='text' placeholder='Attraction Name' ref='attraction'/>
+            <input className='largeButton' type='submit' value='Create Custom Tile' />
+          </form>
+          <div>
+            <div className="tileHeader">
+              <h3>My Saved Tiles</h3>
+            </div>
+            <div id="myTilesContainer">
+              {/*
+                OLD  MAP FOR YELP TILES
 
+                {_.map(this.state.userTiles, (tile, index) => {
+                let image = tile.tile["image_url"];
+                let name = tile.tile.name;
+                let snippet_text = tile.tile.snippet_text;
+                // let url = tile.tile.url;
+
+                return <UsersTile index={index} key={index} image={image} name={name} snippet_text={snippet_text} _deleteTile={this._deleteTile} _showModal={this._showSavedModal} spanClass='' />
+              })} */}
               {_.map(this.state.userTiles, (tile, index) => {
-              let image = tile.tile["image_url"];
-              let name = tile.tile.name;
-              let snippet_text = tile.tile.snippet_text;
-              // let url = tile.tile.url;
+                let { _id, image, name } = tile;
 
-              return <UsersTile index={index} key={index} image={image} name={name} snippet_text={snippet_text} _deleteTile={this._deleteTile} _showModal={this._showSavedModal} spanClass='' />
-            })} */}
-            {_.map(this.state.userTiles, (tile, index) => {
-              let { _id, image, name } = tile;
-
-              return (
-                  <UsersTile index={index}
-                    key={index}
-                    image={image}
-                    name={name}
-                    _showAlertModal={() => this._showAlertModal(index)}
-                    _showModal={() => this._showSavedModal(index)}
-                    spanClass=''
-                  />
-                )
-            })
-
-            }
+                return (
+                    <UsersTile index={index}
+                      key={index}
+                      image={image}
+                      name={name}
+                      _showAlertModal={() => this._showAlertModal(index)}
+                      _showModal={() => this._showSavedModal(index)}
+                      spanClass=''
+                    />
+                  )
+              })}
+            </div>
           </div>
-        </div>
-        <SuggestionBox results={this.state.results} _showModal={this._showModal} />
+          <SuggestionBox results={this.state.results} _showModal={this._showModal} />
 
-        {/* <TravelTileModal className={this.state.modalClass}
-          _addTile={this._addTile}
-          _closeModal={this._closeModal}
-          selectedTile={this.state.selectedTile}
-          selectedTileIndex={this.state.selectedTileIndex}
-          firebase={this.props.firebase}
-          _handleClick={this.props._handleClick}
-          user={this.props.user}
-          destination={this.state.destination}
-          tripId={this.props.params.tripId}
-          _removeYelpListing={this._removeYelpListing}
-          category={this.state.term}/> */}
-          <TileEditorModal
-            className={this.state.modalClass}
+          {/* <TravelTileModal className={this.state.modalClass}
+            _addTile={this._addTile}
             _closeModal={this._closeModal}
-            modalButton={modalButton}
             selectedTile={this.state.selectedTile}
-          >
-            <CompletedCustomTile tile={this.state.selectedTile}/>
-          </TileEditorModal>
-          <AlertModal className={this.state.alertModalClass}
-            _closeModal={this._closeModal}
-            modalFunction={() => this._deleteTile(this.state.selectedTileIndex)}
-            newTripTitle="Delete Tile"
-            modalMessage="You are about to delete this tile forever!"
-            modalButton="Delete"
-          />
-      </main>
+            selectedTileIndex={this.state.selectedTileIndex}
+            firebase={this.props.firebase}
+            _handleClick={this.props._handleClick}
+            user={this.props.user}
+            destination={this.state.destination}
+            tripId={this.props.params.tripId}
+            _removeYelpListing={this._removeYelpListing}
+            category={this.state.term}/> */}
+            <TileEditorModal
+              className={this.state.modalClass}
+              _closeModal={this._closeModal}
+              modalButton={modalButton}
+              selectedTile={this.state.selectedTile}
+            >
+              <CompletedCustomTile tile={this.state.selectedTile}/>
+            </TileEditorModal>
+            <AlertModal className={this.state.alertModalClass}
+              _closeModal={this._closeModal}
+              modalFunction={() => this._deleteTile(this.state.selectedTileIndex)}
+              newTripTitle="Delete Tile"
+              modalMessage="You are about to delete this tile forever!"
+              modalButton="Delete"
+            />
+        </main>
+      </div>
     );
   }
 }

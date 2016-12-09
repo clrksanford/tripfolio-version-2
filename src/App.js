@@ -1,12 +1,7 @@
 // Modules
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import axios from 'axios';
 import _ from 'lodash';
-
-// Actions
-import { setUser } from './actions';
-import getUserTrips from './actions/getUserTrips';
 
 // Styles and images
 import './App.css';
@@ -76,14 +71,5 @@ class App extends Component {
     );
   }
 }
-//
-// var mapDispatchToProps = (dispatch) => {
-//   return {
-//     setUser: (user) => dispatch(setUser(user)),
-//     setUserTrips: (user) => dispatch(getUserTrips(user))
-//   }
-// }
-//
-// App = connect(null, mapDispatchToProps)(App);
 
 export default App;

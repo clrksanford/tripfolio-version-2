@@ -5,7 +5,6 @@ import firebase from '../utils/firebase';
 
 // Components
 import App from '../App';
-import CompletedTripPage from '../components/CompletedTripPage';
 import CompletedCustomTile from '../components/CompletedCustomTile';
 import Destinations from '../components/Destinations';
 import Home from '../components/Home';

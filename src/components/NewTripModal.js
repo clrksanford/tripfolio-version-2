@@ -1,34 +1,8 @@
-// Modules
 import React, { Component } from 'react';
-import { hashHistory } from 'react-router';
-import { connect } from 'react-redux';
 import _ from 'lodash';
-import axios from 'axios';
 
-// Actions
-import getSelectedTrip from '../actions/getSelectedTrip';
-
-// Styles and images
 
 class NewTripModal extends Component {
-  // constructor(props) {
-  //   super(props);
-  //
-  //   this.state = {
-  //     user: {}
-  //   }
-  // }
-  // componentDidMount() {
-  //   this.props.firebase.auth.onAuthStateChanged(user => {
-  //     if(user) {
-  //       this.setState({ user });
-  //     }
-  //   })
-  // }
-  componentDidMount() {
-    console.log('new trip modal mounted', this.props.user);
-  }
-
   render() {
     return(
       <div>
@@ -45,19 +19,5 @@ class NewTripModal extends Component {
     );
   }
 }
-
-var mapStateToProps = ({ custom }) => {
-  return {
-    user: custom.user
-  }
-}
-
-var mapDispatchToProps = (dispatch) => {
-  return {
-    setSelectedTrip: (tripId) => dispatch(getSelectedTrip(tripId))
-  }
-}
-
-NewTripModal = connect(mapStateToProps, mapDispatchToProps)(NewTripModal);
 
 export default NewTripModal;

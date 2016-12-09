@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import _ from 'lodash';
 
 import Address from './CompletedTileFields/Address';
@@ -20,23 +20,6 @@ export default (props) => {
   let tileNotesComponent = null;
   let transitComponent = null;
   let name;
-
-  // let neitherNilNorEmpty = (value) => {
-  //   let result = false;
-  //
-  //   console.log('value before deleting keys', value);
-  //   if(typeof value === 'object') {
-  //     value = deleteEmptyKeys(value);
-  //   }
-  //
-  //   console.log('value after deleting empty keys', value);
-  //
-  //   if((typeof value === 'object' && !_.isEmpty(value)) ||
-  //     (typeof value !== 'object' && !_.isNil(value))) {
-  //       result = true;
-  //   }
-  //   return result;
-  // }
 
   let setComponent = (componentName) => {
     switch(componentName) {
@@ -71,10 +54,9 @@ export default (props) => {
     console.log(tile);
     name = tile.name;
     for(var key in tile) {
-      setComponent(key);
-      // if(neitherNilNorEmpty(tile[key])) {
-      //     setComponent(key);
-      // }
+      if(tile.hasOwnProperty(key)) {
+        setComponent(key);
+      }
     }
   }
 

@@ -5,8 +5,6 @@ import _ from 'lodash';
 // Components
 import SuggestionTile from './SuggestionTile';
 
-// Styles and Images
-
 class SuggestionBox extends Component {
   constructor(props) {
     super(props);

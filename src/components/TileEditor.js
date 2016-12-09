@@ -9,11 +9,10 @@ import _ from 'lodash';
 import deleteEmptyKeys from '../constants/deleteEmptyKeys';
 
 // Components
-import TileEditorModal from './TileEditorModal';
 import Address from './TileFormFields/Address';
 import CompletedCustomTile from './CompletedCustomTile';
-import Header from './Header';
 import Entrance from './TileFormFields/Entrance';
+import Header from './Header';
 import Image from './TileFormFields/Image';
 import OpeningHours from './TileFormFields/OpeningHours';
 import TileLinkAdder from './TileFormFields/TileLinkAdder';

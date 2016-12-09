@@ -1,16 +1,14 @@
 // Modules
 import React, {Component} from 'react';
+import { Link, hashHistory } from 'react-router';
 import axios from 'axios';
 import _ from 'lodash';
-import { Link, hashHistory } from 'react-router';
-import { connect } from 'react-redux';
 
 // Components
 import AlertModal from './AlertModal';
 import CompletedCustomTile from './CompletedCustomTile';
 import SuggestionBox from './SuggestionBox';
 import TileEditorModal from './TileEditorModal';
-import TravelTileModal from './TravelTileModal';
 import UsersTile from './UsersTile';
 import Header from './Header';
 
@@ -280,7 +278,7 @@ class TripBuilder extends Component {
               </a></li>
             </ol>
             <Link className="largeButton"
-              to={`/completed/myTrip/${destination}/${_id}`}>View Trip</Link>
+              to={`/completed/myTrip/${destForURL}/${_id}`}>View Trip</Link>
           </nav>
           <form id='newCustomTile' onSubmit={(e) => {
             e.preventDefault();
@@ -294,17 +292,6 @@ class TripBuilder extends Component {
               <h3>My Saved Tiles</h3>
             </div>
             <div id="myTilesContainer">
-              {/*
-                OLD  MAP FOR YELP TILES
-
-                {_.map(this.state.userTiles, (tile, index) => {
-                let image = tile.tile["image_url"];
-                let name = tile.tile.name;
-                let snippet_text = tile.tile.snippet_text;
-                // let url = tile.tile.url;
-
-                return <UsersTile index={index} key={index} image={image} name={name} snippet_text={snippet_text} _deleteTile={this._deleteTile} _showModal={this._showSavedModal} spanClass='' />
-              })} */}
               {_.map(this.state.userTiles, (tile, index) => {
                 let { _id, image, name } = tile;
 
@@ -323,45 +310,25 @@ class TripBuilder extends Component {
           </div>
           <SuggestionBox results={this.state.results} _showModal={this._showModal} />
 
-          {/* <TravelTileModal className={this.state.modalClass}
-            _addTile={this._addTile}
+          <TileEditorModal
+            className={this.state.modalClass}
             _closeModal={this._closeModal}
+            modalButton={modalButton}
             selectedTile={this.state.selectedTile}
-            selectedTileIndex={this.state.selectedTileIndex}
-            firebase={this.props.firebase}
-            _handleClick={this.props._handleClick}
-            user={this.props.user}
-            destination={this.state.destination}
-            tripId={this.props.params.tripId}
-            _removeYelpListing={this._removeYelpListing}
-            category={this.state.term}/> */}
-            <TileEditorModal
-              className={this.state.modalClass}
-              _closeModal={this._closeModal}
-              modalButton={modalButton}
-              selectedTile={this.state.selectedTile}
-            >
-              <CompletedCustomTile tile={this.state.selectedTile}/>
-            </TileEditorModal>
-            <AlertModal className={this.state.alertModalClass}
-              _closeModal={this._closeModal}
-              modalFunction={() => this._deleteTile(this.state.selectedTileIndex)}
-              newTripTitle="Delete Tile"
-              modalMessage="You are about to delete this tile forever!"
-              modalButton="Delete"
-            />
+          >
+            <CompletedCustomTile tile={this.state.selectedTile}/>
+          </TileEditorModal>
+          <AlertModal className={this.state.alertModalClass}
+            _closeModal={this._closeModal}
+            modalFunction={() => this._deleteTile(this.state.selectedTileIndex)}
+            newTripTitle="Delete Tile"
+            modalMessage="You are about to delete this tile forever!"
+            modalButton="Delete"
+          />
         </main>
       </div>
     );
   }
 }
-
-// var mapStateToProps = ({ custom }) => {
-//   return {
-//     user: custom.user
-//   }
-// }
-//
-// TripBuilder = connect(mapStateToProps, null)(TripBuilder);
 
 export default TripBuilder;

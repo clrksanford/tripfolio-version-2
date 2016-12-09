@@ -1,8 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
 
-import deleteEmptyKeys from '../../constants/deleteEmptyKeys';
-
 export default (props) => {
   let { openingHours } = props.tile;
 

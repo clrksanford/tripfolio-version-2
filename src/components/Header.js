@@ -1,5 +1,5 @@
 import React from 'react';
-import { hashHistory, Link } from 'react-router';
+import { Link } from 'react-router';
 
 // Components
 import LogoutButton from './LogoutButton'
@@ -28,46 +28,9 @@ const Header = (props) => (
         <li>
           <LogoutButton firebase={props.firebase} />
         </li>
-        {/* <li>
-            <img src={props.profilePicture} alt='Your profile avatar'
-              onClick={() => hashHistory.push('/profile')}/>
-        </li> */}
       </ul>
     </nav>
   </header>
 );
 
 export default Header;
-//
-// class Header extends Component {
-//
-//   render() {
-//     return(
-//       <div>
-//         <div id="nav-pills">
-//         <ul className="nav nav-pills">
-//           {/* <li role="presentation">
-//           <button id="nav-buttons" className="btn btn-default"><newTrips /><Link to="newTrip">My Trips</Link></button>
-//           </li> */}
-//           <li role="presentation">
-//             <Link to="/profile">My Profile</Link>
-//           </li>
-//           <li role="presentation">
-//             <button id="nav-buttons" className="btn btn-default">
-//             <Link to="/destinations">Destinations</Link></button>
-//           </li>
-//           <li role="presentation">
-//             <LogoutButton firebase={this.props.firebase}/>
-//           </li>
-//         </ul>
-//         </div>
-//         <div id="logo-div">
-//           <Link to="/profile"><img id="logo" src={logo} alt="Website logo showing yellow folder with Tripfolio in blue font"/></Link>
-//         </div>
-//       </div>
-//
-//     )
-//   }
-// }
-//
-// export default Header;

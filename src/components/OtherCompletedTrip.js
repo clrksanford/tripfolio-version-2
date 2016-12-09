@@ -1,6 +1,5 @@
 // Modules
 import React, {Component} from 'react';
-import { hashHistory, Link } from 'react-router';
 import axios from 'axios';
 import _ from 'lodash';
 
@@ -40,7 +39,7 @@ class OtherCompletedTrip extends Component {
   }
 
   render() {
-    let { _id, creatorUsername, destForURL, destination } = this.state.activeTrip;
+    let { _id, creatorUsername, destination } = this.state.activeTrip;
     destination = _.startCase(destination);
 
     return(

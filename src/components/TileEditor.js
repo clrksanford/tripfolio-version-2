@@ -1,11 +1,14 @@
+// Modules
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import _ from 'lodash';
 
+// Constants
 import deleteEmptyKeys from '../constants/deleteEmptyKeys';
 
+// Components
 import TileEditorModal from './TileEditorModal';
 import Address from './TileFormFields/Address';
 import CompletedCustomTile from './CompletedCustomTile';
@@ -17,6 +20,7 @@ import TileLinkAdder from './TileFormFields/TileLinkAdder';
 import TileNotes from './TileFormFields/TileNotes';
 import Transit from './TileFormFields/Transit';
 
+// Styles
 import '../styles/forms.css';
 
 class TileEditor extends Component {
@@ -66,7 +70,9 @@ class TileEditor extends Component {
   }
 
   componentDidMount() {
-    axios.get(`https://lit-garden-98394.herokuapp.com/travel-tiles/${this.props.params.tileId}`)
+    let { tileId } = this.props.params;
+
+    axios.get(`https://lit-garden-98394.herokuapp.com/travel-tiles/${tileId}`)
       .then((response) => {
         let activeTile = response.data;
 

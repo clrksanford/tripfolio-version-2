@@ -7,10 +7,10 @@ import _ from 'lodash';
 // Components
 import AlertModal from './AlertModal';
 import CompletedCustomTile from './CompletedCustomTile';
+import Header from './Header';
 import SuggestionBox from './SuggestionBox';
 import TileEditorModal from './TileEditorModal';
 import UsersTile from './UsersTile';
-import Header from './Header';
 
 // Styles and images
 import "../styles/tripbuilder.css";
@@ -22,9 +22,9 @@ class TripBuilder extends Component {
     this.state = {
       activeTrip: {},
       alertModalClass: 'hidden',
-      results: [],
       modalButton: '',
       modalClass: 'hidden',
+      results: [],
       userTiles: []
     }
 
@@ -32,15 +32,14 @@ class TripBuilder extends Component {
     this._axiosCall = this._axiosCall.bind(this);
     this._closeModal = this._closeModal.bind(this);
     this._createCustomTile = this._createCustomTile.bind(this);
-    this._setActiveTab = this._setActiveTab.bind(this);
-    this._showModal = this._showModal.bind(this);
-    this._showAlertModal = this._showAlertModal.bind(this);
+    this._deleteTile = this._deleteTile.bind(this);
     this._loadUsersTiles = this._loadUsersTiles.bind(this);
     this._removeYelpListing = this._removeYelpListing.bind(this);
-    this._deleteTile = this._deleteTile.bind(this);
-    this._showSavedModal = this._showSavedModal.bind(this);
-    this._routeToProfile = this._routeToProfile.bind(this);
     this._renderModalButton = this._renderModalButton.bind(this);
+    this._setActiveTab = this._setActiveTab.bind(this);
+    this._showAlertModal = this._showAlertModal.bind(this);
+    this._showModal = this._showModal.bind(this);
+    this._showSavedModal = this._showSavedModal.bind(this);
   }
 
   componentDidMount() {
@@ -79,6 +78,34 @@ class TripBuilder extends Component {
       })
   }
 
+  _addTile() {
+    let { name } = this.state.selectedTile;
+    let image = this.state.selectedTile['image_url'];
+    let { creatorId } = this.state.activeTrip;
+    let tripId = this.props.params.tripId;
+
+    axios.post(`https://lit-garden-98394.herokuapp.com/travel-tiles`, {
+      name,
+      image,
+      creatorId,
+      _correspondingTrip: tripId
+    })
+      .then(response => {
+        let newTile = response.data;
+
+        let { userTiles } = this.state;
+        userTiles.push(newTile);
+
+        this.setState({
+          modalClass: 'hidden',
+          userTiles
+        });
+
+        this._removeYelpListing(this.state.selectedTileIndex);
+      })
+      .catch(err => console.log(err))
+  }
+
   _axiosCall(e) {
     let term;
     let destination = this.props.params.destination;
@@ -111,102 +138,10 @@ class TripBuilder extends Component {
       });
   }
 
-
-  _loadUsersTiles() {
-    let { tripId } = this.props.params;
-
-    axios.get(`https://lit-garden-98394.herokuapp.com/find-tile-by-trip/${tripId}`)
-      .then(response => {
-        let userTiles = response.data;
-
-        this.setState({ userTiles });
-      })
-      .catch(err => console.log(err))
-  }
-
-  _showModal(index) {
-    let selectedTile = this.state.results[index];
-
-    this.setState({
-      modalButton: 'save',
-      modalClass: '',
-      selectedTile: selectedTile,
-      selectedTileIndex: index
-    })
-  }
-
-  _showSavedModal(index) {
-    let selectedTile = this.state.userTiles[index];
-
-    this.setState({
-      modalButton: 'edit',
-      modalClass: '',
-      selectedTile: selectedTile,
-      selectedTileIndex: index
-    })
-  }
-
-  _renderModalButton() {
-    let modalButton;
-
-    if(this.state.modalButton === 'save') {
-      modalButton = <button onClick={this._addTile} className='largeButton'>Save</button>
-    } else if(this.state.modalButton === 'edit') {
-      modalButton = <Link to={`tile-editor/${this.props.params.destination}/${this.state.selectedTile._id}`} className='largeButton'>Edit</Link>
-    }
-
-    return modalButton;
-  }
-
   _closeModal() {
     this.setState({
       alertModalClass: 'hidden',
       modalClass: 'hidden'
-    })
-  }
-  _addTile() {
-    let { name } = this.state.selectedTile;
-    let image = this.state.selectedTile['image_url'];
-    let { creatorId } = this.state.activeTrip;
-    let tripId = this.props.params.tripId;
-
-    axios.post(`https://lit-garden-98394.herokuapp.com/travel-tiles`, {
-      name,
-      image,
-      creatorId,
-      _correspondingTrip: tripId
-    })
-      .then(response => {
-        let newTile = response.data;
-
-        let { userTiles } = this.state;
-        userTiles.push(newTile);
-
-        this.setState({
-          modalClass: 'hidden',
-          userTiles
-        });
-
-        this._removeYelpListing(this.state.selectedTileIndex);
-      })
-      .catch(err => console.log(err))
-  }
-
-  _setActiveTab(e) {
-      // Remove active class from currently active link
-      document.getElementsByClassName("active")[0].className = "";
-
-      // Set the clikced tab to "active"
-      e.target.className = "active";
-  }
-
-  _removeYelpListing(index) {
-    let newList = _.remove(this.state.results, (result) => {
-      return this.state.results.indexOf(result) !== index;
-    });
-
-    this.setState({
-      results: newList
     })
   }
 
@@ -228,14 +163,73 @@ class TripBuilder extends Component {
       .catch(err => console.log(err))
   }
 
-  _routeToProfile() {
-    this.props._loadUsersTrips(this.props.user);
-    hashHistory.pushState('/profile');
+  _loadUsersTiles() {
+    let { tripId } = this.props.params;
+
+    axios.get(`https://lit-garden-98394.herokuapp.com/find-tile-by-trip/${tripId}`)
+      .then(response => {
+        let userTiles = response.data;
+
+        this.setState({ userTiles });
+      })
+      .catch(err => console.log(err))
+  }
+
+  _removeYelpListing(index) {
+    let newList = _.remove(this.state.results, (result) => {
+      return this.state.results.indexOf(result) !== index;
+    });
+
+    this.setState({
+      results: newList
+    })
+  }
+
+  _renderModalButton() {
+    let modalButton;
+
+    if(this.state.modalButton === 'save') {
+      modalButton = <button onClick={this._addTile} className='largeButton'>Save</button>
+    } else if(this.state.modalButton === 'edit') {
+      modalButton = <Link to={`tile-editor/${this.props.params.destination}/${this.state.selectedTile._id}`} className='largeButton'>Edit</Link>
+    }
+
+    return modalButton;
+  }
+
+  _setActiveTab(e) {
+      // Remove active class from currently active link
+      document.getElementsByClassName("active")[0].className = "";
+
+      // Set the clikced tab to "active"
+      e.target.className = "active";
   }
 
   _showAlertModal(index) {
     this.setState({
       alertModalClass: '',
+      selectedTileIndex: index
+    })
+  }
+
+  _showModal(index) {
+    let selectedTile = this.state.results[index];
+
+    this.setState({
+      modalButton: 'save',
+      modalClass: '',
+      selectedTile: selectedTile,
+      selectedTileIndex: index
+    })
+  }
+
+  _showSavedModal(index) {
+    let selectedTile = this.state.userTiles[index];
+
+    this.setState({
+      modalButton: 'edit',
+      modalClass: '',
+      selectedTile: selectedTile,
       selectedTileIndex: index
     })
   }

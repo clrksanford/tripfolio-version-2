@@ -26,6 +26,9 @@ class MyCompletedTripPage extends Component {
       activeTrip: {},
       userTiles: []
     }
+
+    this._deleteTrip = this._deleteTrip.bind(this);
+    this._showModal = this._showModal.bind(this);
   }
 
   componentDidMount() {
@@ -51,15 +54,15 @@ class MyCompletedTripPage extends Component {
   //   this.setState({alertModalClass: 'hidden'});
   // }
   //
-  // _deleteTrip() {
-  //   let tripId = this.props.selectedTrip._id;
-  //
-  //   axios.delete(`https://lit-garden-98394.herokuapp.com/trips/${tripId}`)
-  //     .then((response) => {
-  //       hashHistory.push('/profile');
-  //     })
-  //     .catch(err => console.error(err))
-  // }
+  _deleteTrip() {
+    let {tripId} = this.props.params;
+
+    axios.delete(`https://lit-garden-98394.herokuapp.com/trips/${tripId}`)
+      .then((response) => {
+        hashHistory.push('/profile');
+      })
+      .catch(err => console.error(err))
+  }
 
   // _renderTiles(query) {
   //   let tileList = _.filter(this.state.tiles, (tile, index) => {
@@ -76,11 +79,9 @@ class MyCompletedTripPage extends Component {
   //   );
   // }
 
-  // _showModal(e) {
-  //   e.preventDefault();
-  //
-  //   this.setState({alertModalClass:''});
-  // }
+  _showModal() {
+    this.setState({alertModalClass:''});
+  }
 
   render() {
     let { _id, destForURL, destination } = this.state.activeTrip;
@@ -94,7 +95,15 @@ class MyCompletedTripPage extends Component {
               {/* STRETCH: switch to make your trip public or private */}
             <ol className="breadcrumb">
               <li><Link id="breadcrumb-nav" className="active" to={`/trip-builder/${destForURL}/${_id}`}>Edit</Link></li>
-              <li><a id="breadcrumb-nav" className="active" href="#" onClick={this._showModal}>Delete</a></li>
+              <li>
+                <a id="breadcrumb-nav" className="active" href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    this._showModal();
+                }}>
+                  Delete
+                </a>
+              </li>
             </ol>
           </div>
           <div id="completedTrip" className="container">

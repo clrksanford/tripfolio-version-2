@@ -14,7 +14,7 @@ _handleClick(){
   this.props.firebase.auth().signInWithPopup(provider).then(result => {
     let { user } = result;
     document.body.style.background = 'white';
-    hashHistory.push(`/profile/${user.uid}`);
+    hashHistory.push(`/profile`);
   });
 }
 

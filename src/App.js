@@ -30,7 +30,7 @@ class App extends Component {
       // If user is signed in...
       if (user) {
         console.log('we have a user');
-        this.setState(user);
+        this.setState({user});
 
         this._loadUsersTrips(user);
         // // Save user's info to state

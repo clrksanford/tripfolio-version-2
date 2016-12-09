@@ -12,8 +12,9 @@ _handleClick(){
   let provider = new
   this.props.firebase.auth.GoogleAuthProvider();
   this.props.firebase.auth().signInWithPopup(provider).then(result => {
+    let { user } = result;
     document.body.style.background = 'white';
-    hashHistory.push('/profile');
+    hashHistory.push(`/profile/${user.uid}`);
   });
 }
 

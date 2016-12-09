@@ -1,16 +1,23 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import _ from 'lodash';
 
+import deleteEmptyKeys from '../constants/deleteEmptyKeys';
+
 import TileEditorModal from './TileEditorModal';
 import Address from './TileFormFields/Address';
+import CompletedCustomTile from './CompletedCustomTile';
+import Header from './Header';
 import Entrance from './TileFormFields/Entrance';
 import Image from './TileFormFields/Image';
 import OpeningHours from './TileFormFields/OpeningHours';
 import TileLinkAdder from './TileFormFields/TileLinkAdder';
+import TileNotes from './TileFormFields/TileNotes';
 import Transit from './TileFormFields/Transit';
 
+import '../styles/forms.css';
 
 class TileEditor extends Component {
   constructor(props) {
@@ -30,7 +37,7 @@ class TileEditor extends Component {
           currentlyActive: true
         },
         entrance: {
-          text: 'Entrance Fee',
+          text: 'Admissions',
           currentlyActive: true
         },
         image: {
@@ -44,11 +51,16 @@ class TileEditor extends Component {
         helpfulLinks: {
           text: 'Helpful Links',
           currentlyActive: true
+        },
+        notes: {
+          text: 'Add notes',
+          currentlyActive: true
         }
       }
     }
 
     this._closeModal = this._closeModal.bind(this);
+    this._filterLinks = this._filterLinks.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this._showFieldModal = this._showFieldModal.bind(this);
   }
@@ -65,15 +77,7 @@ class TileEditor extends Component {
 
         console.log(activeTile);
 
-        // Deactive newFormLinks for fields already populated
-        _.map(this.state.newFormLinks, (link, linkName) => {
-          if(!_.isEmpty(this.state.activeTile[linkName])) {
-            let newFormLinks = this.state.newFormLinks;
-            newFormLinks[linkName].currentlyActive = false;
-
-            this.setState({ newFormLinks });
-          }
-        })
+        this._filterLinks(activeTile);
       })
       .catch(err => console.log(err))
   }
@@ -81,6 +85,18 @@ class TileEditor extends Component {
   _closeModal() {
     this.setState({
       modalClass: 'hidden'
+    })
+  }
+
+  _filterLinks(tileToCheck) {
+    // Deactive newFormLinks for fields already populated
+    _.map(this.state.newFormLinks, (link, linkName) => {
+      if(!_.isEmpty(tileToCheck[linkName])) {
+        let { newFormLinks } = this.state;
+        newFormLinks[linkName].currentlyActive = false;
+
+        this.setState({ newFormLinks });
+      }
     })
   }
 
@@ -286,24 +302,13 @@ class TileEditor extends Component {
       }
     }
 
-    function checkEmptyProp(objectProp) {
-      let newObj = _.omitBy(objectProp, _.isNil);
-      let result = false;
-
-      if(_.isEmpty(newObj)) {
-        result = true;
-      }
-
-      return result;
-    }
-
-    address = _.omitBy(address, checkEmptyProp);
-    entrance = _.omitBy(entrance, checkEmptyProp);
-    helpfulLinks = _.omitBy(helpfulLinks, checkEmptyProp);
-    image = _.omitBy(image, checkEmptyProp);
-    notes = _.omitBy(notes, checkEmptyProp);
-    openingHours = _.omitBy(openingHours, checkEmptyProp);
-    transit = _.omitBy(transit, checkEmptyProp);
+    address = deleteEmptyKeys(address);
+    entrance = deleteEmptyKeys(entrance);
+    helpfulLinks = deleteEmptyKeys(helpfulLinks);
+    image = deleteEmptyKeys(image);
+    notes = deleteEmptyKeys(notes);
+    openingHours = deleteEmptyKeys(openingHours);
+    transit = deleteEmptyKeys(transit);
 
     let options = { address, entrance, helpfulLinks, image, notes, openingHours, transit };
 
@@ -320,9 +325,15 @@ class TileEditor extends Component {
 
     axios.put(`https://lit-garden-98394.herokuapp.com/travel-tiles/${tileId}`, options)
       .then((response) => {
-        console.log(response);
+        let updatedTile = response.data;
 
-        // Close modal
+        this._filterLinks(updatedTile);
+
+        // Close modal and re-render with updated info
+        this.setState({
+          activeTile: updatedTile,
+          modalClass: 'hidden'
+        })
       })
       .catch(err => console.log(err))
   }
@@ -344,11 +355,14 @@ class TileEditor extends Component {
       case 'openingHours':
         activeForm = <OpeningHours tileId={tileId} onSubmit={this.handleSubmit} />;
         break;
-      case 'links':
+      case 'helpfulLinks':
         activeForm = <TileLinkAdder tileId={tileId} onSubmit={this.handleSubmit} />;
         break;
       case 'transit':
         activeForm = <Transit tileId={tileId} onSubmit={this.handleSubmit} />;
+        break;
+      case 'notes':
+        activeForm = <TileNotes tileId={tileId} onSubmit={this.handleSubmit} />;
         break;
       default:
         activeForm = '';
@@ -361,48 +375,59 @@ class TileEditor extends Component {
   }
 
   render() {
-    if(this.state.activeTile) {
-      var { street1, city, country, zip } = this.state.activeTile.address || ''
-        , { image } = this.state.activeTile;
-    }
+    let { destination } = this.props.params;
+    let tripId = this.state.activeTile._correspondingTrip;
 
     return(
-      <main>
-        <h2>Create a Custom Tile</h2>
-        <div className='pageContent'>
+      <div>
+        <Header firebase={this.props.firebase}/>
+        <main>
+          <h2>Create a Custom Tile</h2>
           <div className='row'>
-            <div className='column'>
-              <h3>My Info for {this.state.activeTile.name || ''}</h3>
-              <img src={image} alt='Beautiful view of wherever you want to be!' />
-              <p>
-                {street1}
-                {city}, {country}
-                {zip}
-              </p>
-            </div>
-            <div className='column'>
-              <h3>Add more fields</h3>
-              {_.map(this.state.newFormLinks, (link, linkName) => {
-                if(link.currentlyActive) {
-                  return (
-                    <a href='#' key={linkName} onClick={(e) => {
-                      e.preventDefault();
-                      this._showFieldModal(linkName);
-                    }}>
-                      {link.text}
-                    </a>
-                  )
-                }
-              })}
+            <Link to={`trip-builder/${destination}/${tripId}`}
+              className='largeButton'
+            >
+              Back to Trip Builder
+            </Link>
+          </div>
+          <div className='pageContent'>
+            <CompletedCustomTile
+              tile={this.state.activeTile}
+            />
+            <div className='container-fluid'>
+              <div className='row'>
+                <div className='tileHeader' id='addTileFields'>
+                  <h3>Add more fields</h3>
+                </div>
+                <div className='tileBody'>
+                  <ul id='tileEditorList'>
+                    {_.map(this.state.newFormLinks, (link, linkName) => {
+                      if(link.currentlyActive) {
+                        return (
+                          <li key={linkName}>
+                            <a href='#' onClick={(e) => {
+                              e.preventDefault();
+                              this._showFieldModal(linkName);
+                            }}>
+                              {link.text}
+                            </a>
+                          </li>
+                        )
+                      }
+                    })}
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        <TileEditorModal className={this.state.modalClass}
-          _closeModal={this._closeModal}
-          modalButton='Save'>
-          {this.state.activeForm}
-        </TileEditorModal>
-      </main>
+          <TileEditorModal
+            className={this.state.modalClass}
+            _closeModal={this._closeModal}
+          >
+            {this.state.activeForm}
+          </TileEditorModal>
+        </main>
+      </div>
     )
   }
 }

@@ -54,3 +54,7 @@
 .suggestionTile img {
   border-radius: 5px;
 }
+
+#newCustomTile {
+  margin-bottom: 40px;
+}

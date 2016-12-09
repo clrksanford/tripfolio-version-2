@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { hashHistory } from 'react-router';
 
+import backgroundImage from "../../public/images/pretty2.jpg";
+
 export default class LogoutButton extends Component{
   constructor(props){
     super(props);
@@ -10,6 +12,7 @@ export default class LogoutButton extends Component{
   _handleLogout(){
     this.props.firebase.auth().signOut().then(response => {
       hashHistory.push('/');
+      document.body.style.background = `url(${backgroundImage})`;
     });
   }
 

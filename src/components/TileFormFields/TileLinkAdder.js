@@ -7,8 +7,9 @@ class TileLinkAdder extends Component {
     super(props);
 
     this.state = {
-      linkArray: [ 'link' ],
-      linkMax: 10
+      linkCount: 1,
+      linkMax: 6,
+      addLinkVisible: true
     }
 
     this._addLinks = this._addLinks.bind(this);
@@ -17,12 +18,15 @@ class TileLinkAdder extends Component {
   }
 
   _addLinks() {
-    let { linkArray } = this.state;
-    linkArray.push('link');
+    let { linkCount } = this.state;
 
-    this.setState({
-      linkArray
-    });
+    linkCount++;
+
+    if(linkCount == this.state.linkMax) {
+      this.setState({ addLinkVisible: false });
+    } else {
+      this.setState({ linkCount });
+    }
   }
 
   _handleChange(e) {
@@ -34,26 +38,45 @@ class TileLinkAdder extends Component {
   }
 
   _removeLinks() {
-    let { linkArray } = this.state;
-    linkArray.pop();
+    let { linkCount } = this.state;
 
-    this.setState({
-      linkArray
-    });
+    this.setState({ linkCount: linkCount - 1 });
   }
 
   render() {
     return(
-      <form id='tileLinkAdderContainer' onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
-        {/* {_.map(this.state.linkArray, (link, index) => {
+      <form id='tileLinkAdderContainer' className='tileForm' onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
+        {/* {_.map(this.state.linkArray, (link, i) => {
+          let index = i + 1;
+
           return (
-            <TileLink key={index}
-              _handleChange = {this._handleChange}
-             />
+            <div id={`link${index}Container`} key={index}>
+              <label htmlFor={`link${index}Name`}>Link Name</label>
+              <Field name={`link${index}Name`} component='input' type='text' />
+
+              <label htmlFor={`link${index}URL`}>URL</label>
+              <Field name={`link${index}URL`} component='input' type='text' />
+            </div>
           )
         })} */}
+        <div className='formBody'>
+          <h4>Helfpul Links</h4>
+          {_.times(this.state.linkCount, (i) => {
+            let index = i + 1;
 
-        <div id='link1Container'>
+            return (
+                <div id={`link${index}Container`} key={index}>
+                  <span onClick={this._removeLinks}>X</span>
+                  <label htmlFor={`link${index}Name`}>Link Name</label>
+                  <Field name={`link${index}Name`} component='input' type='text' />
+
+                  <label htmlFor={`link${index}URL`}>URL</label>
+                  <Field name={`link${index}URL`} component='input' type='text' />
+                </div>
+              )
+          })}
+
+        {/* <div id='link1Container'>
           <label htmlFor='link1Name'>Link Name</label>
           <Field name='link1Name' component='input' type='text' />
 
@@ -73,16 +96,19 @@ class TileLinkAdder extends Component {
 
           <label htmlFor='link3URL'>URL</label>
           <Field name='link3URL' component='input' type='text' />
+        </div> */}
+
+          <a href='#' className={this.state.addLinkVisible ? '' : 'hidden'}
+            onClick={(e) => {
+              e.preventDefault();
+              this._addLinks();
+            }
+          }>
+            Add Link
+          </a>
         </div>
 
-        <button type='submit'>Save</button>
-
-        <a href='#' onClick={(e) => {
-          e.preventDefault();
-          // this._addLinks();
-        }}>
-          Add Link
-        </a>
+        <button type='submit' className='largeButton'>Save</button>
       </form>
     );
   }

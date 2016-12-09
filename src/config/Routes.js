@@ -5,14 +5,17 @@ import firebase from '../utils/firebase';
 
 // Components
 import App from '../App';
-import Home from '../components/Home';
-import Profile from '../components/Profile';
-import TripBuilder from '../components/TripBuilder';
-import NewTripModal from '../components/NewTripModal';
 import CompletedTripPage from '../components/CompletedTripPage';
+import CompletedCustomTile from '../components/CompletedCustomTile';
 import Destinations from '../components/Destinations';
+import Home from '../components/Home';
+import MyCompletedTrip from '../components/MyCompletedTrip';
+import NewTripModal from '../components/NewTripModal';
+import OtherCompletedTrip from '../components/OtherCompletedTrip';
+import Profile from '../components/Profile';
 import TileEditor from '../components/TileEditor';
-import TileEditorSandbox from '../components/TileEditorSandbox';
+import TripBuilder from '../components/TripBuilder';
+
 
 // Redux
 import store from './ReduxStore';
@@ -26,9 +29,10 @@ export default () => (
         <Route path='/trip-builder/:destination/:tripId' component={TripBuilder}/>
         <Route path='/newTrip' component={NewTripModal}/>
         <Route path='/destinations' component={Destinations}/>
-        <Route path='/completed/:user/:destination/:tripId' component={CompletedTripPage}/>
-        <Route path='/tile-editor/:tileId' component={TileEditor}/>
-        <Route path='/tile-editor-sandbox' component={TileEditorSandbox}/>
+        <Route path='/completed/myTrip/:destination/:tripId' component={MyCompletedTrip}/>
+        <Route path='/explore/:userName/:destination/:tripId' component={OtherCompletedTrip}/>
+        <Route path='/tile-editor/:destination/:tileId' component={TileEditor}/>
+        <Route path='/tile/:destination/:tileId' component={CompletedCustomTile}/>
       </Route>
     </Router>
   </Provider>

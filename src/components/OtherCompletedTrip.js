@@ -9,6 +9,7 @@ import _ from 'lodash';
 // import UsersTile from './UsersTile';
 import Header from './Header';
 import AlertModal from './AlertModal';
+import UsersTile from './UsersTile';
 
 // Redux actions
 import getSelectedTrip from '../actions/getSelectedTrip';
@@ -16,23 +17,15 @@ import getSelectedTrip from '../actions/getSelectedTrip';
 // Styles and images
 import '../styles/completedtrip.css';
 
-class CompletedTripPage extends Component {
+class MyCompletedTripPage extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       alertModalClass: 'hidden',
-      activeTrip: {}
+      activeTrip: {},
+      userTiles: []
     }
-
-    this._checkUser = this._checkUser.bind(this);
-    // this._closeModal = this._closeModal.bind(this);
-    // this._deleteTrip = this._deleteTrip.bind(this);
-    // this._isLoading = this._isLoading.bind(this);
-    this._renderMyTrip = this._renderMyTrip.bind(this);
-    this._renderOtherUsersTrip = this._renderOtherUsersTrip.bind(this);
-    // this._renderTiles = this._renderTiles.bind(this);
-    // this._showModal = this._showModal.bind(this);
   }
 
   componentDidMount() {
@@ -44,22 +37,14 @@ class CompletedTripPage extends Component {
 
         this.setState({ activeTrip });
       })
+
+    axios.get(`https://lit-garden-98394.herokuapp.com/find-tile-by-trip/${tripId}`)
+      .then((response) => {
+        let userTiles = response.data;
+
+        this.setState({ userTiles });
+      })
     // this.props.setSelectedTrip(this.props.params.tripId);
-  }
-
-  _checkUser() {
-    console.log('checking user', this.props.user);
-    let currentUserId = this.props.user.uid;
-    let { creatorId } = this.state.activeTrip;
-
-    // Check if this trip belongs to currently logged in user
-    if(currentUserId === creatorId) {
-      console.log('user is owner of trip');
-      return this._renderMyTrip();
-    } else {
-      console.log('this is someone elses trip');
-      return this._renderOtherUsersTrip();
-    }
   }
 
   // _closeModal() {
@@ -76,43 +61,6 @@ class CompletedTripPage extends Component {
   //     .catch(err => console.error(err))
   // }
 
-  _isLoading() {
-    while(_.isNil(this.props.user) && _.isEmpty(this.state.activeTrip)) {
-      console.log('no selected trip yet');
-    }
-    return false;
-  }
-
-  _renderMyTrip() {
-    let { _id, destForURL, destination } = this.state.activeTrip;
-    destination = _.startCase(destination);
-
-    console.log('rendering my trip');
-    return (
-      <div id="newTrips" >
-        <h2>My Trip To {destination}</h2>
-          {/* STRETCH: switch to make your trip public or private */}
-        <ol className="breadcrumb">
-          <li><Link id="breadcrumb-nav" className="active" to={`/trip-builder/${destForURL}/${_id}`}>Edit</Link></li>
-          <li><a id="breadcrumb-nav" className="active" href="#" onClick={this._showModal}>Delete</a></li>
-        </ol>
-      </div>
-    );
-  }
-
-  _renderOtherUsersTrip() {
-    let { creatorUsername, destination } = this.state.activeTrip;
-    destination = _.startCase(destination);
-
-    return (
-      <div className="pageHeader">
-        <h2>{creatorUsername}'s trip to {destination}</h2>
-        <nav>
-          {/* TODO options to "add to your saved trips" and "like" will be added later */}
-        </nav>
-      </div>
-    );
-  }
   // _renderTiles(query) {
   //   let tileList = _.filter(this.state.tiles, (tile, index) => {
   //     return tile.category === query;
@@ -135,20 +83,31 @@ class CompletedTripPage extends Component {
   // }
 
   render() {
-    let checkForLoading = () => {
-      if(this._isLoading()) {
-        return <h2>Loading...</h2>
-      } else {
-        return this._checkUser();
-      }
-    }
+    let { _id, creatorUsername, destForURL, destination } = this.state.activeTrip;
+    destination = _.startCase(destination);
 
     return(
         <main id="main">
           <Header firebase={this.props.firebase} />
-            {checkForLoading()}
-            {/* <div id="completedTrip" className="container">
-              <div className="row">
+          <div id="newTrips" >
+            <h2>{creatorUsername}'s Trip To {destination}</h2>
+              {/* STRETCH: switch to make your trip public or private */}
+          </div>
+          <div id="completedTrip" className="container">
+            {_.map(this.state.userTiles, (tile, index) => {
+              let { _id, image, name } = tile;
+
+              return <UsersTile index={index}
+                key={index}
+                image={image}
+                name={name}
+                _deleteTile={this._deleteTile}
+                _showModal={() => this._showSavedModal(index)}
+                spanClass='hidden'/>
+            })
+
+            }
+              {/* <div className="row">
                 <div className="col-sm-6">
                   <div id="restaurantTiles"
                   className="tileColumn">
@@ -179,8 +138,8 @@ class CompletedTripPage extends Component {
                     {this._renderTiles('bars')}
                   </div>
                 </div>
-              </div>
-            </div> */}
+              </div> */}
+            </div>
             <AlertModal className={this.state.alertModalClass}
               _closeModal={this._closeModal}
               modalFunction={this._deleteTrip}
@@ -200,12 +159,12 @@ class CompletedTripPage extends Component {
 //   }
 // }
 
-var mapDispatchToProps = (dispatch) => {
-  return {
-    setSelectedTrip: (tripId) => dispatch(getSelectedTrip(tripId))
-  }
-}
+// var mapDispatchToProps = (dispatch) => {
+//   return {
+//     setSelectedTrip: (tripId) => dispatch(getSelectedTrip(tripId))
+//   }
+// }
 
-CompletedTripPage = connect(null, mapDispatchToProps)(CompletedTripPage);
+// CompletedTripPage = connect(null, mapDispatchToProps)(CompletedTripPage);
 
-export default CompletedTripPage;
+export default MyCompletedTripPage;

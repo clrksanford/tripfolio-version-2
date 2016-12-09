@@ -44,15 +44,21 @@ a:hover {
 }
 
 /*---BEGIN CUSTOM STYLES---*/
-
+html {
+  height: 100%;
+  width: 100%;
+}
 body {
   font-family: 'Raleway', sans-serif;
+  height: 100%;
+  width: 100%;
+  font-size: 20px;
   text-align: center;
-  background-color: white;
-  color: #000;
-  /*background-image: url("../public/images/pretty2.jpg");
+  /*background-color: white;*/
+  color: black;
+  background: url("../public/images/pretty2.jpg");
   background-size: cover;
-  background-repeat: no-repeat;*/
+  background-repeat: no-repeat;
 }
 
 .breadcrumb{
@@ -100,13 +106,33 @@ background-size: 25%;
   display: inline;
 }
 
-header div {
+header {
+  background-color: rgb(1, 171, 170);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 20px;
+  margin: 0 0 50px 0;
+  width: 100%;
+}
+
+header li {
   display: inline-block;
+  padding: 10px;
+}
+
+header img {
+  cursor: pointer;
 }
 
 h1{
   font-size: 200px;
 
+}
+
+.row {
+  margin-bottom: 20px;
 }
 
 #row{
@@ -221,7 +247,7 @@ h1{
   border-color: #000;
   border-radius: 5px;
   padding: 14px 5px;
-  width: 15%;
+  width: 250px;
 }
 
 #newTripSubmit:focus {
@@ -367,7 +393,7 @@ a.active, a.active:active {
 }
 
 /*---MODAL STYLES---*/
-#modalBackground {
+.modalBackground {
   position: fixed;
   top: 0;
   left: 0;
@@ -376,7 +402,7 @@ a.active, a.active:active {
   width: 100%;
 }
 
-#modalContainer {
+.modalContainer {
   margin: 15% auto;
   background-color: #fff;
   width: 30%;
@@ -392,7 +418,7 @@ a.active, a.active:active {
   z-index: 1;
 }
 
-#modalHeader {
+.modalHeader {
   background-color: lightgrey;
   text-align: right;
   height: 8%;
@@ -441,18 +467,6 @@ a.active, a.active:active {
 .suggestionTile {
   display: inline-block;
   cursor: pointer;
-}
-
-#header img {
-  float: left;
-}
-
-#header li {
-  display: inline;
-  margin-top: 1px;
-  margin-right: 2px;
-  top: 0;
-  right: 10px;
 }
 
 #newTripId {
@@ -509,4 +523,14 @@ a.active, a.active:active {
 
 #navYelpLinks a {
   margin: 0px 5px;
+}
+
+.tileImage {
+  height: 100px;
+  width: 100px;
+}
+
+#tileEditorList {
+  margin: 0 auto;
+  padding: 0;
 }

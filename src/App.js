@@ -1,6 +1,7 @@
 // Modules
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
 import _ from 'lodash';
 
 // Actions
@@ -16,11 +17,9 @@ class App extends Component {
 
     this.state = {
       user: {},
-      trips: {}
+      userTrips: {}
     }
 
-    this._handleClick = this._handleClick.bind(this);
-    this._handleSubmit = this._handleSubmit.bind(this);
     this._loadUsersTrips = this._loadUsersTrips.bind(this);
   }
 
@@ -30,14 +29,19 @@ class App extends Component {
     firebase.auth().onAuthStateChanged(user => {
       // If user is signed in...
       if (user) {
-        // Save user's info to state
-        this.props.setUser(user);
+        console.log('we have a user');
+        this.setState({user});
 
-        // Load logged in users trips to display on profile page
-        this.props.setUserTrips(user);
+        this._loadUsersTrips(user);
+        // // Save user's info to state
+        // this.props.setUser(user);
+        //
+        // // Load logged in users trips to display on profile page
+        // this.props.setUserTrips(user);
 
       // Otherwise, if no user is signed in.
       } else {
+        console.log('no user found');
         // Remove user and their trips from the state
         this.setState({ user: {}, destination: {} });
       }
@@ -45,42 +49,23 @@ class App extends Component {
   }
 
   _loadUsersTrips(user) {
-    let uid = user.uid;
-    let firebase = this.props.route.firebase;
+    let userId = user.uid;
 
-    firebase.database().ref(`/tripbook/${uid}`).on('value',snapshot => {
-      let trips = snapshot.val();
+    axios.get(`https://lit-garden-98394.herokuapp.com/${userId}`)
+      .then((response) => {
+        let userTrips = response.data;
 
-      this.setState({ trips });
-    });
-  }
-
-  _handleClick() {
-    let firebase = this.props.route.firebase;
-    let uid = this.state.user.uid;
-    let destination = this.state.destination;
-
-    firebase.database().ref(`/tripbook/${uid}`).push({
-      destination: destination,
-      places: []
-    })
-  }
-
-  _handleSubmit(destination) {
-    this.setState({ destination });
+        this.setState({ userTrips });
+      })
   }
 
   render(){
     let children = null;
     if(this.props.children){
       children = React.cloneElement(this.props.children, {
-        _handleClick: this._handleClick,
-        _handleSubmit: this._handleSubmit,
-        destination: this.state.destination,
         firebase: this.props.route.firebase,
-        trips: this.state.trips,
         user: this.state.user,
-        _loadUsersTrips: this._loadUsersTrips
+        userTrips: this.state.userTrips
       })
     }
 
@@ -91,14 +76,14 @@ class App extends Component {
     );
   }
 }
-
-var mapDispatchToProps = (dispatch) => {
-  return {
-    setUser: (user) => dispatch(setUser(user)),
-    setUserTrips: (user) => dispatch(getUserTrips(user))
-  }
-}
-
-App = connect(null, mapDispatchToProps)(App);
+//
+// var mapDispatchToProps = (dispatch) => {
+//   return {
+//     setUser: (user) => dispatch(setUser(user)),
+//     setUserTrips: (user) => dispatch(getUserTrips(user))
+//   }
+// }
+//
+// App = connect(null, mapDispatchToProps)(App);
 
 export default App;

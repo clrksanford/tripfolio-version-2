@@ -1,4 +1,4 @@
-#modalBackground {
+.modalBackground {
   position: fixed;
   top: 0;
   left: 0;
@@ -7,7 +7,7 @@
   width: 100%;
 }
 
-#modalContainer {
+.modalContainer {
   position: relative;
   margin: 15% auto;
   background-color: rgba(255,255,255,0);
@@ -15,6 +15,18 @@
   height: 400px;
   z-index: 1;
   box-sizing: border-box;
+  overflow: scroll;
+}
+
+#tileModalContainer {
+  position: relative;
+  margin: 80px auto;
+  background-color: white;
+  width: 90%;
+  max-height: 600px;
+  z-index: 1;
+  box-sizing: border-box;
+  overflow: scroll;
 }
 
 #modalImage {
@@ -27,9 +39,8 @@
   border-radius: 30px;
 }
 
-#modalHeader {
-  height: 50%;
-  padding: 4%;
+.modalHeader {
+  margin-bottom: 20px;
 }
 
 #closeModal {

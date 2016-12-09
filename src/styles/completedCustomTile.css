@@ -1,0 +1,44 @@
+.tileBody {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px 0;
+  border: 1px solid black;
+}
+
+.container {
+  max-width: 100%;
+}
+
+.completedTileContainer {
+  margin-bottom: 20px;
+}
+
+.completedCustomTile {
+  margin-bottom: 20px;
+}
+
+#completedImageContainer {
+  padding: 40px 0;
+}
+
+#customTileImage {
+  width: 60%;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 20px;
+}
+
+#completedNotesContainer {
+  margin: 0 auto 40px auto;
+  padding: 20px;
+  width: 80%;
+  /*border: 5px solid black;*/
+  box-shadow: 8px 8px 4px black;
+  background-color: rgb(203,203,203);
+}
+
+#addTileFields {
+  background-color: rgb(1, 171, 170);
+  border-color: rgb(1, 171, 170);
+  color: black;
+}

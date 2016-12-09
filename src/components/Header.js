@@ -9,7 +9,9 @@ import logo from "../../public/images/logo-2.png";
 
 const Header = (props) => (
   <header>
-    <img src={logo} alt="Yellow folder with TripFolio written in blue" />
+    <div>
+      <img src={logo} alt="Yellow folder with TripFolio written in blue" />
+    </div>
     <nav>
       <ul>
         <li>
@@ -17,13 +19,19 @@ const Header = (props) => (
             Destinations
           </Link>
         </li>
+        /
+        <li>
+          <Link to='/profile'>
+            Profile
+          </Link>
+        </li>
         <li>
           <LogoutButton firebase={props.firebase} />
         </li>
-        <li>
+        {/* <li>
             <img src={props.profilePicture} alt='Your profile avatar'
               onClick={() => hashHistory.push('/profile')}/>
-        </li>
+        </li> */}
       </ul>
     </nav>
   </header>

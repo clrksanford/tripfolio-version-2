@@ -5,7 +5,8 @@ const deleteEmptyKeys = (obj) => {
     // console.log('key', key);
     // console.log('value', obj[key]);
     if(_.isNil(obj[key]) ||
-      typeof obj[key] === 'object' && _.isEmpty(obj[key])) {
+      ( typeof obj[key] === 'object' && _.isEmpty(obj[key]) )
+    ) {
 
       // console.log(`${obj[key]} deleted`);
       delete obj[key];

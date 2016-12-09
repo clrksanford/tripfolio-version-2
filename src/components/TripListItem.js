@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router';
-import _ from 'lodash';
 
 export default (props) => {
-  let { creatorId, creatorUsername, destForURL, destination, displayName, pageName, tripId, user, URLname } = props;
+  let { destForURL, destination, displayName, pageName, tripId, URLname } = props;
 
   return(
     <li>

@@ -22,7 +22,7 @@ class TileLinkAdder extends Component {
 
     linkCount++;
 
-    if(linkCount == this.state.linkMax) {
+    if(linkCount === this.state.linkMax) {
       this.setState({ addLinkVisible: false });
     } else {
       this.setState({ linkCount });

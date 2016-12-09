@@ -54,11 +54,11 @@ body {
   width: 100%;
   font-size: 20px;
   text-align: center;
-  background-color: white;
+  /*background-color: white;*/
   color: black;
-  /*background: url("../public/images/pretty2.jpg");
+  background: url("../public/images/pretty2.jpg");
   background-size: cover;
-  background-repeat: no-repeat;*/
+  background-repeat: no-repeat;
 }
 
 .breadcrumb{

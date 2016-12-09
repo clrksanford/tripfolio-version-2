@@ -59,11 +59,11 @@ class App extends Component {
       })
     }
 
-  return (
-    <div>
-      {children}
-    </div>
-    );
+    return (
+      <div>
+        {children}
+      </div>
+      );
   }
 }
 

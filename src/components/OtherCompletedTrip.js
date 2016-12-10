@@ -5,7 +5,9 @@ import _ from 'lodash';
 
 // Components
 import AlertModal from './AlertModal';
+import CompletedCustomTile from './CompletedCustomTile';
 import Header from './Header';
+import TileEditorModal from './TileEditorModal';
 import UsersTile from './UsersTile';
 
 
@@ -14,10 +16,15 @@ class OtherCompletedTrip extends Component {
     super(props);
 
     this.state = {
-      alertModalClass: 'hidden',
       activeTrip: {},
+      alertModalClass: 'hidden',
+      modalClass: 'hidden',
       userTiles: []
     }
+
+    this._closeModal = this._closeModal.bind(this);
+    this._showModal = this._showModal.bind(this);
+    this._showSavedModal = this._showSavedModal.bind(this);
   }
 
   componentDidMount() {
@@ -36,6 +43,28 @@ class OtherCompletedTrip extends Component {
 
         this.setState({ userTiles });
       })
+  }
+
+  _closeModal() {
+    this.setState({
+      alertModalClass: 'hidden',
+      modalClass: 'hidden'
+    })
+  }
+
+  _showModal() {
+    this.setState({alertModalClass:''});
+  }
+
+  _showSavedModal(index) {
+    let selectedTile = this.state.userTiles[index];
+
+    this.setState({
+      modalButton: 'edit',
+      modalClass: '',
+      selectedTile: selectedTile,
+      selectedTileIndex: index
+    })
   }
 
   render() {
@@ -62,6 +91,14 @@ class OtherCompletedTrip extends Component {
               spanClass='hidden'/>
           })}
         </div>
+        <TileEditorModal
+          className={this.state.modalClass}
+          _closeModal={this._closeModal}
+          modalButton=''
+          selectedTile={this.state.selectedTile}
+        >
+          <CompletedCustomTile tile={this.state.selectedTile}/>
+        </TileEditorModal>
         <AlertModal className={this.state.alertModalClass}
           _closeModal={this._closeModal}
           modalFunction={this._deleteTrip}

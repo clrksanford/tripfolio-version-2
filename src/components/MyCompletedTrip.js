@@ -5,8 +5,10 @@ import axios from 'axios';
 import _ from 'lodash';
 
 // Components
-import Header from './Header';
 import AlertModal from './AlertModal';
+import CompletedCustomTile from './CompletedCustomTile';
+import Header from './Header';
+import TileEditorModal from './TileEditorModal';
 import UsersTile from './UsersTile';
 
 // Styles and images
@@ -17,13 +19,16 @@ class MyCompletedTripPage extends Component {
     super(props);
 
     this.state = {
-      alertModalClass: 'hidden',
       activeTrip: {},
+      alertModalClass: 'hidden',
+      modalClass: 'hidden',
       userTiles: []
     }
 
+    this._closeModal = this._closeModal.bind(this);
     this._deleteTrip = this._deleteTrip.bind(this);
     this._showModal = this._showModal.bind(this);
+    this._showSavedModal = this._showSavedModal.bind(this);
   }
 
   componentDidMount() {
@@ -44,6 +49,13 @@ class MyCompletedTripPage extends Component {
       })
   }
 
+  _closeModal() {
+    this.setState({
+      alertModalClass: 'hidden',
+      modalClass: 'hidden'
+    })
+  }
+
   _deleteTrip() {
     let {tripId} = this.props.params;
 
@@ -56,6 +68,17 @@ class MyCompletedTripPage extends Component {
 
   _showModal() {
     this.setState({alertModalClass:''});
+  }
+
+  _showSavedModal(index) {
+    let selectedTile = this.state.userTiles[index];
+
+    this.setState({
+      modalButton: 'edit',
+      modalClass: '',
+      selectedTile: selectedTile,
+      selectedTileIndex: index
+    })
   }
 
   render() {
@@ -94,6 +117,14 @@ class MyCompletedTripPage extends Component {
               spanClass='hidden'/>
           })}
         </div>
+        <TileEditorModal
+          className={this.state.modalClass}
+          _closeModal={this._closeModal}
+          modalButton=''
+          selectedTile={this.state.selectedTile}
+        >
+          <CompletedCustomTile tile={this.state.selectedTile}/>
+        </TileEditorModal>
         <AlertModal className={this.state.alertModalClass}
           _closeModal={this._closeModal}
           modalFunction={this._deleteTrip}

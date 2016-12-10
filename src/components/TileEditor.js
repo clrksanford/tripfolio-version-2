@@ -81,7 +81,7 @@ class TileEditor extends Component {
           activeTile
         })
 
-        this._filterLinks(activeTile);
+        // this._filterLinks(activeTile);
       })
       .catch(err => console.log(err))
   }
@@ -322,7 +322,7 @@ class TileEditor extends Component {
       .then((response) => {
         let updatedTile = response.data;
 
-        this._filterLinks(updatedTile);
+        // this._filterLinks(updatedTile);
 
         // Close modal and re-render with updated info
         this.setState({
@@ -392,7 +392,7 @@ class TileEditor extends Component {
             <div className='container-fluid'>
               <div className='row'>
                 <div className='tileHeader' id='addTileFields'>
-                  <h3>Add more fields</h3>
+                  <h3>Add/Edit Fields</h3>
                 </div>
                 <div className='tileBody'>
                   <ul id='tileEditorList'>

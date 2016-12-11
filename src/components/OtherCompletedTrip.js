@@ -32,6 +32,7 @@ class OtherCompletedTrip extends Component {
 
     this._closeModal = this._closeModal.bind(this);
     this._saveTileToOwnTrip = this._saveTileToOwnTrip.bind(this);
+    this._saveToMyTrips = this._saveToMyTrips.bind(this);
     this._setActiveLink = this._setActiveLink.bind(this);
     this._setActiveTrip = this._setActiveTrip.bind(this);
     this._setTripTiles = this._setTripTiles.bind(this);
@@ -76,6 +77,42 @@ class OtherCompletedTrip extends Component {
         this.setState({
           modalMessage
         })
+      })
+  }
+
+  _saveToMyTrips() {
+    let targetTrip = this.state.activeTrip;
+    let creatorId = this.props.user.uid;
+    let creatorUsername = this.props.user.displayName;
+
+    let tripToSave = Object.assign({}, targetTrip, {
+      creatorId,
+      creatorUsername
+    });
+
+    // Post request to save the trip
+    axios.post('https://lit-garden-98394.herokuapp.com/trips', tripToSave)
+      .then(response => {
+        let trip = response.data;
+        let newTripId = trip._id;
+
+        // Then get all tiles corresponding to trip and save those with the new tripId
+        let correspondingTiles = this.state.userTiles;
+
+        correspondingTiles.forEach(tile => {
+          let newTile = Object.assign({}, tile, {
+            _correspondingTrip: newTripId,
+            creatorId,
+            creatorUsername
+          });
+
+          // Remove the old Mongo id so taht a new one can be created
+          delete newTile._id;
+
+          // Post new tile to the newly copied trip
+          axios.post('https://lit-garden-98394.herokuapp.com/travel-tiles', newTile)
+            .then(response => console.log(response))
+        });
       })
   }
 
@@ -176,7 +213,12 @@ class OtherCompletedTrip extends Component {
         <Header firebase={this.props.firebase} />
         <div id="newTrips" >
           <h2>{creatorUsername}'s Trip To {destination}</h2>
-            {/* STRETCH: switch to make your trip public or private */}
+          <nav>
+            <button className='largeButton'
+              onClick={this._saveToMyTrips}>
+              Save to your trips
+            </button>
+          </nav>
         </div>
         <div id="completedTrip" className="container">
           {_.map(this.state.userTiles, (tile, index) => {

@@ -1,5 +1,6 @@
 // Modules
 import React, {Component} from 'react';
+import { Link } from 'react-router';
 import axios from 'axios';
 import _ from 'lodash';
 
@@ -18,7 +19,10 @@ class OtherCompletedTrip extends Component {
     this.state = {
       activeTrip: {},
       alertModalClass: 'hidden',
+      modalButton: '',
       modalClass: 'hidden',
+      modalMessage: '',
+      ownTrip: {},
       selectedTile: {},
       selectedTileIndex: '',
       userTiles: []
@@ -49,12 +53,13 @@ class OtherCompletedTrip extends Component {
 
   _saveTileToOwnTrip() {
     let tile = this.state.selectedTile;
-    let _correspondingTrip = '584ae6e1cef308001160c77b';
+    let tripId = this.state.ownTrip._id;
     let creatorId = this.props.user.uid;
     let creatorUsername = this.props.user.displayName;
+    let { destForURL } = this.state.ownTrip;
 
     let newTile = Object.assign({}, tile, {
-      _correspondingTrip,
+      _correspondingTrip: tripId,
       creatorId,
       creatorUsername
     });
@@ -63,7 +68,12 @@ class OtherCompletedTrip extends Component {
 
     axios.post('https://lit-garden-98394.herokuapp.com/travel-tiles',
       newTile)
-      .then(response => console.log(response))
+      .then(response => {
+        let modalMessage = <p>Tile has been saved! <Link to={`completed/myTrip/${destForURL}/${tripId}`}>View your trip</Link>.</p>
+        this.setState({
+          modalMessage
+        })
+      })
   }
 
   _setActiveTrip(tripId) {
@@ -85,8 +95,37 @@ class OtherCompletedTrip extends Component {
   }
 
   _showModal() {
+    let modalButton = <button className='largeButton'
+      onClick={this._saveTileToOwnTrip}>Save</button>
+
+    let modalMessage = <ul>
+      {_.map(this.props.userTrips, (trip, index) => {
+        let { _id, creatorId, creatorUsername, destForURL, destination } = trip;
+        destination = _.startCase(destination);
+
+        return (
+          <li key={index}>
+            <a href='#'
+              className={
+                this.state.ownTrip === trip ? 'active' : ''
+              }
+              onClick={(e) => {
+                e.preventDefault();
+
+                this.setState({ ownTrip: trip }, console.log(this.state.ownTrip))
+              }}
+            >
+              {destination}
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+
     this.setState({
-      alertModalClass: ''
+      alertModalClass: '',
+      modalButton,
+      modalMessage
     });
   }
 
@@ -95,7 +134,7 @@ class OtherCompletedTrip extends Component {
 
     let modalButton =
       <button className='largeButton'
-        onClick={this._saveTileToOwnTrip}
+        onClick={this._showModal}
       >
         Add to your trip
       </button>
@@ -142,10 +181,10 @@ class OtherCompletedTrip extends Component {
         </TileEditorModal>
         <AlertModal className={this.state.alertModalClass}
           _closeModal={this._closeModal}
-          modalFunction={this._deleteTrip}
-          newTripTitle="Delete Post"
-          modalMessage="You are about to delete this trip forever!"
-          modalButton="Delete"
+          modalFunction={this._saveTileToOwnTrip}
+          newTripTitle="Add Tile To Your Trip"
+          modalMessage={this.state.modalMessage}
+          modalButton="Add"
         />
       </main>
     );

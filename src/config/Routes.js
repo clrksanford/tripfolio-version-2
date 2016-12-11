@@ -23,8 +23,8 @@ export default () => (
   <Provider store={store}>
     <Router history={hashHistory}>
       <Route path='/' component={App} firebase={firebase}>
-        <IndexRoute component={Home} firebase={firebase}/>
-        <Route path='/profile' component={Profile}/>
+        {/* <IndexRoute component={Home} firebase={firebase}/> */}
+        <IndexRoute component={Profile}/>
         <Route path='/trip-builder/:destination/:tripId' component={TripBuilder}/>
         <Route path='/newTrip' component={NewTripModal}/>
         <Route path='/destinations' component={Destinations}/>

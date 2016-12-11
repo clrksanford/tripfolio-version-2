@@ -50,8 +50,8 @@ class OtherCompletedTrip extends Component {
   _saveTileToOwnTrip() {
     let tile = this.state.selectedTile;
     let _correspondingTrip = '584ae6e1cef308001160c77b';
-    let creatorId = 'f3t0weDNGoP1mY5Fs6w0MHSFUup1';
-    let creatorUsername = 'Clark Sanford';
+    let creatorId = this.props.user.uid;
+    let creatorUsername = this.props.user.displayName;
 
     let newTile = Object.assign({}, tile, {
       _correspondingTrip,
@@ -93,7 +93,12 @@ class OtherCompletedTrip extends Component {
   _showSavedModal(index) {
     let selectedTile = this.state.userTiles[index];
 
-    let modalButton = <button onClick={this._saveTileToOwnTrip}>Add to your trip</button>
+    let modalButton =
+      <button className='largeButton'
+        onClick={this._saveTileToOwnTrip}
+      >
+        Add to your trip
+      </button>
 
     this.setState({
       modalButton,

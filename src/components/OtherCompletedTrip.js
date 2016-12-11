@@ -19,10 +19,15 @@ class OtherCompletedTrip extends Component {
       activeTrip: {},
       alertModalClass: 'hidden',
       modalClass: 'hidden',
+      selectedTile: {},
+      selectedTileIndex: '',
       userTiles: []
     }
 
     this._closeModal = this._closeModal.bind(this);
+    this._saveTileToOwnTrip = this._saveTileToOwnTrip.bind(this);
+    this._setActiveTrip = this._setActiveTrip.bind(this);
+    this._setTripTiles = this._setTripTiles.bind(this);
     this._showModal = this._showModal.bind(this);
     this._showSavedModal = this._showSavedModal.bind(this);
   }
@@ -30,19 +35,9 @@ class OtherCompletedTrip extends Component {
   componentDidMount() {
     let { tripId } = this.props.params;
 
-    axios.get(`https://lit-garden-98394.herokuapp.com/trips/${tripId}`)
-      .then((response) => {
-        let activeTrip = response.data;
+    this._setActiveTrip(tripId);
 
-        this.setState({ activeTrip });
-      })
-
-    axios.get(`https://lit-garden-98394.herokuapp.com/find-tile-by-trip/${tripId}`)
-      .then((response) => {
-        let userTiles = response.data;
-
-        this.setState({ userTiles });
-      })
+    this._setTripTiles(tripId);
   }
 
   _closeModal() {
@@ -52,17 +47,58 @@ class OtherCompletedTrip extends Component {
     })
   }
 
+  _saveTileToOwnTrip() {
+    let tile = this.state.selectedTile;
+    let _correspondingTrip = '584ae6e1cef308001160c77b';
+    let creatorId = 'f3t0weDNGoP1mY5Fs6w0MHSFUup1';
+    let creatorUsername = 'Clark Sanford';
+
+    let newTile = Object.assign({}, tile, {
+      _correspondingTrip,
+      creatorId,
+      creatorUsername
+    });
+
+    delete newTile._id;
+
+    axios.post('https://lit-garden-98394.herokuapp.com/travel-tiles',
+      newTile)
+      .then(response => console.log(response))
+  }
+
+  _setActiveTrip(tripId) {
+    axios.get(`https://lit-garden-98394.herokuapp.com/trips/${tripId}`)
+      .then((response) => {
+        let activeTrip = response.data;
+
+        this.setState({ activeTrip });
+      })
+  }
+
+  _setTripTiles(tripId) {
+    axios.get(`https://lit-garden-98394.herokuapp.com/find-tile-by-trip/${tripId}`)
+      .then((response) => {
+        let userTiles = response.data;
+
+        this.setState({ userTiles });
+      })
+  }
+
   _showModal() {
-    this.setState({alertModalClass:''});
+    this.setState({
+      alertModalClass: ''
+    });
   }
 
   _showSavedModal(index) {
     let selectedTile = this.state.userTiles[index];
 
+    let modalButton = <button onClick={this._saveTileToOwnTrip}>Add to your trip</button>
+
     this.setState({
-      modalButton: 'edit',
+      modalButton,
       modalClass: '',
-      selectedTile: selectedTile,
+      selectedTile,
       selectedTileIndex: index
     })
   }
@@ -94,7 +130,7 @@ class OtherCompletedTrip extends Component {
         <TileEditorModal
           className={this.state.modalClass}
           _closeModal={this._closeModal}
-          modalButton=''
+          modalButton={this.state.modalButton}
           selectedTile={this.state.selectedTile}
         >
           <CompletedCustomTile tile={this.state.selectedTile}/>

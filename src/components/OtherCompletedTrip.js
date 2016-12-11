@@ -17,6 +17,7 @@ class OtherCompletedTrip extends Component {
     super(props);
 
     this.state = {
+      activeLink: '',
       activeTrip: {},
       alertModalClass: 'hidden',
       modalButton: '',
@@ -31,6 +32,7 @@ class OtherCompletedTrip extends Component {
 
     this._closeModal = this._closeModal.bind(this);
     this._saveTileToOwnTrip = this._saveTileToOwnTrip.bind(this);
+    this._setActiveLink = this._setActiveLink.bind(this);
     this._setActiveTrip = this._setActiveTrip.bind(this);
     this._setTripTiles = this._setTripTiles.bind(this);
     this._showModal = this._showModal.bind(this);
@@ -77,6 +79,16 @@ class OtherCompletedTrip extends Component {
       })
   }
 
+  _setActiveLink(e) {
+      // If there is a currently active link, remove active class
+      if(document.getElementsByClassName('active').length > 0) {
+        document.getElementsByClassName("active")[0].className = "";
+      }
+
+      // Set the clikced tab to "active"
+      e.target.className = "active";
+  }
+
   _setActiveTrip(tripId) {
     axios.get(`https://lit-garden-98394.herokuapp.com/trips/${tripId}`)
       .then((response) => {
@@ -109,12 +121,17 @@ class OtherCompletedTrip extends Component {
             <li key={index}>
               <a href='#'
                 className={
-                  this.state.ownTrip === trip ? 'active' : ''
+                  this.state.activeLink === index ? 'active' : ''
                 }
                 onClick={(e) => {
                   e.preventDefault();
 
-                  this.setState({ ownTrip: trip }, console.log(this.state.ownTrip))
+                  this._setActiveLink(e);
+
+                  this.setState({
+                    ownTrip: trip,
+                    activeLink: index
+                  });
                 }}
               >
                 {destination}

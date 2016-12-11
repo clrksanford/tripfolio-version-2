@@ -22,6 +22,7 @@ class OtherCompletedTrip extends Component {
       modalButton: '',
       modalClass: 'hidden',
       modalMessage: '',
+      modalTitle: '',
       ownTrip: {},
       selectedTile: {},
       selectedTileIndex: '',
@@ -56,7 +57,7 @@ class OtherCompletedTrip extends Component {
     let tripId = this.state.ownTrip._id;
     let creatorId = this.props.user.uid;
     let creatorUsername = this.props.user.displayName;
-    let { destForURL } = this.state.ownTrip;
+    let { destForURL, destination } = this.state.ownTrip;
 
     let newTile = Object.assign({}, tile, {
       _correspondingTrip: tripId,
@@ -69,7 +70,7 @@ class OtherCompletedTrip extends Component {
     axios.post('https://lit-garden-98394.herokuapp.com/travel-tiles',
       newTile)
       .then(response => {
-        let modalMessage = <p>Tile has been saved! <Link to={`completed/myTrip/${destForURL}/${tripId}`}>View your trip</Link>.</p>
+        let modalMessage = <p>Tile has been saved to your {_.startCase(destination)} trip! <Link to={`completed/myTrip/${destForURL}/${tripId}`}>View your trip</Link>.</p>
         this.setState({
           modalMessage
         })
@@ -97,35 +98,37 @@ class OtherCompletedTrip extends Component {
   _showModal() {
     let modalButton = <button className='largeButton'
       onClick={this._saveTileToOwnTrip}>Save</button>
+    let modalTitle = "Choose a trip to add the tile";
+    let modalMessage =
+      <ul>
+        {_.map(this.props.userTrips, (trip, index) => {
+          let { _id, creatorId, creatorUsername, destForURL, destination } = trip;
+          destination = _.startCase(destination);
 
-    let modalMessage = <ul>
-      {_.map(this.props.userTrips, (trip, index) => {
-        let { _id, creatorId, creatorUsername, destForURL, destination } = trip;
-        destination = _.startCase(destination);
+          return (
+            <li key={index}>
+              <a href='#'
+                className={
+                  this.state.ownTrip === trip ? 'active' : ''
+                }
+                onClick={(e) => {
+                  e.preventDefault();
 
-        return (
-          <li key={index}>
-            <a href='#'
-              className={
-                this.state.ownTrip === trip ? 'active' : ''
-              }
-              onClick={(e) => {
-                e.preventDefault();
-
-                this.setState({ ownTrip: trip }, console.log(this.state.ownTrip))
-              }}
-            >
-              {destination}
-            </a>
-          </li>
-        );
-      })}
-    </ul>
+                  this.setState({ ownTrip: trip }, console.log(this.state.ownTrip))
+                }}
+              >
+                {destination}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
 
     this.setState({
       alertModalClass: '',
       modalButton,
-      modalMessage
+      modalMessage,
+      modalTitle
     });
   }
 
@@ -182,7 +185,7 @@ class OtherCompletedTrip extends Component {
         <AlertModal className={this.state.alertModalClass}
           _closeModal={this._closeModal}
           modalFunction={this._saveTileToOwnTrip}
-          newTripTitle="Add Tile To Your Trip"
+          modalTitle={this.state.modalTitle}
           modalMessage={this.state.modalMessage}
           modalButton="Add"
         />

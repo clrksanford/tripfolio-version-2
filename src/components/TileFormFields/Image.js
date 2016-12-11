@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import axios from 'axios';
 
 class Image extends Component {
   render() {

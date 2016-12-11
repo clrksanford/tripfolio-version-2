@@ -8,21 +8,24 @@ export default class LoginButton extends Component{
     this._handleClick = this._handleClick.bind(this)
   }
 
-_handleClick(){
-  let provider = new
-  this.props.firebase.auth.GoogleAuthProvider();
-  this.props.firebase.auth().signInWithPopup(provider).then(result => {
-    let { user } = result;
-    document.body.style.background = 'white';
-    hashHistory.push(`/profile`);
-  });
-}
+  _handleClick(){
+    let provider = new
+    this.props.firebase.auth.GoogleAuthProvider();
+    this.props.firebase.auth().signInWithPopup(provider).then(result => {
+      document.body.style.background = 'white';
+      hashHistory.push(`/profile`);
+    });
+  }
 
   render(){
     return(
       <div>
-        <button onClick={this._handleClick} id="login-button" className="btn btn-default">
-        {this.props.children}</button>
+        <button id="login-button"
+          className="btn btn-default"
+          onClick={this._handleClick}
+        >
+          {this.props.children}
+        </button>
       </div>
     )
   }

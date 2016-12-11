@@ -1,22 +1,26 @@
+// Modules
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import _ from 'lodash';
 
+// Constants
 import deleteEmptyKeys from '../constants/deleteEmptyKeys';
 
-import TileEditorModal from './TileEditorModal';
+// Components
 import Address from './TileFormFields/Address';
 import CompletedCustomTile from './CompletedCustomTile';
-import Header from './Header';
 import Entrance from './TileFormFields/Entrance';
+import Header from './Header';
 import Image from './TileFormFields/Image';
 import OpeningHours from './TileFormFields/OpeningHours';
+import TileEditorModal from './TileEditorModal';
 import TileLinkAdder from './TileFormFields/TileLinkAdder';
 import TileNotes from './TileFormFields/TileNotes';
 import Transit from './TileFormFields/Transit';
 
+// Styles
 import '../styles/forms.css';
 
 class TileEditor extends Component {
@@ -66,7 +70,9 @@ class TileEditor extends Component {
   }
 
   componentDidMount() {
-    axios.get(`https://lit-garden-98394.herokuapp.com/travel-tiles/${this.props.params.tileId}`)
+    let { tileId } = this.props.params;
+
+    axios.get(`https://lit-garden-98394.herokuapp.com/travel-tiles/${tileId}`)
       .then((response) => {
         let activeTile = response.data;
 
@@ -75,9 +81,7 @@ class TileEditor extends Component {
           activeTile
         })
 
-        console.log(activeTile);
-
-        this._filterLinks(activeTile);
+        // this._filterLinks(activeTile);
       })
       .catch(err => console.log(err))
   }
@@ -314,20 +318,11 @@ class TileEditor extends Component {
 
     options = _.omitBy(options, _.isEmpty || _.isNil);
 
-    // console.log(options);
-    // console.log('address', address);
-    // console.log('entrance', entrance);
-    // console.log('helpfulLinks', helpfulLinks);
-    // console.log('image', image);
-    // console.log('notes', notes);
-    // console.log('openingHours', openingHours);
-    // console.log('transit', transit);
-
     axios.put(`https://lit-garden-98394.herokuapp.com/travel-tiles/${tileId}`, options)
       .then((response) => {
         let updatedTile = response.data;
 
-        this._filterLinks(updatedTile);
+        // this._filterLinks(updatedTile);
 
         // Close modal and re-render with updated info
         this.setState({
@@ -397,7 +392,7 @@ class TileEditor extends Component {
             <div className='container-fluid'>
               <div className='row'>
                 <div className='tileHeader' id='addTileFields'>
-                  <h3>Add more fields</h3>
+                  <h3>Add/Edit Fields</h3>
                 </div>
                 <div className='tileBody'>
                   <ul id='tileEditorList'>

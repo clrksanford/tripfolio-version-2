@@ -1,59 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router';
-import { connect } from 'react-redux';
-import _ from 'lodash';
 
-import getSelectedTrip from '../actions/getSelectedTrip';
+export default (props) => {
+  let { destForURL, destination, displayName, pageName, tripId, URLname } = props;
 
-class TripListItem extends Component {
-  // componentDidUpdate() {
-  //   if( // If async dispatch has returned a trip
-  //     !_.isEmpty(this.props.selectedTrip) &&
-  //
-  //     // And if that trip is the same as the one this component is linking to
-  //     this.props.selectedTrip._id === this.props.tripId
-  //   ) {
-  //     let { _id, creatorUsername, destForURL, destination } = this.props.selectedTrip;
-  //
-  //     // Route user to completed trip page
-  //     hashHistory.push(`completed/${creatorUsername}/${destForURL}/${_id}`);
-  //   }
-  // }
-  render() {
-    let { creatorId, creatorUsername, destForURL, destination, displayName, pageName, tripId, user, URLname } = this.props;
-    // let displayName, URLname;
-    //
-    // if (creatorId === user.uid) {
-    //   displayName = 'My';
-    //   URLname = 'myTrip'
-    // } else {
-    //   displayName = `${creatorUsername}'s`;
-    //   URLname = creatorUsername;
-    // }
-
-    return(
-      <li>
-        <Link to={`${pageName}/${URLname}/${destForURL}/${tripId}`}>
-          {displayName} trip to {destination}
-        </Link>
-      </li>
-    )
-  }
+  return(
+    <li>
+      <Link to={`${pageName}/${URLname}/${destForURL}/${tripId}`}>
+        {displayName} trip to {destination}
+      </Link>
+    </li>
+  );
 }
-
-// var mapStateToProps = ({ custom }) => {
-//   return {
-//     selectedTrip: custom.selectedTrip,
-//     user: custom.user
-//   }
-// }
-//
-// var mapDispatchToProps = (dispatch) => {
-//   return {
-//     setSelectedTrip: (tripId) => dispatch(getSelectedTrip(tripId))
-//   }
-// }
-//
-// TripListItem = connect(mapStateToProps, mapDispatchToProps)(TripListItem);
-//
-export default TripListItem;

@@ -1,7 +1,6 @@
 // Modules
 import React, {Component} from 'react';
 import { hashHistory } from 'react-router'
-import { connect } from 'react-redux';
 import axios from 'axios';
 import _ from 'lodash';
 
@@ -30,8 +29,6 @@ class Profile extends Component {
       .then((response) => {
         // Get the new trip and set it to state, so user can begin editing on the next page
         let newTrip = response.data;
-
-        // this.props.setSelectedTrip(newTrip._id);
 
         // Route user to planner page, where the newly created trip will be loaded from state
         let { _id, destForURL } = newTrip;
@@ -80,14 +77,5 @@ class Profile extends Component {
     );
   }
 }
-
-// var mapStateToProps = ({ custom }) => {
-//   return {
-//     user: custom.user,
-//     userTrips: custom.userTrips
-//   }
-// }
-
-// Profile = connect(mapStateToProps, null)(Profile);
 
 export default Profile;

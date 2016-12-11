@@ -1,6 +1,5 @@
 // Modules
-import createLogger from 'redux-logger'
-import { combineReducers, compose, createStore, applyMiddleware } from 'redux';
+import { combineReducers, createStore, applyMiddleware } from 'redux';
 import { autoRehydrate, persistStore } from 'redux-persist';
 import ReduxThunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -18,8 +17,6 @@ const reducers = {
 const reducer = combineReducers(reducers);
 
 // Configure redux middleware
-const logger = createLogger();
-
 let store = composeWithDevTools(
   applyMiddleware(ReduxThunk),
   autoRehydrate()

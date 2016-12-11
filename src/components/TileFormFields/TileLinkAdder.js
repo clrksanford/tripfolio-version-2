@@ -13,7 +13,6 @@ class TileLinkAdder extends Component {
     }
 
     this._addLinks = this._addLinks.bind(this);
-    this._handleChange = this._handleChange.bind(this);
     this._removeLinks = this._removeLinks.bind(this);
   }
 
@@ -22,19 +21,11 @@ class TileLinkAdder extends Component {
 
     linkCount++;
 
-    if(linkCount == this.state.linkMax) {
+    if(linkCount === this.state.linkMax) {
       this.setState({ addLinkVisible: false });
     } else {
       this.setState({ linkCount });
     }
-  }
-
-  _handleChange(e) {
-    this.setState({
-      value: e.target.value
-    })
-
-    console.log(this.state.value);
   }
 
   _removeLinks() {

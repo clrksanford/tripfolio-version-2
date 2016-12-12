@@ -9,11 +9,31 @@ class OpeningHours extends Component {
     super(props);
 
     this.state = {
-      dayCount: 2,
+      dayCount: 1,
       dayMax: 7,
       addDayVisible: true
     }
+
+    this._removeDay = this._removeDay.bind(this);
   }
+
+  _addDay() {
+    let { dayCount } = this.state;
+
+    dayCount++;
+    this.setState({ dayCount });
+
+    if(dayCount === this.state.dayMax) {
+      this.setState({ addDayVisible: false });
+    }
+  }
+
+  _removeDay() {
+    let { dayCount } = this.state;
+
+    this.setState({ dayCount: dayCount - 1 });
+  }
+
   render() {
     return(
       <form className='tileForm'
@@ -28,9 +48,19 @@ class OpeningHours extends Component {
               <Day key={index}
                 name={`day${index}`}
                 placeholder='e.g. "Monday - Saturday"'
+                _removeDay={this._removeDay}
               />
             )
           })}
+          <a href='#'
+            className={this.state.addDayVisible ? '' : 'hidden'}
+            onClick={(e) => {
+              e.preventDefault();
+              this._addDay();
+            }}
+          >
+            Add day
+          </a>
         </div>
         <button type='submit' className='largeButton'>Save</button>
       </form>

@@ -55,13 +55,13 @@ class Day extends Component {
 
     return(
       <div className='dayContainer'>
-        {/* <span onClick={this.props._removeDay}>X</span> */}
+        <span onClick={this.props._removeDay}>X</span>
         <Field name={`${name}value`}
           component='input'
           type='text'
           placeholder={placeholder}
         />
-        
+
         {_.map(this.state.intervalArray, (interval, i) => {
           let index = i + 1;
 

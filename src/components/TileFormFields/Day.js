@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Field, reduxForm } from 'redux-form';
 import _ from 'lodash';
 
 import Interval from './Interval';
@@ -50,15 +51,18 @@ class Day extends Component {
       </a>;
     }
 
+    let { name } = this.props;
+
     return(
       <div className='dayContainer'>
-        <span onClick={this.props._removeDay}>X</span>
-        <input type='text' placeholder='Day(s)' />
-        {_.map(this.state.intervalArray, (interval, index) => {
+        {/* <span onClick={this.props._removeDay}>X</span> */}
+        <Field name={`${name}value`} component='input' type='text'
+          placeholder={this.props.placeholder} />
+        {/* {_.map(this.state.intervalArray, (interval, index) => {
           return <Interval key={index} _removeInterval={this._removeInterval} />
         })}
         {addInterval}
-        <input type='checkbox'/> <label>Mark closed</label>
+        <input type='checkbox'/> <label>Mark closed</label> */}
       </div>
     )
   }

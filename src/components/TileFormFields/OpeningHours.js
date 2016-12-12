@@ -24,7 +24,12 @@ class OpeningHours extends Component {
           {_.times(this.state.dayCount, (i) => {
             let index = i + 1;
 
-            return <Day name={`day${index}`} placeholder='e.g. "Monday - Saturday"' />
+            return (
+              <Day key={index}
+                name={`day${index}`}
+                placeholder='e.g. "Monday - Saturday"'
+              />
+            )
           })}
         </div>
         <button type='submit' className='largeButton'>Save</button>

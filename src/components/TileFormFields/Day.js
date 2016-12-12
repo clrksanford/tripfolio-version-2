@@ -51,16 +51,28 @@ class Day extends Component {
       </a>;
     }
 
-    let { name } = this.props;
+    let { name, placeholder } = this.props;
 
     return(
       <div className='dayContainer'>
         {/* <span onClick={this.props._removeDay}>X</span> */}
-        <Field name={`${name}value`} component='input' type='text'
-          placeholder={this.props.placeholder} />
-        {/* {_.map(this.state.intervalArray, (interval, index) => {
-          return <Interval key={index} _removeInterval={this._removeInterval} />
+        <Field name={`${name}value`}
+          component='input'
+          type='text'
+          placeholder={placeholder}
+        />
+        {_.map(this.state.intervalArray, (interval, i) => {
+          let index = i + 1;
+          
+          return (
+            <Interval key={index}
+              index={index}
+              name={name}
+              _removeInterval={this._removeInterval}
+            />
+          );
         })}
+        {/*
         {addInterval}
         <input type='checkbox'/> <label>Mark closed</label> */}
       </div>

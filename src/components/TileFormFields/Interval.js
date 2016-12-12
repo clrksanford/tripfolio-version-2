@@ -5,7 +5,10 @@ export default (props) => {
   const { name, index } = props;
   return(
     <div className='interval'>
-      <span onClick={() => props._removeInterval()}>X</span>
+      <span className={index === 1 ? 'hidden' : ''}
+        onClick={() => props._removeInterval()}>
+        X
+      </span>
       <label>From</label>
       <Field name={`${name}from${index}`} component='input' type='text' />
       <label>To</label>

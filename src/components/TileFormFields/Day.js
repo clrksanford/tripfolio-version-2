@@ -61,9 +61,10 @@ class Day extends Component {
           type='text'
           placeholder={placeholder}
         />
+        
         {_.map(this.state.intervalArray, (interval, i) => {
           let index = i + 1;
-          
+
           return (
             <Interval key={index}
               index={index}
@@ -72,7 +73,7 @@ class Day extends Component {
             />
           );
         })}
-        {/*
+
         {addInterval}
         <input type='checkbox'/> <label>Mark closed</label> */}
       </div>

@@ -12,8 +12,8 @@ export default class LoginButton extends Component{
     let provider = new
     this.props.firebase.auth.GoogleAuthProvider();
     this.props.firebase.auth().signInWithPopup(provider).then(result => {
-      document.body.style.background = 'white';
-      hashHistory.push(`/profile`);
+      // document.body.style.background = 'white';
+      // hashHistory.push(`/profile`);
     });
   }
 

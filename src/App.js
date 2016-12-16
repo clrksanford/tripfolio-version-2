@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import _ from 'lodash';
 
+import Home from './components/Home';
 // Styles and images
 import './App.css';
 
@@ -16,6 +17,7 @@ class App extends Component {
     }
 
     this._loadUsersTrips = this._loadUsersTrips.bind(this);
+    this._renderApp = this._renderApp.bind(this);
   }
 
   componentDidMount(){
@@ -49,7 +51,7 @@ class App extends Component {
       })
   }
 
-  render(){
+  _renderApp() {
     let children = null;
     if(this.props.children){
       children = React.cloneElement(this.props.children, {
@@ -59,9 +61,21 @@ class App extends Component {
       })
     }
 
+    if(_.isEmpty(this.state.user)) {
+      console.log("ain't no user here");
+      return <Home firebase={this.props.route.firebase}/>
+    } else {
+      console.log('user found');
+      return <div>{children}</div>
+    }
+  }
+
+  render(){
+
+
     return (
       <div>
-        {children}
+        {this._renderApp()}
       </div>
       );
   }

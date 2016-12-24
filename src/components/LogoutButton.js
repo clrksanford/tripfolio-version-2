@@ -12,7 +12,6 @@ export default class LogoutButton extends Component{
   _handleLogout(){
     this.props.firebase.auth().signOut().then(response => {
       hashHistory.push('/');
-      document.body.style.background = `url(${backgroundImage})`;
     });
   }
 

@@ -54,11 +54,11 @@ body {
   width: 100%;
   font-size: 20px;
   text-align: center;
-  /*background-color: white;*/
+  background-color: white;
   color: black;
-  background: url("../public/images/pretty2.jpg");
+  /*background: url("../public/images/pretty2.jpg");
   background-size: cover;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat;*/
 }
 
 .breadcrumb{
@@ -501,7 +501,9 @@ a.active, a.active:active {
   color: #fff;
   width: 800px;
   height: 400px;
-  background-color:rgba(1, 171, 170,0.4);
+  background: url("../public/images/pretty2.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
   border-radius: 10px;
   border-width: 6px;
   border-color: #FEA680;

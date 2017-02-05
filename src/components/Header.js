@@ -22,7 +22,7 @@ export default (props) => {
           </li>
           /
           <li>
-            <Link to='/profile'>
+            <Link to='/'>
               Profile
             </Link>
           </li>

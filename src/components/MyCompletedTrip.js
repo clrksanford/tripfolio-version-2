@@ -61,7 +61,7 @@ class MyCompletedTripPage extends Component {
 
     axios.delete(`https://lit-garden-98394.herokuapp.com/trips/${tripId}`)
       .then((response) => {
-        hashHistory.push('/profile');
+        hashHistory.push('/');
       })
       .catch(err => console.error(err))
   }

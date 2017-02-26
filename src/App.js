@@ -73,14 +73,7 @@ class App extends Component {
 
     if(_.isEmpty(this.props.user)) {
       console.log("ain't no user here");
-      return (
-        <div>
-          <Header firebase={this.props.route.firebase} />
-          <div className='loader'></div>
-        </div>
-      )
-
-      // <Home firebase={this.props.route.firebase}/>
+      return <Home firebase={this.props.route.firebase}/>
     } else {
       console.log('user found');
       return <div>{children}</div>

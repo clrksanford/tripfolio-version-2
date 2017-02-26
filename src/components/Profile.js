@@ -51,6 +51,7 @@ class Profile extends Component {
             <h2>My Trips</h2>
           </div>
           <div id="myTripList">
+            {this.props.userTrips ?
             <ul>
               {_.map(this.props.userTrips, (trip) => {
                 let { _id, creatorId, creatorUsername, destForURL, destination } = trip;
@@ -70,7 +71,7 @@ class Profile extends Component {
                   />
                 );
               })}
-            </ul>
+            </ul> : <div className='loader'></div>}
           </div>
         </main>
       </div>

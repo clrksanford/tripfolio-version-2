@@ -1,9 +1,15 @@
 // Modules
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import axios from 'axios';
 import _ from 'lodash';
 
+// Actions
+import { setUser } from './actions';
+
+// Modules
 import Home from './components/Home';
+
 // Styles and images
 import './App.css';
 
@@ -27,7 +33,8 @@ class App extends Component {
       // If user is signed in...
       if (user) {
         // Save user's info to state
-        this.setState({user});
+        // this.setState({user});
+        this.props.setUser(user);
 
         // Load user's trips
         this._loadUsersTrips(user);
@@ -71,14 +78,20 @@ class App extends Component {
   }
 
   render(){
-
-
     return (
       <div>
         {this._renderApp()}
       </div>
-      );
+    );
   }
 }
+
+var mapDispatchToProps = (dispatch) => {
+  return {
+    setUser: (user) => dispatch(setUser(user))
+  }
+}
+
+App = connect(null, mapDispatchToProps)(App);
 
 export default App;

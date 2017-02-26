@@ -1,3 +1,7 @@
+export const logUserOut = (user) => ({
+  type: 'LOG_USER_OUT'
+})
+
 export const setUser = (user) => ({
   type: 'SET_USER',
   user

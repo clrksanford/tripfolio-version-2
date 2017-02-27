@@ -1,9 +1,17 @@
 // Modules
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import axios from 'axios';
 import _ from 'lodash';
 
+// Actions
+import { setUser } from './actions';
+import getUserTrips from './actions/getUserTrips';
+
+// Modules
+import Header from './components/Header';
 import Home from './components/Home';
+
 // Styles and images
 import './App.css';
 
@@ -27,10 +35,12 @@ class App extends Component {
       // If user is signed in...
       if (user) {
         // Save user's info to state
-        this.setState({user});
+        // this.setState({user});
+        this.props.setUser(user);
 
         // Load user's trips
-        this._loadUsersTrips(user);
+        // this._loadUsersTrips(user);
+        this.props.getUserTrips(user);
 
       // Otherwise, if no user is signed in.
       } else {
@@ -56,12 +66,12 @@ class App extends Component {
     if(this.props.children){
       children = React.cloneElement(this.props.children, {
         firebase: this.props.route.firebase,
-        user: this.state.user,
-        userTrips: this.state.userTrips
+        user: this.props.user,
+        userTrips: this.props.userTrips
       })
     }
 
-    if(_.isEmpty(this.state.user)) {
+    if(_.isEmpty(this.props.user)) {
       console.log("ain't no user here");
       return <Home firebase={this.props.route.firebase}/>
     } else {
@@ -71,14 +81,28 @@ class App extends Component {
   }
 
   render(){
-
-
     return (
       <div>
         {this._renderApp()}
       </div>
-      );
+    );
   }
 }
+
+var mapDispatchToProps = (dispatch) => {
+  return {
+    getUserTrips: (user) => dispatch(getUserTrips(user)),
+    setUser: (user) => dispatch(setUser(user))
+  }
+}
+
+var mapStateToProps = ({ custom }) => {
+  return {
+    user: custom.user,
+    userTrips: custom.userTrips
+  }
+}
+
+App = connect(mapStateToProps, mapDispatchToProps)(App);
 
 export default App;

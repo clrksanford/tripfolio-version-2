@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { hashHistory } from 'react-router';
 
-import backgroundImage from "../../public/images/pretty2.jpg";
+import { logUserOut } from '../actions';
 
-export default class LogoutButton extends Component{
+import backgroundImage from '../../public/images/pretty2.jpg';
+
+class LogoutButton extends Component{
   constructor(props){
     super(props);
     this._handleLogout = this._handleLogout.bind(this)
@@ -11,16 +14,26 @@ export default class LogoutButton extends Component{
 
   _handleLogout(){
     this.props.firebase.auth().signOut().then(response => {
+      this.props.logUserOut();
       hashHistory.push('/');
-      document.body.style.background = `url(${backgroundImage})`;
     });
   }
 
   render(){
     return(
       <div>
-        <button onClick={this._handleLogout} id="nav-buttons" className="btn btn-default">Logout</button>
+        <button onClick={this._handleLogout} id='nav-buttons' className='btn btn-default'>Logout</button>
       </div>
     )
   }
 }
+
+var mapDispatchToProps = (dispatch) => {
+  return {
+    logUserOut: () => dispatch(logUserOut())
+  }
+}
+
+LogoutButton = connect(null, mapDispatchToProps)(LogoutButton);
+
+export default LogoutButton;
